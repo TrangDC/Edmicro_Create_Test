@@ -1,0 +1,1014 @@
+{
+    "choiceQuestions": [
+        {
+            "questionNumber": 1,
+            "list": [
+                {
+                    "content": "Có 5 quyển sách toán và 2 quyển sách văn trên một giá sách. Hỏi có bao nhiêu cách lấy ra một quyển sách từ giá sách đó?",
+                    "options": [
+                        "A. $7$.",
+                        "B. $10$.",
+                        "C. $5$.",
+                         "D. $2$."
+                    ],
+                     "image": null
+                },
+                {
+                    "content": "Trong một giỏ trái cây có 6 quả cam và 3 quả táo. Hỏi có bao nhiêu cách chọn ra một quả từ giỏ trái cây đó?",
+                    "options": [
+                        "A. $9$.",
+                        "B. $18$.",
+                        "C. $6$.",
+                        "D. $3$."
+                    ],
+                     "image": null
+                },
+                 {
+                    "content": "Một lớp học có 10 bạn nam và 8 bạn nữ. Hỏi có bao nhiêu cách chọn ra một bạn học sinh từ lớp học đó?",
+                    "options": [
+                        "A. $18$.",
+                         "B. $80$.",
+                        "C. $10$.",
+                        "D. $8$."
+                    ],
+                     "image": null
+                },
+                {
+                    "content": "Trên bàn có 7 cái bánh ngọt và 5 cái bánh mặn. Hỏi có bao nhiêu cách lấy ra một cái bánh từ bàn?",
+                     "options": [
+                        "A. $12$.",
+                        "B. $35$.",
+                        "C. $7$.",
+                        "D. $5$."
+                    ],
+                     "image": null
+                },
+                {
+                    "content": "Trong tủ quần áo có 4 chiếc áo sơ mi và 6 chiếc quần tây. Hỏi có bao nhiêu cách chọn ra một chiếc quần áo từ tủ đó?",
+                    "options": [
+                        "A. $10$.",
+                        "B. $24$.",
+                        "C. $4$.",
+                        "D. $6$."
+                    ],
+                     "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 2,
+            "list": [
+                {
+                    "content": "Có bao nhiêu cách xếp 7 bạn học sinh vào một hàng ngang?",
+                    "options": [
+                        "A. $5040$.",
+                        "B. $49$.",
+                         "C. $7$.",
+                        "D. $14$."
+                    ],
+                     "image": null
+                },
+                 {
+                    "content": "Có bao nhiêu cách xếp 4 cuốn sách khác nhau lên một kệ sách?",
+                     "options": [
+                        "A. $24$.",
+                        "B. $16$.",
+                        "C. $4$.",
+                        "D. $8$."
+                    ],
+                     "image": null
+                },
+                {
+                    "content": "Có bao nhiêu cách sắp xếp 6 người thành một hàng dọc để chụp ảnh?",
+                    "options": [
+                        "A. $720$.",
+                        "B. $36$.",
+                         "C. $6$.",
+                        "D. $12$."
+                    ],
+                     "image": null
+                },
+                {
+                    "content": "Một tổ có 8 thành viên, có bao nhiêu cách xếp 8 thành viên này vào một hàng ngang?",
+                    "options": [
+                       "A. $40320$.",
+                        "B. $64$.",
+                         "C. $8$.",
+                        "D. $16$."
+                    ],
+                     "image": null
+                },
+                {
+                   "content": "Có bao nhiêu cách xếp 3 người vào một hàng ghế dài?",
+                   "options": [
+                        "A. $6$.",
+                        "B. $9$.",
+                        "C. $3$.",
+                        "D. $1$."
+                   ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 3,
+            "list": [
+                {
+                    "content": "Trong một đội văn nghệ có 25 người, hỏi có bao nhiêu cách chọn ra một đội trưởng và một đội phó?",
+                    "options": [
+                        "A. $A_{25}^2$.",
+                        "B. $C_{25}^2$.",
+                        "C. $A_{25}^{23}$.",
+                        "D. ${25^2}$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Một tổ có 35 người, cần chọn ra một người làm tổ trưởng và một người làm tổ phó. Hỏi có bao nhiêu cách chọn?",
+                    "options": [
+                        "A. $A_{35}^2$.",
+                        "B. $C_{35}^2$.",
+                        "C. $A_{35}^{33}$.",
+                        "D. ${35^2}$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Một hội đồng gồm 12 thành viên, cần bầu ra một chủ tịch và một thư ký. Hỏi có bao nhiêu cách bầu?",
+                    "options": [
+                        "A. $A_{12}^2$.",
+                        "B. $C_{12}^2$.",
+                        "C. $A_{12}^{10}$.",
+                        "D. ${12^2}$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Có 20 vận động viên tham gia một giải chạy, hỏi có bao nhiêu cách trao huy chương vàng và huy chương bạc (không có đồng hạng)?",
+                    "options": [
+                        "A. $A_{20}^2$.",
+                        "B. $C_{20}^2$.",
+                        "C. $A_{20}^{18}$.",
+                        "D. ${20^2}$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Một lớp học có 40 học sinh, cần chọn ra một bạn làm đại diện lớp và một bạn làm thủ quỹ. Hỏi có bao nhiêu cách chọn?",
+                    "options": [
+                        "A. $A_{40}^2$.",
+                        "B. $C_{40}^2$.",
+                        "C. $A_{40}^{38}$.",
+                        "D. ${40^2}$."
+                    ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 4,
+            "list": [
+                {
+                    "content": "Cho tập hợp $B$ gồm 10 phần tử. Số tập con gồm 3 phần tử của tập hợp $B$ là",
+                    "options": [
+                        "A. $C_{10}^3$.",
+                        "B. $A_{10}^3$.",
+                        "C. $A_{10}^7$.",
+                        "D. $10^3$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Cho tập hợp $C$ gồm 7 phần tử. Số tập con gồm 4 phần tử của tập hợp $C$ là",
+                    "options": [
+                        "A. $C_7^4$.",
+                        "B. $A_7^4$.",
+                        "C. $A_7^3$.",
+                        "D. $7^4$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Cho tập hợp $D$ gồm 9 phần tử. Số tập con gồm 5 phần tử của tập hợp $D$ là",
+                    "options": [
+                        "A. $C_9^5$.",
+                        "B. $A_9^5$.",
+                        "C. $A_9^4$.",
+                        "D. $9^5$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Cho tập hợp $E$ gồm 6 phần tử. Số tập con gồm 2 phần tử của tập hợp $E$ là",
+                    "options": [
+                        "A. $C_6^2$.",
+                        "B. $A_6^2$.",
+                        "C. $A_6^4$.",
+                        "D. $6^2$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Cho tập hợp $F$ gồm 12 phần tử. Số tập con gồm 3 phần tử của tập hợp $F$ là",
+                    "options": [
+                        "A. $C_{12}^3$.",
+                        "B. $A_{12}^3$.",
+                        "C. $A_{12}^9$.",
+                        "D. $12^3$."
+                    ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 5,
+            "list": [
+                {
+                    "content": "Khẳng định nào sau đây đúng?",
+                    "options": [
+                        "A. ${\\left( {x - y} \\right)^3} = {x^3} - 3{x^2}y + 3x{y^2} - {y^3}$.",
+                        "B. ${\\left( {x - y} \\right)^3} = {x^3} + 3{x^2}y + 3x{y^2} + {y^3}$.",
+                        "C. ${\\left( {x - y} \\right)^3} = {x^3} - 3{x^2}y - 3x{y^2} - {y^3}$.",
+                        "D. ${\\left( {x - y} \\right)^3} = {x^3} - 3{x^2}y + 3x{y^2} + {y^3}$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Đẳng thức nào sau đây là đúng?",
+                    "options": [
+                        "A. ${\\left( {2a + b} \\right)^2} = 4{a^2} + 2ab + {b^2}$.",
+                        "B. ${\\left( {2a + b} \\right)^2} = 4{a^2} + 4ab + {b^2}$.",
+                        "C. ${\\left( {2a + b} \\right)^2} = 2{a^2} + 4ab + {b^2}$.",
+                        "D. ${\\left( {2a + b} \\right)^2} = 4{a^2} + 4ab - {b^2}$."
+                ],
+                    "image": null
+                },
+                {
+                    "content": "Khai triển biểu thức nào sau đây là đúng?",
+                    "options": [
+                        "A. ${\\left( {x + 2} \\right)^3} = {x^3} + 6{x^2} + 12x + 8$.",
+                        "B. ${\\left( {x + 2} \\right)^3} = {x^3} + 4{x^2} + 6x + 8$.",
+                        "C. ${\\left( {x + 2} \\right)^3} = {x^3} + 6{x^2} + 6x + 8$.",
+                        "D. ${\\left( {x + 2} \\right)^3} = {x^3} + 4{x^2} + 12x + 8$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Đâu là hằng đẳng thức đúng?",
+                    "options": [
+                        "A. ${\\left( {3x - y} \\right)^2} = 9{x^2} - 6xy - {y^2}$.",
+                        "B. ${\\left( {3x - y} \\right)^2} = 9{x^2} - 3xy + {y^2}$.",
+                        "C. ${\\left( {3x - y} \\right)^2} = 9{x^2} - 6xy + {y^2}$.",
+                        "D. ${\\left( {3x - y} \\right)^2} = 9{x^2} + 6xy + {y^2}$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Biểu thức nào dưới đây sau khi khai triển là đúng?",
+                    "options": [
+                        "A. ${\\left( {a - 3b} \\right)^3} = {a^3} - 9{a^2}b + 27a{b^2} - 27{b^3}$.",
+                        "B. ${\\left( {a - 3b} \\right)^3} = {a^3} - 6{a^2}b + 9a{b^2} - 27{b^3}$.",
+                        "C. ${\\left( {a - 3b} \\right)^3} = {a^3} - 9{a^2}b - 27a{b^2} - 27{b^3}$.",
+                        "D. ${\\left( {a - 3b} \\right)^3} = {a^3} - 9{a^2}b + 27a{b^2} + 27{b^3}$."
+                    ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 6,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow a  = 3\\overrightarrow i  + 2\\overrightarrow j$. Tọa độ của vectơ $\\overrightarrow a$ là",
+                    "options": [
+                        "A. $\\overrightarrow a = (3; 2)$.",
+                        "B. $\\overrightarrow a = (2; 3)$.",
+                        "C. $\\overrightarrow a = (-3; 2)$.",
+                        "D. $\\overrightarrow a = (3; -2)$."
+                    ],
+                    "image": null
+                },
+                {
+                "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow b = -\\overrightarrow i + 4\\overrightarrow j$. Tọa độ của vectơ $\\overrightarrow b$ là",
+                    "options": [
+                        "A. $\\overrightarrow b = (4; -1)$.",
+                        "B. $\\overrightarrow b = (-1; 4)$.",
+                        "C. $\\overrightarrow b = (1; 4)$.",
+                        "D. $\\overrightarrow b = (-1; -4)$."
+                    ],
+                    "image": null
+                },
+                {
+                "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow c = \\frac{1}{2}\\overrightarrow i - 3\\overrightarrow j$. Tọa độ của vectơ $\\overrightarrow c$ là",
+                    "options": [
+                        "A. $\\overrightarrow c = (-3; \\frac{1}{2})$.",
+                        "B. $\\overrightarrow c = (\\frac{1}{2}; -3)$.",
+                        "C. $\\overrightarrow c = (\\frac{1}{2}; 3)$.",
+                        "D. $\\overrightarrow c = (3; \\frac{1}{2})$."
+                    ],
+                    "image": null
+                },
+                {
+                "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow d = -2\\overrightarrow i - \\frac{3}{4}\\overrightarrow j$. Tọa độ của vectơ $\\overrightarrow d$ là",
+                    "options": [
+                        "A. $\\overrightarrow d = (-\\frac{3}{4}; -2)$.",
+                        "B. $\\overrightarrow d = (-2; -\\frac{3}{4})$.",
+                        "C. $\\overrightarrow d = (-2; \\frac{3}{4})$.",
+                        "D. $\\overrightarrow d = (\\frac{3}{4}; -2)$."
+                    ],
+                    "image": null
+                },
+                {
+                "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow e =  -\\frac{7}{3}\\overrightarrow i + \\frac{1}{5}\\overrightarrow j$. Tọa độ của vectơ $\\overrightarrow e$ là",
+                    "options": [
+                    "A. $\\overrightarrow e = (\\frac{1}{5}; -\\frac{7}{3})$.",
+                        "B. $\\overrightarrow e = (-\\frac{7}{3}; \\frac{1}{5})$.",
+                        "C. $\\overrightarrow e = (-\\frac{7}{3}; -\\frac{1}{5})$.",
+                        "D. $\\overrightarrow e = (\\frac{7}{3}; \\frac{1}{5})$."
+                    ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 7,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow u  = \\left( {1; 5} \\right),\\overrightarrow v  = \\left( {4; -2} \\right)$. Tọa độ của vectơ $\\overrightarrow u  + 3\\overrightarrow v$ là",
+                    "options": [
+                        "A. $\\left( {13; -1} \\right)$.",
+                        "B. $\\left( {11; - 1} \\right)$.",
+                        "C. $\\left( {13; - 5} \\right)$.",
+                        "D. $\\left( { -11;1} \\right)$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow m  = \\left( { -3; 2} \\right),\\overrightarrow n  = \\left( {1; -4} \\right)$. Tọa độ của vectơ $2\\overrightarrow m  - \\overrightarrow n$ là",
+                    "options": [
+                        "A. $\\left( { -7; 8} \\right)$.",
+                        "B. $\\left( { -5; 0} \\right)$.",
+                        "C. $\\left( { -4; -2} \\right)$.",
+                        "D. $\\left( { -7; 0} \\right)$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow p  = \\left( { -1; -2} \\right),\\overrightarrow q  = \\left( {3; 1} \\right)$. Tọa độ của vectơ $3\\overrightarrow p  + 2\\overrightarrow q$ là",
+                    "options": [
+                        "A. $\\left( {3; -4} \\right)$.",
+                        "B. $\\left( {3; 4} \\right)$.",
+                        "C. $\\left( {9; -4} \\right)$.",
+                        "D. $\\left( {1; -4} \\right)$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow r  = \\left( {5; -1} \\right),\\overrightarrow s  = \\left( { -2; 3} \\right)$. Tọa độ của vectơ $\\overrightarrow r  -  \\overrightarrow s$ là",
+                    "options": [
+                        "A. $\\left( {7; -4} \\right)$.",
+                        "B. $\\left( {3; 2} \\right)$.",
+                        "C. $\\left( {7; 2} \\right)$.",
+                        "D. $\\left( {3; -4} \\right)$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow c  = \\left( {4; 2} \\right),\\overrightarrow d  = \\left( { -1; -3} \\right)$. Tọa độ của vectơ $-2\\overrightarrow c  + \\overrightarrow d$ là",
+                    "options": [
+                        "A. $\\left( {-9; -7} \\right)$.",
+                        "B. $\\left( {-9; -1} \\right)$.",
+                        "C. $\\left( {-7; -7} \\right)$.",
+                        "D. $\\left( {-7; 1} \\right)$."
+                    ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 8,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ giá trị của tham số $m$ để hai vectơ $\\overrightarrow a = \\left( {2; -3} \\right)$ và $\\overrightarrow b = \\left( {m; 6} \\right)$ cùng phương là",
+                    "options": [
+                        "A. $m = -4$.",
+                        "B. $m = 4$.",
+                        "C. $m = -9$.",
+                        "D. $m = 9$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ giá trị của tham số $m$ để hai vectơ $\\overrightarrow x = \\left( { -1; 4} \\right)$ và $\\overrightarrow y = \\left( {3; m} \\right)$ cùng phương là",
+                    "options": [
+                        "A. $m = -12$.",
+                        "B. $m = 12$.",
+                        "C. $m = -4/3$.",
+                        "D. $m = 4/3$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ giá trị của tham số $m$ để hai vectơ $\\overrightarrow c = \\left( { -2; m} \\right)$ và $\\overrightarrow d = \\left( {1; -5} \\right)$ cùng phương là",
+                    "options": [
+                        "A. $m = 10$.",
+                        "B. $m = -10$.",
+                        "C. $m = -2/5$.",
+                        "D. $m = 2/5$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ giá trị của tham số $m$ để hai vectơ $\\overrightarrow p = \\left( {3; 2} \\right)$ và $\\overrightarrow q = \\left( {m; -4} \\right)$ cùng phương là",
+                    "options": [
+                        "A. $m = -6$.",
+                        "B. $m = 6$.",
+                        "C. $m = -3/2$.",
+                        "D. $m = 3/2$."
+                ],
+                "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ giá trị của tham số $m$ để hai vectơ $\\overrightarrow r = \\left( {m; 1} \\right)$ và $\\overrightarrow s = \\left( { -2; -2} \\right)$ cùng phương là",
+                    "options": [
+                        "A. $m = 1$.",
+                        "B. $m = -1$.",
+                        "C. $m = -2$.",
+                        "D. $m = 2$."
+                    ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 10,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho đường thẳng $d:\\left\\{ \\begin{gathered} x = -2 + 3t \\\\ y = 1 - t \\\\ \\end{gathered} \\right. \\left( {t \\in \\mathbb{R}} \\right)$. Điểm nào sau đây thuộc đường thẳng $d$?",
+                    "options": [
+                        "A. $M\\left( { - 2;1} \\right)$.",
+                        "B. $N\\left( {1;0} \\right)$.",
+                        "C. $P\\left( {4; -1} \\right)$.",
+                        "D. $Q\\left( { - 5;2} \\right)$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho đường thẳng $d:\\left\\{ \\begin{gathered} x = 2 - t \\\\ y = 4 + 3t \\\\ \\end{gathered} \\right. \\left( {t \\in \\mathbb{R}} \\right)$. Điểm nào sau đây thuộc đường thẳng $d$?",
+                    "options": [
+                        "A. $M\\left( {2;4} \\right)$.",
+                        "B. $N\\left( {1;7} \\right)$.",
+                        "C. $P\\left( {3;1} \\right)$.",
+                        "D. $Q\\left( {0;10} \\right)$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho đường thẳng $d:\\left\\{\\begin{gathered} x = -1 + 2t \\\\ y = -2 - t \\\\ \\end{gathered} \\right. \\left( {t \\in \\mathbb{R}} \\right)$. Điểm nào sau đây thuộc đường thẳng $d$?",
+                "options": [
+                        "A. $M\\left( { - 1; - 2} \\right)$.",
+                        "B. $N\\left( {1; - 3} \\right)$.",
+                        "C. $P\\left( {3; - 4} \\right)$.",
+                        "D. $Q\\left( { - 3; - 1} \\right)$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho đường thẳng $d:\\left\\{ \\begin{gathered} x = 5 - 2t \\\\ y = -1 + t \\\\ \\end{gathered} \\right. \\left( {t \\in \\mathbb{R}} \\right)$. Điểm nào sau đây thuộc đường thẳng $d$?",
+                    "options": [
+                        "A. $M\\left( {5; - 1} \\right)$.",
+                        "B. $N\\left( {3;0} \\right)$.",
+                        "C. $P\\left( {1;1} \\right)$.",
+                        "D. $Q\\left( { - 1; - 2} \\right)$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho đường thẳng $d:\\left\\{ \\begin{gathered} x = -3 + 4t \\\\ y = 2 - 2t \\\\ \\end{gathered} \\right. \\left( {t \\in \\mathbb{R}} \\right)$. Điểm nào sau đây thuộc đường thẳng $d$?",
+                    "options": [
+                        "A. $M\\left( { - 3;2} \\right)$.",
+                        "B. $N\\left( {1;0} \\right)$.",
+                        "C. $P\\left( { - 7;4} \\right)$.",
+                        "D. $Q\\left( {5; - 2} \\right)$."
+                    ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 11,
+            "list": [
+                {
+                    "content": "Trong một lớp học có 8 học sinh nam và 7 học sinh nữ. Có bao nhiêu cách chọn ra 2 học sinh khác giới tính để tham gia một hoạt động?",
+                    "options": [
+                        "A. $15$.",
+                        "B. $56$.",
+                        "C. $112$.",
+                        "D. $42$"
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Một tủ quần áo có 5 áo sơ mi trắng, 6 áo sơ mi xanh và 2 áo phông. Có bao nhiêu cách chọn được 2 chiếc áo khác loại?",
+                    "options": [
+                        "A. $42$.",
+                        "B. $70$.",
+                        "C. $30$.",
+                        "D. $47$"
+                    ],
+                        "image": null
+                },
+                {
+                    "content": "Trong một buổi tiệc, có 4 loại bánh ngọt, 3 loại bánh mặn và 5 loại đồ uống. Có bao nhiêu cách để chọn một bánh ngọt và một đồ uống?",
+                    "options": [
+                        "A. $12$.",
+                        "B. $15$.",
+                        "C. $20$.",
+                        "D. $14$"
+                    ],
+                        "image": null
+                },
+                {
+                    "content": "Một đoàn tàu có 6 toa hạng nhất, 5 toa hạng hai và 3 toa hạng ba. Có bao nhiêu cách để chọn 2 toa khác hạng để sắp xếp?",
+                    "options": [
+                        "A. $15$.",
+                        "B. $63$.",
+                        "C. $45$.",
+                        "D. $51$"
+                    ],
+                        "image": null
+                },
+                {
+                    "content": "Trong một công viên có 7 cây hoa hồng, 4 cây hoa cúc và 2 cây hoa lan. Hỏi có bao nhiêu cách chọn ra 2 cây hoa khác loại?",
+                    "options": [
+                        "A. $28$.",
+                        "B. $14$.",
+                        "C. $46$.",
+                        "D. $38$"
+                    ],
+                        "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 12,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho tam giác $ABC$ có $N(2;3)$ là trung điểm của $AC$ và $C(4; -1)$. Phương trình đường trung trực của đoạn thẳng $AC$ có dạng là",
+                    "options": [
+                        "A. $x + 2y - 8 = 0$.",
+                        "B. $2x - y - 7 = 0$.",
+                        "C. $x - 2y + 4 = 0$.",
+                        "D. $2x + y - 5 = 0$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho tam giác $ABC$ có $P(-1; 4)$ là trung điểm của $AB$ và $A(3; 2)$. Phương trình đường trung trực của đoạn thẳng $AB$ có dạng là",
+                    "options": [
+                        "A. $2x - y - 3 = 0$.",
+                        "B. $2x + y - 1 = 0$.",
+                        "C. $x - 2y + 9 = 0$.",
+                        "D. $x + 2y - 11 = 0$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho tam giác $DEF$ có $Q(0; -2)$ là trung điểm của $EF$ và $E(2; 6)$. Phương trình đường trung trực của đoạn thẳng $EF$ có dạng là",
+                    "options": [
+                        "A. $x + 4y + 8 = 0$.",
+                        "B. $x - 4y - 10 = 0$.",
+                        "C. $4x + y - 10 = 0$.",
+                        "D. $4x - y + 2 = 0$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho tam giác $GHI$ có $R(3; -2)$ là trung điểm của $GH$ và $G(-1; 0)$. Phương trình đường trung trực của đoạn thẳng $GH$ có dạng là",
+                    "options": [
+                        "A. $2x - y - 8 = 0$.",
+                        "B. $2x + y - 4 = 0$.",
+                        "C. $x - 2y - 7= 0$.",
+                        "D. $x + 2y + 1 = 0$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content":"Trong mặt phẳng tọa độ $Oxy$, cho tam giác $MNP$ có $S(5; 1)$ là trung điểm của $NP$ và $N(1; -3)$. Phương trình đường trung trực của đoạn thẳng $NP$ có dạng là",
+                    "options": [
+                        "A. $x - y - 4 = 0$.",
+                        "B. $x + y - 6 = 0$.",
+                        "C. $x - y - 8 = 0$.",
+                        "D. $x + y + 2= 0$."
+                    ],
+                    "image": null
+                }
+            ]
+        }
+    ],
+    "trueFalseQuestions":[
+        {
+            "questionNumber": 1,
+            "list": [
+                {
+                    "content": "Một lớp học có 30 học sinh, trong đó có 10 học sinh giỏi toán, 12 học sinh giỏi văn và 8 học sinh giỏi anh.",
+                    "options": [
+                        "a) Số cách chọn 1 học sinh từ lớp là 30.",
+                        "b) Số cách chọn 3 học sinh, mỗi người một môn là 960.",
+                        "c) Số cách chọn ra 4 học sinh trong đó có 1 học sinh giỏi toán, 2 học sinh giỏi văn và 1 học sinh giỏi anh là 5280.",
+                        "d) Số cách chọn ra 4 học sinh lấy được đủ 3 môn là 11880."
+                    ],
+                        "image": null
+                },
+                {
+                    "content": "Một kệ sách có 15 cuốn sách, gồm 4 cuốn tiểu thuyết, 5 cuốn truyện tranh và 6 cuốn sách tham khảo.",
+                    "options": [
+                        "a) Số cách chọn 1 cuốn sách từ kệ là 15.",
+                        "b) Số cách chọn 3 cuốn sách đủ 3 loại là 120.",
+                        "c) Số cách chọn ra 4 cuốn sách trong đó có 1 cuốn tiểu thuyết, 2 cuốn truyện tranh và 1 cuốn sách tham khảo là 300.",
+                        "d) Số cách chọn ra 4 cuốn sách lấy được đủ 3 loại là 705."
+                    ],
+                        "image": null
+                },
+                {
+                    "content": "Một giỏ hoa có 25 bông hoa, gồm 5 bông hồng, 10 bông cúc và 10 bông lan.",
+                    "options": [
+                        "a) Số cách chọn được 1 bông hoa từ giỏ là 25.",
+                        "b) Số cách chọn 3 bông hoa đủ 3 loại là 500.",
+                        "c) Số cách chọn ra 4 bông hoa trong đó có 1 bông hồng, 2 bông cúc và 1 bông lan là 2500.",
+                        "d) Số cách chọn ra 4 bông hoa lấy được đủ 3 loại là 4625."
+                    ],
+                        "image": null
+                },
+                {
+                    "content": "Trong một rổ trái cây có 16 quả, trong đó có 4 quả xoài, 6 quả cam và 6 quả táo.",
+                    "options": [
+                        "a) Số cách chọn được 1 quả từ rổ là 16.",
+                        "b) Số cách chọn 3 quả đủ 3 loại là 144.",
+                        "c) Số cách chọn ra 4 quả trong đó có 1 quả xoài, 2 quả cam và 1 quả táo là 360.",
+                        "d) Số cách chọn ra 4 quả lấy được đủ 3 loại là 660."
+                    ],
+                        "image": null
+                },
+                {
+                    "content": "Một tủ quần áo có 22 chiếc áo, gồm 6 áo trắng, 8 áo đen và 8 áo màu.",
+                    "options": [
+                        "a) Số cách chọn được 1 chiếc áo từ tủ là 22.",
+                        "b) Số cách chọn 3 chiếc áo đủ 3 màu là 384.",
+                        "c) Số cách chọn ra 4 chiếc áo trong đó có 1 áo trắng, 2 áo đen và 1 áo màu là 448.",
+                        "d) Số cách chọn ra 4 chiếc áo lấy được đủ 3 màu là 1928."
+                    ],
+                        "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 2,
+            "list": [
+                {
+                    "content": "Cho $Q = {\\left( {3x - 2} \\right)^4}$.",
+                    "options": [
+                        "a) Số số hạng của khai triển $Q$ là 4.",
+                        "b) Hệ số của ${x^3}$ trong khai triển $Q$ là -216.",
+                        "c) Số hạng thứ 3 trong khai triển theo thứ tự số mũ giảm dần của $x$ là $216x^2$.",
+                        "d) Tổng hệ số các số hạng trong khai triển $Q$ là 1."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Cho $R = {\\left( {x + 3} \\right)^6}$.",
+                    "options": [
+                        "a) Số số hạng của khai triển $R$ là 6.",
+                        "b) Hệ số của ${x^2}$ trong khai triển $R$ là 135.",
+                        "c) Số hạng thứ 4 trong khai triển theo thứ tự số mũ giảm dần của $x$ là $540x^3$.",
+                        "d) Tổng hệ số các số hạng trong khai triển $R$ là 4096."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Cho $S = {\\left( {2x - 1} \\right)^5}$.",
+                    "options": [
+                        "a) Số số hạng của khai triển $S$ là 5.",
+                        "b) Hệ số của ${x^3}$ trong khai triển $S$ là -80.",
+                        "c) Số hạng thứ 2 trong khai triển theo thứ tự số mũ giảm dần của $x$ là $-80x^4$.",
+                        "d) Tổng hệ số các số hạng trong khai triển $S$ là 1."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Cho $T = {\\left( {x - 2} \\right)^4}$.",
+                    "options": [
+                        "a) Số số hạng của khai triển $T$ là 4.",
+                        "b) Hệ số của ${x^2}$ trong khai triển $T$ là 24.",
+                        "c) Số hạng thứ 3 trong khai triển theo thứ tự số mũ giảm dần của $x$ là $24x^2$.",
+                        "d) Tổng hệ số các số hạng trong khai triển $T$ là 1."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Cho $U = {\\left( {3 - x} \\right)^5}$.",
+                    "options": [
+                        "a) Số số hạng của khai triển $U$ là 5.",
+                        "b) Hệ số của ${x^2}$ trong khai triển $U$ là 270.",
+                        "c) Số hạng thứ 4 trong khai triển theo thứ tự số mũ giảm dần của $x$ là $-270x^2$.",
+                        "d) Tổng hệ số các số hạng trong khai triển $U$ là 32."
+                    ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 3,
+            "list": [
+                {
+                    "content": "Lớp 11B có 30 học sinh giỏi và 20 học sinh khá.",
+                    "options": [
+                        "a) Số cách chọn 1 bạn học sinh làm lớp phó học tập là 30.",
+                        "b) Chọn 12 học sinh bất kì của lớp 11B sau đó xếp thành hàng dọc có $12!$ cách.",
+                        "c) Số cách xếp các học sinh lớp 11B thành hàng ngang mà các học sinh giỏi luôn đứng cạnh nhau là $21!.30!$.",
+                        "d) Giáo viên chọn 3 học sinh làm ban cán sự lớp: 1 bí thư, 1 lớp phó văn thể, 1 thủ quỹ. Số cách chọn để trong ba bạn được chọn có cả học sinh giỏi và học sinh khá là $54000$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Một đội văn nghệ có 18 diễn viên múa và 12 ca sĩ.",
+                    "options": [
+                        "a) Số cách chọn 1 người làm trưởng đội là 18.",
+                        "b) Chọn 8 thành viên bất kì của đội sau đó xếp thành một hàng ngang có $8!$ cách.",
+                        "c) Số cách xếp các thành viên của đội thành hàng ngang mà các diễn viên múa luôn đứng cạnh nhau là $15!.18!$.",
+                        "d) Chọn 3 thành viên vào ban tổ chức: 1 trưởng ban, 1 phó ban, 1 thư ký. Số cách chọn để trong ba người được chọn có cả diễn viên múa và ca sĩ là $9792$."
+                        ],
+                        "image": null
+                },
+                {
+                    "content": "Trong một công ty có 40 nhân viên nam và 25 nhân viên nữ.",
+                    "options": [
+                        "a) Số cách chọn 1 nhân viên làm trưởng phòng là 40.",
+                        "b) Chọn 15 nhân viên bất kì sau đó xếp thành một hàng dọc có $15!$ cách.",
+                        "c) Số cách xếp các nhân viên thành hàng ngang mà các nhân viên nữ luôn đứng cạnh nhau là $41!.25!$.",
+                        "d) Chọn 3 nhân viên vào ban chấp hành công đoàn: 1 chủ tịch, 1 phó chủ tịch, 1 ủy viên. Số cách chọn để trong ba người được chọn có cả nhân viên nam và nhân viên nữ là $129000$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Một thư viện có 60 sách khoa học và 35 sách văn học.",
+                    "options": [
+                        "a) Số cách chọn 1 quyển sách khoa học là 60.",
+                        "b) Chọn 10 quyển sách bất kì sau đó sắp xếp lên kệ sách có $10!$ cách.",
+                        "c) Số cách xếp các quyển sách thành một hàng ngang mà các quyển sách văn học luôn đứng cạnh nhau là $61!.35!$.",
+                        "d) Chọn 3 quyển sách để trưng bày: 1 sách khoa học, 1 sách văn học, 1 tạp chí. Số cách chọn để trong ba quyển sách được chọn có cả sách khoa học và sách văn học là $12600$."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Một đội bóng rổ có 12 cầu thủ chính và 8 cầu thủ dự bị.",
+                    "options": [
+                        "a) Số cách chọn 1 cầu thủ làm đội trưởng là 12.",
+                        "b) Chọn 9 cầu thủ bất kì của đội sau đó xếp thành hàng ngang có $9!$ cách.",
+                        "c) Số cách xếp các cầu thủ của đội thành một hàng ngang mà các cầu thủ chính luôn đứng cạnh nhau là $9!.12!$.",
+                        "d) Chọn 3 cầu thủ vào ban huấn luyện: 1 huấn luyện viên, 1 trợ lý huấn luyện viên, 1 đội trưởng. Số cách chọn để trong ba người được chọn có cả cầu thủ chính và cầu thủ dự bị là $1920$."
+                    ],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 4,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho 3 điểm $A(2; 1), B(4; -1), C(0; 3)$.",
+                    "options": [
+                        "a) Ba điểm $A, B, C$ không thẳng hàng.",
+                        "b) Tọa độ trung điểm của $AC$ là $M(1; 2)$.",
+                        "c) Tọa độ điểm $D$ để tứ giác $ABCD$ là hình bình hành là $D(-2; 5)$.",
+                        "d) Phương trình tham số của đường thẳng đi qua $B$ và song song với đường thẳng $AC$ là $\\left\\{ \\begin{array}{c} x = 4 - 2t \\\\ y = -1 + 2t \\end{array} \\right.$ (với $t$ là tham số)."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho 3 điểm $A(-2; 3), B(2; 1), C(5; 4)$.",
+                    "options": [
+                        "a) Ba điểm $A, B, C$ không thẳng hàng.",
+                        "b) Tọa độ trung điểm của $BC$ là $M(3.5; 2.5)$.",
+                        "c) Tọa độ điểm $D$ để tứ giác $ABCD$ là hình bình hành là $D(1; 6)$.",
+                        "d) Phương trình tham số của đường thẳng đi qua $C$ và song song với đường thẳng $AB$ là $\\left\\{ \\begin{array}{c} x = 5 + 4t \\\\ y = 4 - 2t \\end{array} \\right.$ (với $t$ là tham số)."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho 3 điểm $A(1; -2), B(-3; 2), C(2; 5)$.",
+                    "options": [
+                        "a) Ba điểm $A, B, C$ không thẳng hàng.",
+                        "b) Tọa độ trung điểm của $AB$ là $M(-1; 0)$.",
+                        "c) Tọa độ điểm $D$ để tứ giác $ABCD$ là hình bình hành là $D(6; 1)$.",
+                        "d) Phương trình tham số của đường thẳng đi qua $A$ và song song với đường thẳng $BC$ là $\\left\\{ \\begin{array}{c} x = 1 + 5t \\\\ y = -2 + 3t \\end{array} \\right.$ (với $t$ là tham số)."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho 3 điểm $A(0; 4), B(2; 0), C(-3; -1)$.",
+                    "options": [
+                        "a) Ba điểm $A, B, C$ không thẳng hàng.",
+                        "b) Tọa độ trung điểm của $AC$ là $M(-1.5; 1.5)$.",
+                        "c) Tọa độ điểm $D$ để tứ giác $ABCD$ là hình bình hành là $D(-5; 3)$.",
+                        "d) Phương trình tham số của đường thẳng đi qua $B$ và song song với đường thẳng $AC$ là $\\left\\{ \\begin{array}{c} x = 2 - 3t \\\\ y = -t \\end{array} \\right.$ (với $t$ là tham số)."
+                    ],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho 3 điểm $A(3; -2), B(-1; 0), C(4; 3)$.",
+                    "options": [
+                        "a) Ba điểm $A, B, C$ không thẳng hàng.",
+                        "b) Tọa độ trung điểm của $BC$ là $M(1.5; 1.5)$.",
+                        "c) Tọa độ điểm $D$ để tứ giác $ABCD$ là hình bình hành là $D(8; 1)$.",
+                        "d) Phương trình tham số của đường thẳng đi qua $C$ và song song với đường thẳng $AB$ là $\\left\\{ \\begin{array}{c} x = 4 - 4t \\\\ y = 3 + 2t \\end{array} \\right.$ (với $t$ là tham số)."
+                    ],
+                    "image": null
+                }
+            ]
+        }
+    ],
+    "shortQuestions":[
+        {
+            "questionNumber": 1,
+            "list": [
+                {
+                    "content": "Một người có 8 chiếc quần khác nhau trong đó có 3 chiếc quần đen; có 6 chiếc áo khác nhau trong đó có 2 chiếc áo xanh. Có bao nhiêu cách chọn 1 chiếc quần và 1 chiếc áo sao cho đã chọn quần đen thì không chọn áo xanh?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Một cửa hàng có 10 loại bánh khác nhau, trong đó có 6 bánh ngọt; có 7 loại nước khác nhau, trong đó có 4 loại nước có ga. Có bao nhiêu cách chọn 1 loại bánh và 1 loại nước sao cho đã chọn bánh ngọt thì không chọn nước có ga?",
+                      "options": [],
+                    "image": null
+                },
+                 {
+                    "content": "Trong một lớp học có 12 bạn nam, trong đó có 5 bạn nam đeo kính; có 10 bạn nữ, trong đó có 3 bạn nữ đeo vòng. Có bao nhiêu cách chọn 1 bạn nam và 1 bạn nữ sao cho đã chọn bạn nam đeo kính thì không chọn bạn nữ đeo vòng?",
+                      "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Một người có 9 đôi giày khác nhau trong đó có 4 đôi giày thể thao; có 8 chiếc mũ khác nhau trong đó có 5 chiếc mũ lưỡi trai. Có bao nhiêu cách chọn 1 đôi giày và 1 chiếc mũ sao cho đã chọn giày thể thao thì không chọn mũ lưỡi trai?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                     "content": "Một nhà hàng có 11 món ăn, trong đó có 7 món chay; có 6 loại đồ uống, trong đó có 3 loại nước ép. Có bao nhiêu cách chọn 1 món ăn và 1 loại đồ uống sao cho đã chọn món chay thì không chọn nước ép?",
+                      "options": [],
+                     "image": null
+                }
+            ]
+        },        
+        {
+            "questionNumber": 2,
+            "list": [
+                {
+                    "content": "Cho tập $B = \\left\\{ 1;2;3;4;5;6;7;8 \\right\\}$. Có bao nhiêu số tự nhiên có 4 chữ số khác nhau chia hết cho 2 được lập từ tập $B$?",
+                    "options": [],
+                        "image": null
+                },
+                {
+                    "content": "Cho tập $C = \\left\\{ 0;2;4;6;8;9 \\right\\}$. Có bao nhiêu số tự nhiên có 3 chữ số khác nhau chia hết cho 3 được lập từ tập $C$?",
+                    "options": [],
+                        "image": null
+                },
+                {
+                    "content": "Cho tập $D = \\left\\{ 1;3;5;7;9 \\right\\}$. Có bao nhiêu số tự nhiên có 5 chữ số khác nhau được lập từ tập $D$?",
+                    "options": [],
+                        "image": null
+                },
+                {
+                    "content": "Cho tập $E = \\left\\{ 0;1;2;3;4;5 \\right\\}$. Có bao nhiêu số tự nhiên có 3 chữ số khác nhau và lớn hơn 200 được lập từ tập $E$?",
+                    "options": [],
+                        "image": null
+                },
+                {
+                    "content": "Cho tập $F = \\left\\{ 2;3;4;5;6;7 \\right\\}$. Có bao nhiêu số tự nhiên có 4 chữ số khác nhau và nhỏ hơn 5000 được lập từ tập $F$?",
+                    "options": [],
+                        "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 3,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho điểm $M\\left( {2; - 1} \\right),N\\left( {5;3} \\right)$ và điểm $P\\left( {m;n} \\right)$ trên trục $Oy$. Biết rằng tam giác $MNP$ vuông tại $M$, tính $m + n$.",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho điểm $D\\left( { - 4;0} \\right),E\\left( {1; - 2} \\right)$ và điểm $F\\left( {x;y} \\right)$ trên trục $Ox$. Biết rằng tam giác $DEF$ vuông tại $E$, tính $x - y$.",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho điểm $G\\left( {0;3} \\right),H\\left( {4;1} \\right)$ và điểm $K\\left( {p;q} \\right)$ trên trục $Oy$. Biết rằng tam giác $GHK$ vuông tại $H$, tính $p + 2q$.",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho điểm $P\\left( {3; - 2} \\right),Q\\left( { -1; 1} \\right)$ và điểm $R\\left( {s;t} \\right)$ trên trục $Ox$. Biết rằng tam giác $PQR$ vuông tại $Q$, tính $s+t$.",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho điểm $S\\left( {1;4} \\right),T\\left( { -2;0} \\right)$ và điểm $U\\left( {u;v} \\right)$ trên trục $Oy$. Biết rằng tam giác $STU$ vuông tại $T$, tính $2u-v$.",
+                    "options": [],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 4,
+            "list": [
+                {
+                    "content": "Có bao nhiêu cách xếp 4 sách Lịch sử khác nhau và 5 sách Địa lý khác nhau trên một kệ sách dài mà không có 2 sách Lịch sử nào kề nhau?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Có bao nhiêu cách xếp 5 quyển vở ô ly khác nhau và 3 quyển vở kẻ ngang khác nhau trên một bàn dài mà không có 2 quyển vở ô ly nào cạnh nhau?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Có bao nhiêu cách xếp 6 con búp bê khác nhau và 4 con gấu bông khác nhau vào một hàng mà không có 2 con búp bê nào đứng cạnh nhau?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Có bao nhiêu cách xếp 7 cuốn truyện tranh khác nhau và 3 cuốn tiểu thuyết khác nhau lên giá sách sao cho không có 2 cuốn truyện tranh nào đứng cạnh nhau?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Có bao nhiêu cách xếp 3 cái áo sơ mi khác nhau và 6 cái quần khác nhau vào tủ đồ mà không có 2 cái áo sơ mi nào xếp liền nhau?",
+                "options": [],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 5,
+            "list": [
+                {
+                    "content": "Tổ 2 lớp 11A có 7 học sinh giỏi và 5 học sinh khá. Giáo viên chủ nhiệm cần chọn ra 5 học sinh của tổ 2 để tham gia đội tuyển của trường. Có bao nhiêu cách chọn 5 học sinh trong đó có ít nhất hai học sinh giỏi?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Một đội văn nghệ có 8 diễn viên múa và 6 diễn viên hát. Cần chọn ra 4 người để biểu diễn trong một chương trình. Hỏi có bao nhiêu cách chọn 4 người trong đó có ít nhất một diễn viên múa?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Một lớp học có 10 học sinh nam và 8 học sinh nữ. Cần chọn ra một nhóm 6 học sinh tham gia hoạt động ngoại khóa. Hỏi có bao nhiêu cách chọn một nhóm 6 học sinh, trong đó có ít nhất 2 học sinh nữ?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Trong một buổi tiệc có 9 người lớn và 5 trẻ em. Ban tổ chức cần chọn ra 7 người để tham gia trò chơi. Hỏi có bao nhiêu cách chọn 7 người tham gia, trong đó có ít nhất 3 người lớn?",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Một thư viện có 12 quyển sách khoa học và 7 quyển sách văn học. Cần chọn ra 5 quyển sách để trưng bày. Hỏi có bao nhiêu cách chọn 5 quyển sách, trong đó có ít nhất 1 quyển sách khoa học?",
+                    "options": [],
+                    "image": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 6,
+            "list": [
+                {
+                    "content": "Để tham gia lớp học bơi, người học phải trả một khoản phí đăng ký ban đầu và phí sử dụng hồ bơi. Đường thẳng $d$ trong hình vẽ dưới đây biểu thị tổng chi phí (đơn vị: trăm nghìn đồng) tham gia một lớp học bơi theo thời gian học của một người (đơn vị: tháng). \n\nTrung tâm bơi lội đang có ưu đãi khi đăng kí gói 3 tháng giảm 15%. Tính tổng chi phí mà người đó phải trả khi đăng kí tham gia gói khuyến mại của trung tâm bơi lội với thời gian 3 tháng (kết quả lấy theo đơn vị: trăm nghìn đồng).",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Để sử dụng dịch vụ tại phòng gym, người dùng phải trả một khoản phí thành viên và phí sử dụng các thiết bị. Đường thẳng $d$ trong hình vẽ dưới đây biểu thị tổng chi phí (đơn vị: nghìn đồng) sử dụng phòng gym theo thời gian (đơn vị: tuần). \n\nPhòng gym đang có chương trình khuyến mãi cho gói 8 tuần giảm 20%. Tính tổng chi phí mà người dùng phải trả khi đăng kí gói khuyến mại của phòng gym với thời gian 8 tuần (kết quả lấy theo đơn vị: nghìn đồng).",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Để thuê một sân tennis, người thuê phải trả một khoản phí thuê sân và phí sử dụng đèn chiếu sáng. Đường thẳng $d$ trong hình vẽ dưới đây biểu thị tổng chi phí (đơn vị: nghìn đồng) thuê sân tennis theo thời gian thuê của một người (đơn vị: giờ). \n\nSân tennis đang có chương trình khuyến mãi khi thuê gói 10 giờ giảm 5%. Tính tổng chi phí mà người đó phải trả khi đăng kí thuê gói khuyến mại của sân tennis với thời gian 10 giờ (kết quả lấy theo đơn vị: nghìn đồng).",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Để tham gia câu lạc bộ cờ vua, người chơi phải trả một khoản phí gia nhập và phí sinh hoạt hàng tháng. Đường thẳng $d$ trong hình vẽ dưới đây biểu thị tổng chi phí (đơn vị: chục nghìn đồng) tham gia câu lạc bộ cờ vua theo thời gian (đơn vị: tháng). \n\nCâu lạc bộ đang có ưu đãi khi đăng kí gói 12 tháng giảm 25%. Tính tổng chi phí mà người đó phải trả khi đăng kí tham gia gói khuyến mại của câu lạc bộ cờ vua với thời gian 12 tháng (kết quả lấy theo đơn vị: chục nghìn đồng).",
+                    "options": [],
+                    "image": null
+                },
+                {
+                    "content": "Để sử dụng dịch vụ tại một quán cà phê sách, khách hàng phải trả một khoản phí thành viên và phí sử dụng không gian. Đường thẳng $d$ trong hình vẽ dưới đây biểu thị tổng chi phí (đơn vị: nghìn đồng) sử dụng quán cà phê sách theo thời gian (đơn vị: ngày).\n\nQuán cà phê sách đang có chương trình khuyến mãi cho gói 5 ngày giảm 10%. Tính tổng chi phí mà khách hàng phải trả khi đăng kí gói khuyến mại của quán cà phê sách với thời gian 5 ngày (kết quả lấy theo đơn vị: nghìn đồng).",
+                    "options": [],
+                    "image": null
+                }
+            ]
+        }
+    ]
+}
+
