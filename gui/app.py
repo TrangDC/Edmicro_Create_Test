@@ -1,7 +1,7 @@
 import sys
 import os
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit,
-                             QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog,
+                             QPushButton, QVBoxLayout, QHBoxLayout, QFormLayout, QFileDialog,
                              QComboBox, QTextEdit, QProgressBar, QMessageBox,
                              QSizePolicy,QCompleter, QTabWidget)
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
@@ -115,9 +115,79 @@ class MainTabWidget(QTabWidget):
         self.setGeometry(100, 100, 800, 600) # Tăng chiều rộng lên 800, chiều cao lên 600
         self.setMinimumSize(640, 480)
         
+        self.excel_file_path = ""
+        self.prompt_input = None # Khai báo prompt_input
+        self.gemini_input = None
+        self.cloudinary_input = None
+        
         # Tạo tab Tạo đề
         self.create_tab()
         
+        # Tạo tab Cài đặt
+        self.create_settings_tab()
+
+    def create_settings_tab(self):
+     # Tạo widget nội dung cho tab Cài đặt
+     self.settings_tab_widget = QWidget()
+ 
+     # Layout chính cho tab Cài đặt
+     settings_layout = QVBoxLayout()
+     settings_layout.setSpacing(10)  # Giảm khoảng cách giữa các hàng
+     
+     # Form layout để căn chỉnh các widget
+     form_layout = QFormLayout()
+     form_layout.setSpacing(10) # Giảm khoảng cách giữa các dòng
+     
+     # Prompt template setup
+     prompt_label = QLabel("Prompt_template:")
+     prompt_label.setFont(QFont("Arial", 12))
+     self.prompt_input = QLineEdit()
+     self.prompt_input.setFont(QFont("Arial", 12))
+     prompt_button = QPushButton("Chọn file")
+     prompt_button.setFont(QFont("Arial", 12))
+     prompt_button.clicked.connect(self.open_excel_dialog)
+     
+     # Thêm widget vào QFormLayout
+     prompt_row_layout = QHBoxLayout() # Tạo layout chứa input và button
+     prompt_row_layout.addWidget(self.prompt_input)
+     prompt_row_layout.addWidget(prompt_button)
+     form_layout.addRow(prompt_label, prompt_row_layout)
+
+     # Gemini API Key input
+     gemini_label = QLabel("Gemini API Key:")
+     gemini_label.setFont(QFont("Arial", 12))
+     self.gemini_input = QLineEdit()
+     self.gemini_input.setFont(QFont("Arial", 12))
+     form_layout.addRow(gemini_label, self.gemini_input)
+
+     # Cloudinary Config input
+     cloudinary_label = QLabel("Cloudinary Config:")
+     cloudinary_label.setFont(QFont("Arial", 12))
+     self.cloudinary_input = QLineEdit()
+     self.cloudinary_input.setFont(QFont("Arial", 12))
+     form_layout.addRow(cloudinary_label, self.cloudinary_input)
+    
+     settings_layout.addLayout(form_layout)
+
+     # Save button
+     self.save_button = QPushButton("Lưu cài đặt")
+     self.save_button.setFont(QFont("Arial", 12))
+     self.save_button.clicked.connect(self.save_settings)
+     settings_layout.addWidget(self.save_button)
+     
+     # Set layout cho widget của tab Cài đặt
+     self.settings_tab_widget.setLayout(settings_layout)
+     
+     # Thêm tab Cài đặt
+     self.addTab(self.settings_tab_widget, "Cài đặt")
+
+    def open_excel_dialog(self):
+        file_dialog = QFileDialog()
+        file_path, _ = file_dialog.getOpenFileName(self, "Chọn file Excel", "", "Excel Files (*.xlsx *.xls)")
+        if file_path:
+            self.prompt_input.setText(file_path)
+            self.excel_file_path = file_path
+    
     def create_tab(self):
         # Tạo widget nội dung cho tab
         self.tab_widget = QWidget()
@@ -268,6 +338,22 @@ class MainTabWidget(QTabWidget):
 
         self.num_combo.setModelColumn(0)
         self.num_combo.setCurrentIndex(0)
+
+    def save_settings(self):
+        settings = {
+            "excel_file_path": self.excel_file_path,
+            "gemini_api_key": self.gemini_input.text(),
+            "cloudinary_config": self.cloudinary_input.text()
+        }
+
+        # Lấy thư mục của file đang chạy
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(current_dir, "settings.json")
+
+        import json
+        with open(file_path, 'w') as f:
+            json.dump(settings, f, indent=4)
+        QMessageBox.information(self, "Thành công", f"Đã lưu cài đặt vào file JSON: {file_path}")
 
     def start_process(self):
         self.log_text.clear()

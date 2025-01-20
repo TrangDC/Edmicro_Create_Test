@@ -1,0 +1,108 @@
+Cho nội dung và thực hiện tạo thêm cho tôi 5 nội dung khác nhưng số liệu, đối tượng (nếu có) phải thay đổi. Các yêu cầu cụ thể như sau:
+ 
+Nội dung:
+{question}
+
+Lời giải
+{}
+ 
+Yêu cầu:
+- Ở phần nội dung câu hỏi, bám sát nội dung, đừng thêm hay bớt gì. Bạn có thể tùy biến nhưng phải giữ nguyên nghĩa của câu và độ khó tương đương với câu gốc.
+- Ở phần nội dung lời giải, hãy bám sát vào lời giải trong nội dung trên, đừng thêm hay bớt gì nhưng bạn có thể tùy biến như đảo đáp án.
+- Các công thức tính phải được chuyển về mã Latex và bọc trong dấu $...$, **đảm bảo các ký tự backslash \ trong mã Latex được thoát đúng cách trong JSON (\\), nhưng giữ nguyên không đổi kí tự xuống dòng (\n)**.
+- Kết quả chỉ trả về nội dung tạo thêm ở dạng JSON (theo mẫu ví dụ dưới)
+    + Số câu ở nội dung là số nào thì trường "questionNumber" tương ứng với số đó (Ví dụ: ở nội dung là "Câu 2: đề bài...", thì "questionNumber": 2, ở nội dung là "Câu 3: đề bài...", thì "questionNumber": 3)
+    + Ở trường "list" là mảng chứa thông tin của **tất cả 5 nội dung** được tạo thêm.
+- Đừng thêm bất cứ thông tin nào khác.
+ 
+Mẫu ví dụ 1 dưới dạng JSON, đừng thêm chú thích trong () khi trả về kết quả:
+{
+    "questionNumber": (số câu tương ứng trong nội dung),
+    "list": [
+        {
+            "content": "Có 5 quyển sách toán và 2 quyển sách văn trên một giá sách. Hỏi có bao nhiêu cách lấy ra một quyển sách từ giá sách đó?",
+            "image": null,
+            "table": null,
+            "options": [
+                "A. $7$.",
+                "B. $10$.",
+                "C. $5$.",
+                "D. $2$."
+            ],
+            "guide": "Chọn A.\nĐể lấy ra một quyển sách từ giá sách, ta có thể lấy một quyển sách toán hoặc một quyển sách văn.\nCó 5 quyển sách toán, nên có 5 cách để lấy ra một quyển sách toán.\nCó 2 quyển sách văn, nên có 2 cách để lấy ra một quyển sách văn.\nVậy, số cách lấy ra một quyển sách là 5 + 2 = 7.",
+            "answer": "A"
+        },
+        {
+            "content": "Trong một giỏ trái cây có 6 quả cam và 3 quả táo. Hỏi có bao nhiêu cách chọn ra một quả từ giỏ trái cây đó?",
+            "image": null,
+            "table": null,
+            "options": [
+                "A. $18$.",
+                "B. $9$.",
+                "C. $6$.",
+                "D. $3$."
+            ],
+            "guide": "Chọn B.\nĐể chọn ra một quả từ giỏ trái cây, ta có thể chọn một quả cam hoặc một quả táo.\nCó 6 quả cam, nên có 6 cách để chọn ra một quả cam.\nCó 3 quả táo, nên có 3 cách để chọn ra một quả táo.\nVậy, số cách chọn ra một quả là 6 + 3 = 9.",
+            "answer": "B"
+        },
+        ...
+    ]
+}
+ 
+Mẫu ví dụ 2 dưới dạng JSON, đừng thêm chú thích trong () khi trả về kết quả:
+{
+    "questionNumber": (số câu tương ứng trong nội dung),
+    "list": [
+        {
+            "content": "Một hộp chứa 18 viên bi gồm 3 viên bi đỏ, 6 viên bi xanh và 9 viên bi vàng.",
+            "image": null,
+            "table": null,
+            "options": [
+                "a) Số cách chọn được 1 viên bi từ hộp là 18.",
+                "b) Số cách chọn 3 viên bi đủ 3 màu là 3.",
+                "c) Số cách chọn ra 4 viên bi trong đó có 1 viên bi đỏ, 2 viên bi xanh và 1 viên bi vàng là 405.",
+                "d) Số cách chọn ra 4 viên bi lấy được đủ 3 màu là 1268."
+            ],
+            "guide": "a) Đúng\nChọn 1 viên bi từ hộp chứa 18 viên bi ta có 18 cách.\n\nb) Sai\nChọn 3 viên bi gồm 1 viên bi đỏ, 1 viên bi xanh và 1 viên bi vàng có: $C_3^1.C_6^1.C_9^1 = 162$ (cách)\n\nc) Đúng\nChọn từ hộp 4 viên bi trong đó có 1 viên bi đỏ, 2 viên bi xanh và 1 viên bi vàng có:\n$C_3^1.C_6^2.C_9^1 = 3.15.9 = 405$ (cách)\n\nd) Sai\nChọn 4 viên bi từ 18 viên bi có: $C_{18}^4 = 3060$ (cách).\nXét trường hợp chọn 4 viên bi không đủ 3 màu:\n+ Chọn 4 viên bi chỉ gồm màu đỏ và màu xanh có: $C_3^1.C_6^3 + C_3^3.C_6^1 + C_3^2.C_6^2 = 111$.\n+ Chọn 4 viên bi chỉ gồm màu xanh và màu vàng có: $C_6^1.C_9^3 + C_6^3.C_9^1 + C_6^2.C_9^2 = 1224$.\n+ Chọn 4 viên bi chỉ gồm màu đỏ và màu vàng có: $C_3^1.C_9^3 + C_3^3.C_9^1 + C_3^2.C_9^2 = 369$.\n+ Chọn 4 viên bi chỉ gồm màu xanh có: $C_6^4 = 15$\n+ Chọn 4 viên bi chỉ gồm màu vàng có: $C_9^4 = 126$\nVậy số cách chọn 4 viên bi từ 18 viên bi mà 4 viên bi đó đủ ba màu là: $3060 - 111 - 1224 - 369 - 15 - 126 = 1215$ (cách).",
+            "answer": "a) Đúng, b) Sai, c) Đúng, d) Sai"
+        },
+        {
+            "content": "Một túi có 20 viên kẹo, trong đó có 5 viên kẹo dâu, 8 viên kẹo cam và 7 viên kẹo chanh.",
+            "image": null,
+            "table": null,
+            "options": [
+                "a) Số cách chọn được 1 viên kẹo từ túi là 20.",
+                "b) Số cách chọn ra 4 viên kẹo trong đó có 1 viên kẹo dâu, 2 viên kẹo cam và 1 viên kẹo chanh là 280.",
+                "c) Số cách chọn 3 viên kẹo đủ 3 vị là 280.",
+                "d) Số cách chọn ra 4 viên kẹo lấy được đủ 3 vị là 965."
+            ],
+            "guide": "a) Đúng\nChọn 1 viên kẹo từ túi chứa 20 viên kẹo ta có 20 cách.\nb) Đúng\nChọn từ túi 4 viên kẹo trong đó có 1 viên kẹo dâu, 2 viên kẹo cam và 1 viên kẹo chanh có:\n$C_5^1.C_8^2.C_7^1 = 5.28.7 = 980$ (cách)\nc) Sai\nChọn 3 viên kẹo gồm 1 viên kẹo dâu, 1 viên kẹo cam và 1 viên kẹo chanh có: $C_5^1.C_8^1.C_7^1 = 280$ (cách)\nd) Sai\nChọn 4 viên kẹo từ 20 viên kẹo có: $C_{20}^4 = 4845$ (cách).\nXét trường hợp chọn 4 viên kẹo không đủ 3 vị:\n+ Chọn 4 viên kẹo chỉ gồm vị dâu và vị cam có: $C_5^1.C_8^3 + C_5^3.C_8^1 + C_5^2.C_8^2 = 500$.\n+ Chọn 4 viên kẹo chỉ gồm vị cam và vị chanh có: $C_8^1.C_7^3 + C_8^3.C_7^1 + C_8^2.C_7^2 = 1078$.\n+ Chọn 4 viên kẹo chỉ gồm vị dâu và vị chanh có: $C_5^1.C_7^3 + C_5^3.C_7^1 + C_5^2.C_7^2 = 475$.\n+ Chọn 4 viên kẹo chỉ gồm vị cam có: $C_8^4 = 70$\n+ Chọn 4 viên kẹo chỉ gồm vị chanh có: $C_7^4 = 35$\nVậy số cách chọn 4 viên kẹo từ 20 viên kẹo mà 4 viên kẹo đó đủ ba vị là: $4845 - 500 - 1078 - 475 - 70 - 35 = 2687$ (cách).",
+            "answer": "a) Đúng, b) Đúng, c) Sai, d) Sai"
+        },
+        ...
+    ]
+}
+ 
+Mẫu ví dụ 3 dưới dạng JSON, đừng thêm chú thích trong () khi trả về kết quả:
+{
+    "questionNumber": (số câu tương ứng trong nội dung),
+    "list": [
+        {
+            "content": "Một người có 7 chiếc áo khác nhau trong đó có 4 chiếc áo trắng; có 5 chiếc cà vạt khác nhau trong đó có 3 chiếc cà vạt màu vàng. Có bao nhiêu cách chọn 1 chiếc áo và 1 chiếc cà vạt sao cho đã chọn áo trắng thì không chọn cà vạt màu vàng?",
+            "image": null,
+            "table": null,
+            "options": [],
+            "guide": "TH1:\nChọn 1 áo trắng có 4 cách\nChọn 1 cà vạt không phải màu vàng có 2 cách.\nDo đó có $4.2 = 8$ cách chọn 1 áo trắng và 1 cà vạt không phải màu vàng.\nTH2: \nChọn 1 áo không phải màu trắng có 3 cách.\nChọn 1 cà vạt bất kì có 5 cách.\nDo đó có: $3.5 = 15$ cách chọn 1 áo không phải màu trắng và 1 cà vạt bất kì.\nTheo quy tắc cộng ta có: $8 + 15 = 23$ cách chọn thỏa mãn yêu cầu bài toán.",
+            "answer": 23
+        },
+        {
+        "content": "Một người có 6 đôi giày khác nhau trong đó có 2 đôi giày thể thao; có 4 chiếc mũ khác nhau trong đó có 1 chiếc mũ lưỡi trai. Có bao nhiêu cách chọn 1 đôi giày và 1 chiếc mũ sao cho đã chọn giày thể thao thì không chọn mũ lưỡi trai?",
+            "image": null,
+            "table": null,
+            "options": [],
+            "guide": "TH1:\nChọn 1 đôi giày thể thao có 2 cách\nChọn 1 mũ không phải lưỡi trai có 3 cách.\nDo đó có $2.3 = 6$ cách chọn 1 đôi giày thể thao và 1 mũ không phải lưỡi trai.\nTH2:\nChọn 1 đôi giày không phải giày thể thao có 4 cách.\nChọn 1 mũ bất kì có 4 cách.\nDo đó có: $4.4 = 16$ cách chọn 1 đôi giày không phải giày thể thao và 1 mũ bất kì.\nTheo quy tắc cộng ta có: $6 + 16 = 22$ cách chọn thỏa mãn yêu cầu bài toán.",
+            "answer": "22"
+        },
+    ...
+    ]
+}
