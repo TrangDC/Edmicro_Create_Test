@@ -26,6 +26,7 @@ from io import BytesIO
 import tempfile
 import json
 from datetime import datetime
+import google.generativeai as genai
 
 # Configuration
 cloudinary.config(
@@ -35,9 +36,50 @@ cloudinary.config(
     secure=True
 )
 
+GOOGLE_API_KEY = "AIzaSyASlUYT5KMxrtMLVLtUpL7mn4MWOtWf29c" # Thay YOUR_GEMINI_API_KEY bằng API key của bạn
+genai.configure(api_key=GOOGLE_API_KEY)
+generation_config = {
+    "temperature": 0.4,
+    "top_p": 1,
+    "top_k": 32,
+    "max_output_tokens": 4096,
+}
+
+model = genai.GenerativeModel(model_name="gemini-2.0-flash-exp",
+                            generation_config=generation_config,
+                            )
+
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+
+def describe_image_with_gemini(image_path):
+    """Sử dụng Gemini API để mô tả ảnh."""
+    try:
+        with open(image_path, "rb") as image_file:
+            image_bytes = image_file.read()
+
+        image_part = {
+            "mime_type": "image/png",
+            "data": base64.b64encode(image_bytes).decode()
+        }
+
+        prompt_parts = [
+            image_part,
+            "Hãy mô tả chi tiết và ngắn gọn về hình ảnh này, không thêm bất kỳ yếu tố cảm xúc hoặc chủ quan nào.",
+        ]
+        
+        response = model.generate_content(prompt_parts)
+        response.resolve()
+        if response and response.text:
+            return response.text
+        else:
+            logger.warning(f"Gemini không trả về mô tả cho ảnh {image_path}")
+            return None
+    except Exception as e:
+        logger.error(f"Lỗi khi mô tả ảnh bằng Gemini: {e}", exc_info=True)
+        return None
 
 def get_image_map_from_relationships(temp_dir):
     """Extract image relationships from document"""
@@ -218,7 +260,7 @@ def extract_table_data(table):
         table_data.append(row_data)
     return table_data
 
-def process_question_content(element, image_map, current_question, table_label=""):
+def process_question_content(element, image_map, current_question, temp_dir, table_label=""):
     """Process either a paragraph or table and return content and images"""
     content = ""
     images = []
@@ -227,11 +269,26 @@ def process_question_content(element, image_map, current_question, table_label="
         table_name = f"Bảng {table_label}" if table_label else ""
         table_markdown = table_to_markdown(element)
         table_data = extract_table_data(element)
-        return table_markdown, table_data, table_name  # Return the table name here
+        return table_markdown, table_data, table_name
     else:  # Paragraph
-        content = get_paragraph_text(element)
-        images.extend(find_images_in_paragraph(element, image_map))
-        return content, images, ""
+       content = get_paragraph_text(element)
+       for run in element._element.findall('.//w:drawing', {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}):
+           blip = run.find('.//a:blip', {'a': 'http://schemas.openxmlformats.org/drawingml/2006/main'})
+           if blip is not None:
+               rid = blip.get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed')
+               if rid in image_map:
+                    image_file = image_map[rid]
+                    docx_filename = os.path.splitext(os.path.basename(docx_file))[0]
+                    image_path = os.path.join("output_images", docx_filename, f"{os.path.splitext(image_file)[0]}.png") # Path to the saved image
+
+                    if os.path.exists(image_path):
+                         description = describe_image_with_gemini(image_path)
+                         if description:
+                             content += f" [Mô tả ảnh: {description} ] "
+                         images.append(image_file)
+                    else:
+                        logger.warning(f"Không tìm thấy file ảnh ở: {image_path}")
+       return content, images, ""
 
 def create_sheet_if_not_exists(wb, sheet_name):
     """Create a new sheet if it doesn't exist and set up headers"""
@@ -320,7 +377,7 @@ def extract_content(docx_file, subject_var, grade_var):
     for element in elements:
         if isinstance(element, Table):
             table_name = f"Bảng {table_count}"
-            table_markdown, table_data, _ = process_question_content(element, image_map, current_question, str(table_count))
+            table_markdown, table_data, _ = process_question_content(element, image_map, current_question, temp_dir, str(table_count))
             if table_data:
                 table_sheet.cell(row=table_row, column=1, value=table_name)
                 table_sheet.cell(row=table_row, column=2, value="\n".join(current_question).strip())
@@ -333,7 +390,7 @@ def extract_content(docx_file, subject_var, grade_var):
             current_table_names.append(table_name)  # Thêm tên bảng vào list
             table_count += 1
         else:  # Paragraph
-            text, paragraph_images, _ = process_question_content(element, image_map, current_question)
+            text, paragraph_images, _ = process_question_content(element, image_map, current_question, temp_dir)
             text = text.strip()
             text = text.replace("\t", " ").lstrip()
 
