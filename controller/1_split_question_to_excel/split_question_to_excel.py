@@ -81,6 +81,22 @@ def describe_image_with_gemini(image_path):
         logger.error(f"Lỗi khi mô tả ảnh bằng Gemini: {e}", exc_info=True)
         return None
 
+def table_to_json(table):
+    """Convert a Word table to JSON format."""
+    table_data = {}
+    headers = [cell.text.strip() for cell in table.rows[0].cells]
+    
+    rows_data = []
+    for row in table.rows[1:]:
+         row_data = [cell.text.strip() for cell in row.cells]
+         rows_data.append(row_data)
+    table_data["type"] = "table"
+    table_data["title"] = ""
+    table_data["header"] = headers
+    table_data["rows"] = rows_data
+
+    return json.dumps(table_data, ensure_ascii=False)
+
 def get_image_map_from_relationships(temp_dir):
     """Extract image relationships from document"""
     rels_path = os.path.join(temp_dir, 'word', '_rels', 'document.xml.rels')
@@ -267,9 +283,10 @@ def process_question_content(element, image_map, current_question, temp_dir, tab
     
     if isinstance(element, Table):
         table_name = f"Bảng {table_label}" if table_label else ""
-        table_markdown = table_to_markdown(element)
+        # table_markdown = table_to_markdown(element)
+        table_json = table_to_json(element)
         table_data = extract_table_data(element)
-        return table_markdown, table_data, table_name
+        return table_json, table_data, table_name
     else:  # Paragraph
        content = get_paragraph_text(element)
        for run in element._element.findall('.//w:drawing', {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}):
@@ -377,7 +394,7 @@ def extract_content(docx_file, subject_var, grade_var):
     for element in elements:
         if isinstance(element, Table):
             table_name = f"Bảng {table_count}"
-            table_markdown, table_data, _ = process_question_content(element, image_map, current_question, temp_dir, str(table_count))
+            table_json, table_data, _ = process_question_content(element, image_map, current_question, temp_dir, str(table_count))
             if table_data:
                 table_sheet.cell(row=table_row, column=1, value=table_name)
                 table_sheet.cell(row=table_row, column=2, value="\n".join(current_question).strip())
@@ -385,7 +402,7 @@ def extract_content(docx_file, subject_var, grade_var):
                     for col_index, cell_value in enumerate(row, 1):
                         table_sheet.cell(row=table_row+row_index, column=col_index+2, value=cell_value)
                 table_row += len(table_data) + 2
-            current_question.append(table_markdown)
+            current_question.append(table_json)
             # current_table_name = table_name  # Store the current table name
             current_table_names.append(table_name)  # Thêm tên bảng vào list
             table_count += 1
@@ -510,7 +527,7 @@ def read_prompt_data_from_sheet(prompt_template_path, subject):
     
 if __name__ == "__main__":
     # Input parameters
-    docx_file = "E:\Edmicro\Đề GK2 Toán 10_full lời giải.docx" # Replace with your actual Word file
+    docx_file = "E:\Edmicro\Tool_giải_đề\Đề cần giải\Đề 3 1.docx" # Replace with your actual Word file
     subject = "Toán"       # Replace with your subject
     grade = "10"          # Replace with your grade
     #Call extract content
