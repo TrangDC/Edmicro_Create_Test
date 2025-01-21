@@ -1,5 +1,5 @@
 {
-    "excel_file_path": "",
-    "gemini_api_key": "",
-    "cloudinary_config": ""
+    "excel_file_path": "E:/Edmicro/Tool_tao_de/gui/prompt_template.xlsx",
+    "gemini_api_key": "AIzaSyAUh7P-Zx7TegzSQ31CkpTEWDZzf9_7kcY",
+    "cloudinary_config": "cloud_name=\\\"dgbjb4emp\\\",\\n    api_key=\\\"995523778761239\\\",\\n    api_secret=\\\"kO8fKCyTkgKXvkcBZMcqvrncuTk\\\",\\n    secure=True"
 }

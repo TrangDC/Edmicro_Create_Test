@@ -1,11 +1,21 @@
 Cho nội dung và thực hiện tạo thêm cho tôi 5 nội dung khác nhưng số liệu, đối tượng (nếu có) phải thay đổi. Các yêu cầu cụ thể như sau:
- 
+
 Nội dung:
-{question}
+"Câu 8 [693078]: Thống kê thu nhập theo tháng (đơn vị: triệu đồng) của một nhóm người chạy xe máy ""Xanh SM"" được cho trong ảnh sau:
+
+[Mô_tả_ảnh]
+"Đây là ảnh về mức thu nhập thống kê theo tháng. Trình tự từ 8 đến 13 triệu đồng... Ảnh là hình thang..."
+[/Mô_tả_ảnh]
+
+Tứ phân vị thứ ba của mẫu số liệu ghép nhóm trên là
+A. 7,6      B. 8,1    C. 7,5    D. 8,2"
 
 Lời giải
-{}
- 
+2
+Đáp án đúng là B: **Gợi ý khi làm bài**: Xác định vị trí của tứ phân vị thứ 3, sau đó áp dụng công thức tính tứ phân vị cho mẫu số liệu ghép nhóm.
+Gọi $n$ là cỡ mẫu, $n = 5 + 10 + 5 + 2 = 22$. Tứ phân vị thứ ba $Q_3$ có vị trí là $\frac{{3(n+1)}}{4} = \frac{{3(22+1)}}{4} = 17.25$. Do đó $Q_3$ thuộc nhóm thứ 3 là $[7;9)$. Ta có $Q_3 = 7 + \frac{{17.25 - (5+10)}}{5} \times (9-7) = 7 + \frac{2.25}{5} \times 2 = 7 + 0.9 = 8.1$.
+
+
 Yêu cầu:
 - Ở phần nội dung câu hỏi, bám sát nội dung, đừng thêm hay bớt gì. Bạn có thể tùy biến nhưng phải giữ nguyên nghĩa của câu và độ khó tương đương với câu gốc.
 - Ở phần nội dung lời giải, hãy bám sát vào lời giải trong nội dung trên, đừng thêm hay bớt gì nhưng bạn có thể tùy biến như đảo đáp án.

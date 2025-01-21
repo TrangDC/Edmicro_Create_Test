@@ -4,14 +4,14 @@
             "questionNumber": 1,
             "list": [
                 {
-                    "content": "Có 5 quyển sách toán và 2 quyển sách văn trên một giá sách. Hỏi có bao nhiêu cách lấy ra một quyển sách từ giá sách đó?",
+                    "content": "Có 5 sách toán và 2 sách văn như hình sau \n\n {Đây là link ảnh, được tạo từ bước vẽ ảnh} \n\n Hỏi có bao nhiêu cách lấy ra một quyển sách từ giá sách đó?",
                     "options": [
                         "A. $7$.",
                         "B. $10$.",
                         "C. $5$.",
                          "D. $2$."
                     ],
-                     "image": null
+                     "image": "Đây là link ảnh, được tạo từ bước vẽ ảnh"
                 },
                 {
                     "content": "Trong một giỏ trái cây có 6 quả cam và 3 quả táo. Hỏi có bao nhiêu cách chọn ra một quả từ giỏ trái cây đó?",
