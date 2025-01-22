@@ -23,8 +23,6 @@ generation_config = {
   "response_mime_type": "text/plain",
 }
 
-# Biến toàn cục copy_number
-copy_number = 3
 
 class SheetType(Enum):
     CHOICE = "TN"
@@ -61,8 +59,7 @@ def get_prompt_templates_excel(excel_file_path):
         raise Exception(f"Lỗi khi đọc template sheet: {e}")
 
 # Hàm xử lý một hàng câu hỏi
-def process_question_row_gemini(row, col_indices, template_data, gemini_api_key, retries=3):
-    global copy_number # Sử dụng biến toàn cục
+def process_question_row_gemini(row, col_indices, template_data, gemini_api_key, copy_number, retries=10):
     question = row[col_indices['question']] if 'question' in col_indices and col_indices['question'] is not None else None
     image_url = row[col_indices['images']] if 'images' in col_indices and col_indices['images'] is not None else None
     correct_answer = row[col_indices['correctAnswer']] if 'correctAnswer' in col_indices and col_indices['correctAnswer'] is not None else 'Không có sẵn đáp án'
@@ -85,7 +82,7 @@ def process_question_row_gemini(row, col_indices, template_data, gemini_api_key,
             match = re.search(r'```json\s*(\{.*?\})\s*```', response, re.DOTALL)
             if match:
                 json_content = match.group(1)
-            logging.info("Gemini response: %s", json_content)
+            logging.info("Gemini response:\n %s", json_content)
             break
         else:
             logging.info(f"Retry attempt {attempt + 1} failed for question: {question}. Waiting 5 seconds...")
@@ -182,12 +179,12 @@ def convert_to_json_structure(json_list, sheet_type):
     else:
          return {"unknownQuestions": json_list}
 
-def process_sheet(sheet, templates, sheet_type, all_results):
+def process_sheet(sheet, templates, sheet_type, copy_number):
     logging.info(f"Process sheet gemini {sheet.title}")
     template_data = templates.get("default")
     if not template_data:
         logging.error(f"Không tìm thấy template mặc định")
-        return
+        return []
 
     headers = [cell.value for cell in sheet[1]]
     col_indices = {
@@ -198,12 +195,12 @@ def process_sheet(sheet, templates, sheet_type, all_results):
     }
     if col_indices['question'] is None or col_indices['gemini'] is None:
         logging.error(f"Sheet {sheet.title} thiếu các cột bắt buộc Question hoặc Gemini")
-        return
+        return []
 
     list_json_string = []
     for row_num, row in enumerate(sheet.iter_rows(min_row=2, values_only=True)):
         if row[col_indices['question']]:
-            gemini_response = process_question_row_gemini(row, col_indices, template_data, GEMINI_API_KEY)
+            gemini_response = process_question_row_gemini(row, col_indices, template_data, GEMINI_API_KEY, copy_number)
             if gemini_response:
                 try:
                    json_object = json.loads(gemini_response)
@@ -214,20 +211,17 @@ def process_sheet(sheet, templates, sheet_type, all_results):
             time.sleep(1)
 
     if list_json_string:
-       all_results.append(convert_to_json_structure(list_json_string, sheet_type))
-        
-if __name__ == '__main__':
-    excel_file = r"E:\Edmicro\Đề GK2 Toán 10_full lời giải_doc_to_excel_export_20250121_220058.xlsx"
-    output_file = r"E:\Edmicro\Tool_tao_de\controller\2_call_gemini\output.json"
+        return [convert_to_json_structure(list_json_string, sheet_type)]
+    return []
 
+
+def call_gemini_process(excel_file, copy_number):
     templates = get_prompt_templates_excel(excel_file)
     if not templates:
-        logging.error("Không có template nào")
-        exit()
-
+       logging.error("Không có template nào")
+       return None
     workbook = load_workbook(excel_file)
     all_results = []
-
     for sheet_name in workbook.sheetnames:
         if sheet_name in ['prompt_template', 'tables']:
             continue
@@ -237,14 +231,22 @@ if __name__ == '__main__':
         sheet = workbook[sheet_name]
         sheet_type = sheet_name.split('_')[0]
         try:
-             process_sheet(sheet, templates, sheet_type, all_results)
+             list_results = process_sheet(sheet, templates, sheet_type, copy_number)
+             if list_results:
+                all_results.extend(list_results)
         except Exception as error:
             logging.error(f"Lỗi khi xử lý sheet {sheet_name}: {error}")
             continue
     output_json = {}
     for result in all_results:
         output_json.update(result)
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(output_json, f, ensure_ascii=False, indent=4)
+    return json.dumps(output_json, ensure_ascii=False, indent=4)
+# if __name__ == '__main__':
+#     excel_file = r"E:\Edmicro\Đề GK2 Toán 10_full lời giải_doc_to_excel_export_20250122_100753.xlsx"
+#     output_file = r"E:\Edmicro\Tool_tao_de\controller\2_call_gemini\output.json"
+#     copy_number = 1
+#     json_result = call_gemini_process(excel_file, copy_number)
+#     with open(output_file, 'w', encoding='utf-8') as f:
+#         json.dump(json.loads(json_result), f, ensure_ascii=False, indent=4)
 
-    logging.info(f"Đã lưu dữ liệu vào file: {output_file}")
+#     logging.info(f"Đã lưu dữ liệu vào file: {output_file}")

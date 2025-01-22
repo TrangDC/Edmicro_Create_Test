@@ -276,7 +276,7 @@ def extract_table_data(table):
         table_data.append(row_data)
     return table_data
 
-def process_question_content(element, image_map, current_question, temp_dir, table_label=""):
+def process_question_content(element, image_map, current_question, temp_dir, docx_file, table_label=""):
     """Process either a paragraph or table and return content and images"""
     content = ""
     images = []
@@ -394,7 +394,7 @@ def extract_content(docx_file, subject_var, grade_var):
     for element in elements:
         if isinstance(element, Table):
             table_name = f"Bảng {table_count}"
-            table_json, table_data, _ = process_question_content(element, image_map, current_question, temp_dir, str(table_count))
+            table_json, table_data, _ = process_question_content(element, image_map, current_question, temp_dir, docx_file, str(table_count))
             if table_data:
                 table_sheet.cell(row=table_row, column=1, value=table_name)
                 table_sheet.cell(row=table_row, column=2, value="\n".join(current_question).strip())
@@ -407,7 +407,7 @@ def extract_content(docx_file, subject_var, grade_var):
             current_table_names.append(table_name)  # Thêm tên bảng vào list
             table_count += 1
         else:  # Paragraph
-            text, paragraph_images, _ = process_question_content(element, image_map, current_question, temp_dir)
+            text, paragraph_images, _ = process_question_content(element, image_map, current_question, temp_dir, docx_file)
             text = text.strip()
             text = text.replace("\t", " ").lstrip()
 
@@ -549,16 +549,16 @@ def process_excel_for_correct_answer(excel_file):
         logger.error(f"Error processing excel file: {e}", exc_info=True)
 
 
-if __name__ == "__main__":
-    # Input parameters
-    docx_file = "E:\Edmicro\Đề GK2 Toán 10_full lời giải.docx" # Replace with your actual Word file
-    subject = "Toán"       # Replace with your subject
-    grade = None          # Replace with your grade
-    #Call extract content
-    try:
-        excel_file = extract_content(docx_file, subject, grade)
-        print(f"Successfully processed. Excel file saved to {excel_file}")
-    except FileNotFoundError as e:
-       print(f"Error: {e}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+# if __name__ == "__main__":
+#     # Input parameters
+#     docx_file = "E:\Edmicro\Đề GK2 Toán 10_full lời giải.docx" # Replace with your actual Word file
+#     subject = "Toán"       # Replace with your subject
+#     grade = None          # Replace with your grade
+#     #Call extract content
+#     try:
+#         excel_file = extract_content(docx_file, subject, grade)
+#         print(f"Successfully processed. Excel file saved to {excel_file}")
+#     except FileNotFoundError as e:
+#        print(f"Error: {e}")
+#     except Exception as e:
+#         print(f"An error occurred: {e}")

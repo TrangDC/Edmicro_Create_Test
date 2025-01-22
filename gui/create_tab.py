@@ -1,11 +1,24 @@
+import sys
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QLineEdit,
                              QPushButton, QHBoxLayout, QFileDialog,
                              QComboBox, QTextEdit, QProgressBar, QMessageBox,
                              QSizePolicy, QCompleter)
 from PyQt5.QtGui import QFont, QStandardItemModel, QStandardItem
 from PyQt5.QtCore import Qt, pyqtSignal, QThread
-from docx import Document
 import os
+from openpyxl import load_workbook
+import json
+
+# Đảm bảo các đường dẫn này đúng với vị trí thực tế của các file
+sys.path.append(r'E:\Edmicro\Tool_tao_de\controller')
+try:
+    from split_question_to_excel import extract_content
+    from call_gemini import get_prompt_templates_excel, process_sheet, SheetType, call_gemini_process
+    from create_test import create_docx_files_with_pandoc
+except ImportError as e:
+    print(f"Lỗi import module: {e}")
+    sys.exit()
+
 
 class CompleterComboBox(QComboBox):
     def __init__(self, parent=None):
@@ -35,80 +48,118 @@ class CompleterComboBox(QComboBox):
       super().setModelColumn(column)
 
 class DocumentGenerator(QThread):
-    finished_signal = pyqtSignal(str)  # Signal khi thread hoàn thành
+    finished_signal = pyqtSignal(str, str)  # Signal khi thread hoàn thành
     log_signal = pyqtSignal(str)  # Signal để gửi log message
     progress_signal = pyqtSignal(int)
+    result_signal = pyqtSignal(str)
 
-    def __init__(self, file_path, num_copies):
+    def __init__(self, file_path, num_copies, parent):
         super().__init__()
         self.file_path = file_path
         self.num_copies = num_copies
         self.is_running = True
+        self.parent_widget = parent
 
     def run(self):
         try:
             if not self.is_running:
-                self.finished_signal.emit("Đã hủy quá trình.")
+                self.finished_signal.emit("Đã hủy quá trình.", "")
                 return
-
             self.log_signal.emit("Bắt đầu xử lý...")
 
-            if not self.file_path:
-                self.log_signal.emit("Lỗi: Chưa chọn file docx.")
-                self.finished_signal.emit("Lỗi: Chưa chọn file docx.")
+            # Gọi hàm split_question_to_excel
+            excel_file_path = self.parent_widget.run_split_excel()
+            if not excel_file_path:
+                self.finished_signal.emit("Lỗi: Không tạo được file Excel", "")
                 return
+            self.log_signal.emit(f"Đã tạo file excel tại {excel_file_path}")
 
-            if not os.path.exists(self.file_path):
-                self.log_signal.emit(f"Lỗi: Không tìm thấy file {self.file_path}.")
-                self.finished_signal.emit(f"Lỗi: Không tìm thấy file {self.file_path}.")
+            # Gọi hàm call_gemini
+            json_result = self.parent_widget.run_call_gemini(excel_file_path, self.num_copies)
+            if not json_result:
+                self.finished_signal.emit("Lỗi: Không có kết quả json", "")
                 return
-
-            if not self.num_copies or self.num_copies <= 0:
-                self.log_signal.emit("Lỗi: Số lượng bản sao phải lớn hơn 0.")
-                self.finished_signal.emit("Lỗi: Số lượng bản sao phải lớn hơn 0.")
-                return
-
-            doc = Document(self.file_path)
-            total_steps = self.num_copies * len(doc.paragraphs)
-            current_step = 0
-
-            for i in range(self.num_copies):
-                if not self.is_running:
-                    self.finished_signal.emit("Đã hủy quá trình.")
-                    return
-
-                for paragraph in doc.paragraphs:
-                    if not self.is_running:
-                        self.finished_signal.emit("Đã hủy quá trình.")
-                        return
-
-                    # Do something with paragraph if needed
-                    # Example: print paragraph.text
-
-                    current_step += 1
-                    progress = int((current_step / total_steps) * 100)
-                    self.progress_signal.emit(progress)
-
-                self.log_signal.emit(f"Đã xử lý bản sao thứ {i + 1}")
-
-            self.log_signal.emit("Hoàn thành xử lý file.")
-            self.finished_signal.emit("Thành công!")
-
+            self.log_signal.emit("Hoàn thành xử lý.")
+            
+            json_file_path = self.parent_widget.save_json_to_file(self.file_path, json_result)
+            if json_file_path:
+              create_docx_files_with_pandoc(json.loads(json_result), self.parent_widget.output_dir)
+            self.finished_signal.emit("Hoàn thành tạo file docx", self.parent_widget.output_dir)
+            self.result_signal.emit(json_result)
         except Exception as e:
             self.log_signal.emit(f"Lỗi: {e}")
-            self.finished_signal.emit(f"Lỗi: {e}")
+            self.finished_signal.emit(f"Lỗi: {e}","")
 
     def stop(self):
         self.is_running = False
 
 
 class CreateTab(QWidget):
-    def __init__(self):
+    result_signal = pyqtSignal(str)
+    log_text_signal = pyqtSignal(str)
+    def __init__(self, settings_tab):
         super().__init__()
         self.docx_file_path = ""
         self.num_copies = 0
         self.worker_thread = None
         self.init_ui()
+        self.result_signal.connect(self.display_json_result)
+        self.log_text_signal.connect(self.update_text_log)
+        self.json_file_path = ""
+        self.output_dir = ""
+        
+    def run_split_excel(self):
+        docx_file_path = self.docx_input.text()
+        subject_var = self.subject_combo.currentText()
+        grade_var = None # có thể set giá trị mặc định hoặc lấy từ input
+
+        try:
+            excel_file_path = extract_content(docx_file_path, subject_var, grade_var)
+            return excel_file_path
+        except Exception as e:
+            self.update_log(f"Lỗi khi chạy split excel: {e}")
+            return None
+
+    def run_call_gemini(self, excel_file_path, copy_number):
+       try:
+            json_result = call_gemini_process(excel_file_path, copy_number)
+            return json_result
+       except Exception as e:
+         self.update_log(f"Lỗi khi gọi call gemini: {e}")
+         return None
+    
+    def display_json_result(self, json_result):
+        #  self.log_text.append(f"Kết quả JSON:\n{json_result}")
+        pass
+
+    def save_json_to_file(self, docx_file, json_data):
+        """Saves JSON data to a file in the same directory as the docx file."""
+        try:
+            docx_dir = os.path.dirname(docx_file)
+            docx_filename = os.path.splitext(os.path.basename(docx_file))[0]
+            json_filename = f"{docx_filename}_gemini_output.json"
+            json_file_path = os.path.join(docx_dir, json_filename)
+            self.output_dir = os.path.join(docx_dir, f"{docx_filename}_gemini_output_docs")
+            if not os.path.exists(self.output_dir):
+                os.makedirs(self.output_dir)
+            with open(json_file_path, 'w', encoding='utf-8') as f:
+                json.dump(json.loads(json_data), f, ensure_ascii=False, indent=4)
+            self.update_log(f"Đã lưu json file tại: {json_file_path}")
+            return json_file_path
+        except json.JSONDecodeError as e:
+            self.update_log(f"Lỗi khi decode json: {e}")
+            return None
+        except Exception as e:
+             self.update_log(f"Lỗi khi lưu file json: {e}")
+             return None
+            
+    def process_finished(self, result_message, output_dir):
+        self.start_button.setEnabled(True)
+        self.stop_button.setEnabled(False)
+        QMessageBox.information(self, "Kết quả", result_message + f"\nFile docx được lưu ở: {output_dir}" )
+    
+    def update_text_log(self, log_message):
+         self.log_text.append(log_message)
 
     def init_ui(self):
          # Font chữ lớn hơn
@@ -209,7 +260,6 @@ class CreateTab(QWidget):
         self.update_subject_list()
         self.update_num_list()
 
-
     def open_file_dialog(self):
         file_dialog = QFileDialog()
         file_path, _ = file_dialog.getOpenFileName(self, "Chọn file docx", "", "Word Documents (*.docx)")
@@ -267,10 +317,11 @@ class CreateTab(QWidget):
             self.stop_button.setEnabled(False)
             return
 
-        self.worker_thread = DocumentGenerator(self.docx_file_path, self.num_copies)
+        self.worker_thread = DocumentGenerator(self.docx_file_path, self.num_copies, self) # truyền thêm self vào đây
         self.worker_thread.finished_signal.connect(self.process_finished)
         self.worker_thread.log_signal.connect(self.update_log)
         self.worker_thread.progress_signal.connect(self.update_progress)
+        self.worker_thread.result_signal.connect(self.display_json_result)
         self.worker_thread.start()
 
     def stop_process(self):
@@ -282,9 +333,4 @@ class CreateTab(QWidget):
         self.progress_bar.setValue(value)
 
     def update_log(self, log_message):
-        self.log_text.append(log_message)
-
-    def process_finished(self, result_message):
-        self.start_button.setEnabled(True)
-        self.stop_button.setEnabled(False)
-        QMessageBox.information(self, "Kết quả", result_message)
+       self.log_text_signal.emit(log_message)

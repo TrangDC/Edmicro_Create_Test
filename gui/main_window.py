@@ -15,19 +15,19 @@ from settings_tab import SettingsTab
 class MainTabWidget(QTabWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Document Generator")
+        self.setWindowTitle("Tool tạo đề")
         # Thay đổi kích thước ở đây
         self.setGeometry(100, 100, 1600, 900) # Tăng chiều rộng lên 800, chiều cao lên 600
         self.setMinimumSize(640, 480)
+
+        # Tạo tab Cài đặt
+        self.create_settings_tab()
         
         # Tạo tab Tạo đề
         self.create_create_tab()
 
         # Tạo tab Vẽ hình
         self.create_draw_tab()
-        
-        # Tạo tab Cài đặt
-        self.create_settings_tab()
 
          # Set style cho tab bar
         self.style_tab()
@@ -58,9 +58,10 @@ class MainTabWidget(QTabWidget):
     def create_settings_tab(self):
         # Tạo tab Cài đặt
         settings_tab = SettingsTab()
+        self.settings_tab = settings_tab
         self.addTab(settings_tab, "Cài đặt")
 
     def create_create_tab(self):
         # Tạo tab Tạo đề
-        create_tab = CreateTab()
+        create_tab = CreateTab(self.settings_tab)
         self.addTab(create_tab, "Tạo đề")

@@ -1,4 +1,417 @@
-{"type": "table", 
-"title": "", 
-"header": ["Thu nhập (triệu đồng)", "$\\left[ {3;5} \\right)$", "$\\left[ {5;7} \\right)$", "$\\left[ {7;9} \\right)$", "$\\left[ {9;11} \\right)$"], 
-"rows": [["Số người", "5", "10", "5", "2"]]}
+{
+    "choiceQuestions": [
+        {
+            "questionNumber": 2,
+            "list": [
+                {
+                    "content": "Có 5 chiếc bút chì và 3 chiếc bút mực trong một hộp bút. Hỏi có bao nhiêu cách lấy ra một chiếc bút từ hộp bút đó?",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $8$.",
+                        "B. $15$.",
+                        "C. $5$.",
+                        "D. $3$."
+                    ],
+                    "guide": "Chọn A.\nĐể lấy ra một chiếc bút từ hộp bút, ta có thể lấy một chiếc bút chì hoặc một chiếc bút mực.\nCó 5 chiếc bút chì, nên có 5 cách để lấy ra một chiếc bút chì.\nCó 3 chiếc bút mực, nên có 3 cách để lấy ra một chiếc bút mực.\nVậy, số cách lấy ra một chiếc bút là 5 + 3 = 8.",
+                    "answer": "A"
+                },
+                {
+                    "content": "Trong một rổ có 7 quả táo và 2 quả lê. Hỏi có bao nhiêu cách lấy ra một quả từ rổ đó?",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $14$.",
+                        "B. $9$.",
+                        "C. $7$.",
+                        "D. $2$."
+                    ],
+                    "guide": "Chọn B.\nĐể lấy ra một quả từ rổ, ta có thể lấy một quả táo hoặc một quả lê.\nCó 7 quả táo, nên có 7 cách để lấy ra một quả táo.\nCó 2 quả lê, nên có 2 cách để lấy ra một quả lê.\nVậy, số cách lấy ra một quả là 7 + 2 = 9.",
+                    "answer": "B"
+                }
+            ]
+        },
+        {
+            "questionNumber": 2,
+            "list": [
+                {
+                    "content": "Có bao nhiêu cách xếp 7 học sinh thành một hàng dọc?",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $7$.",
+                        "B. $49$.",
+                        "C. $5040$.",
+                        "D. $120$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 3,
+            "list": [
+                {
+                    "content": "Trong một lớp có 35 học sinh, hỏi có bao nhiêu cách chọn ra một bạn làm bí thư và một bạn khác làm lớp phó?",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $A_{35}^2$.",
+                        "B. $C_{35}^2$.",
+                        "C. $A_{35}^{33}$.",
+                        "D. ${35^2}$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": null
+                },
+                {
+                    "content": "Trong một đội có 25 vận động viên, hỏi có bao nhiêu cách chọn ra một người làm đội trưởng và một người khác làm đội phó?",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $C_{25}^2$.",
+                        "B. $A_{25}^2$.",
+                        "C. $A_{25}^{23}$.",
+                        "D. ${25^2}$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 4,
+            "list": [
+                {
+                    "content": "Cho tập hợp $B$ gồm 6 phần tử. Số tập con gồm 3 phần tử của tập hợp $B$ là",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $A_6^3$.",
+                        "B. $6^3$.",
+                        "C. $C_6^3$.",
+                        "D. $A_6^2$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": "C"
+                }
+            ]
+        },
+        {
+            "questionNumber": 5,
+            "list": [
+                {
+                    "content": "Khẳng định nào sau đây đúng?\nA. ${\\left( {a - b} \\right)^4} = {a^4} - 4{a^3}b + 6{a^2}{b^2} - 4a{b^3} + {b^4}$. B. ${\\left( {a - b} \\right)^4} = {a^4} + 4{a^3}b + 6{a^2}{b^2} + 4a{b^3} + {b^4}$.\nC. ${\\left( {a - b} \\right)^4} = {a^4} - 4{a^3}b - 6{a^2}{b^2} - 4a{b^3} + {b^4}$. D. ${\\left( {a - b} \\right)^4} = {a^4} - 4{a^3}b + 4{a^2}{b^2} - 4a{b^3} + {b^4}$.",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. ${\\left( {a - b} \\right)^4} = {a^4} - 4{a^3}b + 6{a^2}{b^2} - 4a{b^3} + {b^4}$.",
+                        "B. ${\\left( {a - b} \\right)^4} = {a^4} + 4{a^3}b + 6{a^2}{b^2} + 4a{b^3} + {b^4}$.",
+                        "C. ${\\left( {a - b} \\right)^4} = {a^4} - 4{a^3}b - 6{a^2}{b^2} - 4a{b^3} + {b^4}$.",
+                        "D. ${\\left( {a - b} \\right)^4} = {a^4} - 4{a^3}b + 4{a^2}{b^2} - 4a{b^3} + {b^4}$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": "A"
+                }
+            ]
+        },
+        {
+            "questionNumber": 6,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow v  = -3\\overrightarrow i  + \\frac{7}{3}\\overrightarrow j $. Tọa độ của vectơ $\\overrightarrow v $ là",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $\\overrightarrow v  = \\left( { -3;\\frac{7}{3}} \\right)$.",
+                        "B. $\\overrightarrow v  = \\left( {\\frac{7}{3};-3} \\right)$.",
+                        "C. $\\overrightarrow v  = \\left( { -3;-\\frac{7}{3}} \\right)$.",
+                        "D. $\\overrightarrow v  = \\left( {\\frac{7}{3};3} \\right)$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": "A"
+                }
+            ]
+        },
+        {
+            "questionNumber": 7,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow a  = \\left( {1; - 3} \\right),\\overrightarrow b  = \\left( { - 2;5} \\right)$. Tọa độ của vectơ $\\overrightarrow a  - 3\\overrightarrow b $ là",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $\\left( {7; - 18} \\right)$.",
+                        "B. $\\left( { - 5;12} \\right)$.",
+                        "C. $\\left( { - 7;18} \\right)$.",
+                        "D. $\\left( {7; - 12} \\right)$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho $\\overrightarrow a  = \\left( {3; - 1} \\right),\\overrightarrow b  = \\left( { - 4;2} \\right)$. Tọa độ của vectơ $2\\overrightarrow a  - \\overrightarrow b $ là",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $\\left( {10; - 4} \\right)$.",
+                        "B. $\\left( {2;0} \\right)$.",
+                        "C. $\\left( {10; - 5} \\right)$.",
+                        "D. $\\left( { - 10;4} \\right)$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 8,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$giá trị của tham số $m$ để hai vectơ $\\overrightarrow u  = \\left( {2;0} \\right)$ và $\\overrightarrow v  = \\left( {3;m} \\right)$ cùng phương là",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $m = 3$.",
+                        "B. $m = 2$.",
+                        "C. $m = 0$.",
+                        "D. $m = \\frac{2}{3}$."
+                    ],
+                    "guide": "Chọn C.\nKhông có sẵn đáp án",
+                    "answer": "C"
+                }
+            ]
+        },
+        {
+            "questionNumber": 10,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, đường thẳng $d: 3x - 5y + 7 = 0$ nhận vectơ nào sau đây làm vectơ pháp tuyến?",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $\\overrightarrow {{n_1}}  = \\left( {3;5} \\right)$.",
+                        "B. $\\overrightarrow {{n_2}}  = \\left( {5;3} \\right)$.",
+                        "C. $\\overrightarrow {{n_3}}  = \\left( {3;-5} \\right)$.",
+                        "D. $\\overrightarrow {{n_4}}  = \\left( { - 3;5} \\right)$."
+                    ],
+                    "guide": "Chọn C.\nĐường thẳng $d: 3x - 5y + 7 = 0$ có vectơ pháp tuyến là $\\overrightarrow n  = \\left( {3; - 5} \\right)$.",
+                    "answer": "C"
+                }
+            ]
+        },
+        {
+            "questionNumber": 10,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho đường thẳng $d:\\left\\{ \\begin{gathered} x = 2 - 3t \\\\ y = 1 + t \\\\ \\end{gathered}  \\right.\\left( {t \\in \\mathbb{R}} \\right)$. Điểm nào sau đây thuộc đường thẳng $d$?",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $M\\left( {2;1} \\right)$.",
+                        "B. $N\\left( {5;0} \\right)$.",
+                        "C. $P\\left( {-1;2} \\right)$.",
+                        "D. $Q\\left( { - 1; 0} \\right)$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": null
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$ cho đường thẳng $d:\\left\\{ \\begin{gathered} x = -1 + 2t \\\\ y = 4 - t \\\\ \\end{gathered}  \\right.\\left( {t \\in \\mathbb{R}} \\right)$. Điểm nào sau đây thuộc đường thẳng $d$?",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $M\\left( { - 1;4} \\right)$.",
+                        "B. $N\\left( {1;3} \\right)$.",
+                        "C. $P\\left( {3;2} \\right)$.",
+                        "D. $Q\\left( { - 3;5} \\right)$."
+                    ],
+                    "guide": "Không có sẵn đáp án",
+                    "answer": null
+                }
+            ]
+        },
+        {
+            "questionNumber": 11,
+            "list": [
+                {
+                    "content": "Trong hộp có 5 viên bi xanh, 6 viên bi đỏ và 7 viên bi vàng. Có bao nhiêu cách để chọn được 2 viên bi khác màu từ hộp đó?",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "A. $107$.",
+                        "B. $3600$.",
+                        "C. $105$.",
+                        "D. $72$."
+                    ],
+                    "guide": "Chọn A\nLấy 1 viên bi xanh, 1 viên bi đỏ có: $C_5^1.C_6^1 = 30$ (cách)\nLấy 1 viên bi xanh, 1 viên bi vàng có: $C_5^1.C_7^1 = 35$ (cách)\nLấy 1 viên bi đỏ, 1 viên bi vàng có: $C_6^1.C_7^1 = 42$ (cách)\nVậy số cách chọn thỏa mãn yêu cầu đề bài là: $30 + 35 + 42 = 107$ (cách).",
+                    "answer": "A"
+                }
+            ]
+        }
+    ],
+    "trueFalseQuestions": [
+        {
+            "questionNumber": 1,
+            "list": [
+                {
+                    "content": "Một hộp chứa 20 viên bi gồm 4 viên bi đỏ, 7 viên bi xanh và 9 viên bi vàng.\na) Số cách chọn được 1 viên bi từ hộp là 20.\nb) Số cách chọn 3 viên bi đủ 3 màu là 252.\nc) Số cách chọn ra 4 viên bi trong đó có 1 viên bi đỏ, 2 viên bi xanh và 1 viên bi vàng là 378.\nd) Số cách chọn ra 4 viên bi lấy được đủ 3 màu là 1572.",
+                    "image": null,
+                    "tables": null,
+                    "options": [
+                        "a) Số cách chọn được 1 viên bi từ hộp là 20.",
+                        "b) Số cách chọn 3 viên bi đủ 3 màu là 252.",
+                        "c) Số cách chọn ra 4 viên bi trong đó có 1 viên bi đỏ, 2 viên bi xanh và 1 viên bi vàng là 378.",
+                        "d) Số cách chọn ra 4 viên bi lấy được đủ 3 màu là 1572."
+                    ],
+                    "guide": "a) Đúng\nChọn 1 viên bi từ hộp chứa 20 viên bi ta có 20 cách.\n\nb) Đúng\nChọn 3 viên bi gồm 1 viên bi đỏ, 1 viên bi xanh và 1 viên bi vàng có: $C_4^1.C_7^1.C_9^1 = 252$ (cách)\n\nc) Sai\nChọn từ hộp 4 viên bi trong đó có 1 viên bi đỏ, 2 viên bi xanh và 1 viên bi vàng có:\n$C_4^1.C_7^2.C_9^1 = 4.21.9 = 756$ (cách)\n\nd) Sai\nChọn 4 viên bi từ 20 viên bi có: $C_{20}^4 = 4845$ (cách).\nXét trường hợp chọn 4 viên bi không đủ 3 màu:\n+ Chọn 4 viên bi chỉ gồm màu đỏ và màu xanh có: $C_4^1.C_7^3 + C_4^3.C_7^1 + C_4^2.C_7^2 = 364$.\n+ Chọn 4 viên bi chỉ gồm màu xanh và màu vàng có: $C_7^1.C_9^3 + C_7^3.C_9^1 + C_7^2.C_9^2 = 1638$.\n+ Chọn 4 viên bi chỉ gồm màu đỏ và màu vàng có: $C_4^1.C_9^3 + C_4^3.C_9^1 + C_4^2.C_9^2 = 630$.\n+ Chọn 4 viên bi chỉ gồm màu xanh có: $C_7^4 = 35$\n+ Chọn 4 viên bi chỉ gồm màu vàng có: $C_9^4 = 126$\nVậy số cách chọn 4 viên bi từ 20 viên bi mà 4 viên bi đó đủ ba màu là: $4845 - 364 - 1638 - 630 - 35 - 126 = 2052$ (cách).",
+                    "answer": "a) Đúng, b) Đúng, c) Sai, d) Sai"
+                }
+            ]
+        },
+        {
+            "questionNumber": 3,
+            "list": [
+                {
+                    "content": "Cho $P = {\\left( {3x + 2} \\right)^4}$.\na) Số số hạng của khai triển $P$ là 4.\nb) Hệ số của ${x^3}$ trong khai triển $P$ là 216.\nc) Số hạng thứ 3 trong khai triển theo thứ tự số mũ giảm dần của $x$ là $216{x^2}$.\nd) Tổng hệ số các số hạng trong khai triển $P$ là 625.",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "a) Sai\nSố số hạng của khai triển là $n + 1 = 4 + 1 = 5$.\nVậy số số hạng của khai triển là 5.\nb) Đúng\n$P = {\\left( {3x + 2} \\right)^4} = {\\left( {3x} \\right)^4} + 4.{\\left( {3x} \\right)^3}.{2^1} + 6.{\\left( {3x} \\right)^2}{.2^2} + 4.{\\left( {3x} \\right)^1}{.2^3} + {2^4}$\n$P = 81{x^4} + 216{x^3} + 216{x^2} + 96x + 16$.\nHệ số của ${x^3}$ trong khai triển $P$ là 216.\nc) Đúng\nSố hạng thứ 3 của khai triển là ${T_3} = C_4^2.{\\left( {3x} \\right)^2}{.2^2} = 6.9{x^2}.4 = 216{x^2}$.\nd) Đúng\nTổng hệ số các số hạng trong khai triển là $81 + 216 + 216 + 96 + 16 = 625$.",
+                    "answer": "a) Sai, b) Đúng, c) Đúng, d) Đúng"
+                },
+                {
+                    "content": "Cho $P = {\\left( {2x - 3} \\right)^5}$.\na) Số số hạng của khai triển $P$ là 6.\nb) Hệ số của ${x^2}$ trong khai triển $P$ là 1080.\nc) Số hạng thứ 4 trong khai triển theo thứ tự số mũ giảm dần của $x$ là $-1080{x^2}$.\nd) Tổng hệ số các số hạng trong khai triển $P$ là -1.",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "a) Đúng\nSố số hạng của khai triển là $n + 1 = 5 + 1 = 6$.\nVậy số số hạng của khai triển là 6.\nb) Sai\n$P = {\\left( {2x - 3} \\right)^5} = {\\left( {2x} \\right)^5} + 5.{\\left( {2x} \\right)^4}.{\\left( { - 3} \\right)^1} + 10.{\\left( {2x} \\right)^3}.{\\left( { - 3} \\right)^2} + 10.{\\left( {2x} \\right)^2}.{\\left( { - 3} \\right)^3} + 5.{\\left( {2x} \\right)^1}.{\\left( { - 3} \\right)^4} + {\\left( { - 3} \\right)^5}$\n$P = 32{x^5} - 240{x^4} + 720{x^3} - 1080{x^2} + 810x - 243$.\nHệ số của ${x^2}$ trong khai triển $P$ là -1080.\nc) Đúng\nSố hạng thứ 4 của khai triển là ${T_4} = C_5^3.{\\left( {2x} \\right)^2}.{\\left( { - 3} \\right)^3} = 10.4{x^2}.{\\left( { - 27} \\right)} =  - 1080{x^2}$.\nd) Đúng\nTổng hệ số các số hạng trong khai triển là $32 - 240 + 720 - 1080 + 810 - 243 =  - 1$.",
+                    "answer": "a) Đúng, b) Sai, c) Đúng, d) Đúng"
+                }
+            ]
+        },
+        {
+            "questionNumber": 3,
+            "list": [
+                {
+                    "content": "Lớp 11B có 30 học sinh nam và 10 học sinh nữ.\na) Số cách chọn 1 bạn học sinh làm lớp trưởng là 30.\nb) Chọn 8 học sinh bất kì của lớp 11B sau đó xếp thành hàng ngang có $8!$ cách.\nc) Số cách xếp các học sinh lớp 11B thành hàng ngang mà các học sinh nam luôn đứng cạnh nhau là $31!.30!$.\nd) Giáo viên chọn 3 học sinh làm ban cán sự lớp: 1 lớp trưởng, 1 lớp phó, 1 thủ quỹ. Số cách chọn để trong ba bạn được chọn có cả nam và nữ là $20700$.",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "a) Sai\nTổng số học sinh lớp 11B là 40 học sinh.\nChọn bất kì 1 bạn trong lớp làm lớp trưởng ta có $C_{40}^1 = 40$ (cách).\nb) Sai\nChọn 8 học sinh bất kì của lớp 11B ta có $C_{40}^8$ cách.\nXếp 8 học sinh này thành 1 hàng ngang ta có: $8!$ cách\nVậy có: $C_{40}^8.8!$ cách.\nc) Sai\nVì các học sinh nam phải đứng cạnh nhau nên ta xem 30 học sinh nam này là một phần tử.\nXếp 10 học sinh nữ đứng thành hàng ngang có $10!$ cách.\nGiữa 10 học sinh nữ có 11 khoảng trống, ta xếp phần tử chứa 30 học sinh nam này vào khoảng trống đó có 11 cách và đổi chỗ cho nhau có $30!$ cách\nDo đó có: $11.30!$ cách xếp\nVậy số cách sắp xếp thỏa mãn yêu cầu bài toán là $10!.11.30! = 11!.30!$ (cách).\nd) Đúng\nChọn 3 bạn từ 40 bạn học sinh lớp 11B và sắp xếp làm cán sự lớp có: $A_{40}^3 = 59280$\nSố cách chọn 3 bạn mà cả 3 bạn đều là nữ là: $A_{10}^3 = 720$\nSố cách chọn 3 bạn mà cả 3 bạn đều là nam là: $A_{30}^3 = 24360$.\nKhi đó số cách chọn 3 bạn làm ban cán sự lớp mà có cả nam và nữ là: $59280 - 24360 - 720 = 34200$.\nCách 2:\nTH1: 2 nam, 1 nữ\nChọn 2 nam, 1 nữ có: $C_{30}^2.C_{10}^1$\nChọn được 3 bạn, vị trí làm cán sự lớp có thể hoán đổi cho nhau có $3!$ (cách).\nVậy có: $C_{30}^2.C_{10}^1.3! = 26100$\nTH2: 1 nam, 2 nữ\nChọn 1 nam, 2 nữ có: $C_{30}^1.C_{10}^2$\nChọn được 3 bạn, vị trí làm cán sự lớp có thể hoán đổi cho nhau có $3!$ (cách).\nVậy có: $C_{30}^1.C_{10}^2.3! = 8100$.\nTừ 2 trường hợp ta có: $26100 + 8100 = 34200$ (cách).",
+                    "answer": "a) Sai, b) Sai, c) Sai, d) Sai"
+                }
+            ]
+        },
+        {
+            "questionNumber": 4,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy,$cho 3 điểm $A\\left( { - 2;4} \\right),B\\left( {2;2} \\right),C\\left( {3; - 5} \\right)$\na) Ba điểm $A,B,C$ không thẳng hàng.\nb) Tọa độ trung điểm của $AB$ là $M\\left( {2;3} \\right)$.\nc) Tọa độ điểm $D$ để tứ giác $ABCD$ là hình bình hành là $D\\left( {1; - 7} \\right)$.\nd) Phương trình tham số của đường thẳng đi qua $A$ và song song với đường thẳng $BC$ là $\\left\\{ \\begin{gathered} x = - 2 + t \\\\ y = 4 - 7t \\\\ \\end{gathered} \\right.$ (với $t$ là tham số).",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "a) Đúng\nTa có: $\\overrightarrow {AB}  = \\left( {4; - 2} \\right),\\overrightarrow {AC}  = \\left( {5; - 9} \\right),\\overrightarrow {BC}  = \\left( {1; - 7} \\right)$.\nVậy 3 điểm $A,B,C$ không thẳng hàng.\nb) Sai\nTrung điểm $M$ của $AB$ bằng $M\\left( {\\frac{{ - 2 + 2}}{2};\\frac{{4 + 2}}{2}} \\right)$ tức là $M\\left( {0;3} \\right)$.\nVậy tọa độ trung điểm của $AB$ là $M\\left( {0;3} \\right)$.\nc) Sai\nGọi điểm $D$ có tọa độ là $D\\left( {x;y} \\right)$. Để tứ giác $ABCD$ là hình bình hành thì $\\overrightarrow {AB}  = \\overrightarrow {DC} $.\nTa có: $\\overrightarrow {AB}  = \\left( {4; - 2} \\right),\\overrightarrow {DC}  = \\left( {3 - x; - 5 - y} \\right)$\nĐể $\\overrightarrow {AB}  = \\overrightarrow {DC} $ thì $\\left\\{ \\begin{gathered} 3 - x = 4 \\\\  - 5 - y =  - 2 \\\\ \\end{gathered} \\right. \\Leftrightarrow \\left\\{ \\begin{gathered} x =  - 1 \\\\ y =  - 3 \\\\ \\end{gathered} \\right.$.\nVậy tọa độ điểm $D\\left( { - 1; - 3} \\right)$ thì tứ giác $ABCD$ là hình bình hành.\nd) Đúng\nPhương trình đường thẳng đi qua điểm $A$ và song song với đường thẳng $BC$ có vectơ chỉ phương $\\overrightarrow {BC}  = \\left( {1; - 7} \\right)$ là\n$\\left\\{ \\begin{gathered} x =  - 2 + t \\\\ y = 4 - 7t \\\\ \\end{gathered} \\right.$.",
+                    "answer": "a) Đúng, b) Sai, c) Sai, d) Đúng"
+                }
+            ]
+        }
+    ],
+    "shortQuestions": [
+        {
+            "questionNumber": 1,
+            "list": [
+                {
+                    "content": "Một người có 9 chiếc quần khác nhau trong đó có 5 chiếc quần màu đen; có 6 chiếc áo khác nhau trong đó có 2 chiếc áo màu xanh. Có bao nhiêu cách chọn 1 chiếc quần và 1 chiếc áo sao cho đã chọn quần đen thì không chọn áo màu xanh?",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "TH1:\nChọn 1 quần đen có 5 cách\nChọn 1 áo không phải màu xanh có 4 cách.\nDo đó có $5.4 = 20$ cách chọn 1 quần đen và 1 áo không phải màu xanh.\nTH2:\nChọn 1 quần không phải màu đen có 4 cách.\nChọn 1 áo bất kì có 6 cách.\nDo đó có: $4.6 = 24$ cách chọn 1 quần không phải màu đen và 1 áo bất kì.\nTheo quy tắc cộng ta có: $20 + 24 = 44$ cách chọn thỏa mãn yêu cầu bài toán.",
+                    "answer": "44"
+                }
+            ]
+        },
+        {
+            "questionNumber": 3,
+            "list": [
+                {
+                    "content": "Cho tập $B = \\left\\{ 1;2;3;4;5;6;7;8 \\right\\}$. Có bao nhiêu số tự nhiên có 4 chữ số khác nhau chia hết cho 2 được lập từ tập $B$?",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "Gọi số có 4 chữ số khác nhau cần tìm là $\\overline {abcd} $ và $a,b,c,d \\in B$.\nĐể $\\overline {abcd} $ chia hết cho 2 thì $d \\in \\left\\{ {2;4;6;8} \\right\\}$ do đó có 4 cách chọn $d$.\nTH1: $d = 2$\nChọn $a$ có 7 cách.\nChọn 2 số $b,c \\in B\\backslash \\left\\{ {2;a} \\right\\}$ và sắp thứ tự chúng nên có $A_6^2 = 30$ (cách chọn).\nDo đó có: $7.30 = 210$ số\nTH2: $d = 4$\nChọn $a \\in B\\backslash \\left\\{ 4 \\right\\}$ có 7 cách.\nChọn 2 số $b,c \\in B\\backslash \\left\\{ {4;a} \\right\\}$ và sắp thứ tự chúng nên có $A_6^2 = 30$ (cách chọn)\nDo đó có: $7.30 = 210$ số\nTH3: $d = 6$\nChọn $a \\in B\\backslash \\left\\{ 6 \\right\\}$ có 7 cách.\nChọn 2 số $b,c \\in B\\backslash \\left\\{ {6;a} \\right\\}$ và sắp thứ tự chúng nên có $A_6^2 = 30$ (cách chọn)\nDo đó có: $7.30 = 210$ số\nTH4: $d = 8$\nChọn $a \\in B\\backslash \\left\\{ 8 \\right\\}$ có 7 cách.\nChọn 2 số $b,c \\in B\\backslash \\left\\{ {8;a} \\right\\}$ và sắp thứ tự chúng nên có $A_6^2 = 30$ (cách chọn)\nDo đó có: $7.30 = 210$ số\nTheo quy tắc cộng ta có: $210 + 210 + 210 + 210 = 840$ số thỏa mãn yêu cầu bài toán.",
+                    "answer": 840
+                }
+            ]
+        },
+        {
+            "questionNumber": 3,
+            "list": [
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho điểm $A\\left( {2; - 1} \\right),B\\left( {5; - 3} \\right)$ và điểm $C\\left( {a;b} \\right)$ trên trục $Ox$. Biết rằng tam giác $ABC$ vuông tại $A$, tính $a - b$.",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "Do $C \\in Ox$ nên gọi tọa độ điểm $C$ là $C\\left( {x;0} \\right)$.\nTa có:\n$\\overrightarrow {AB}  = \\left( {3;-2} \\right),\\overrightarrow {AC}  = \\left( {x - 2;1} \\right)$\nTam giác $ABC$ vuông tại $A$ nên $AB$ vuông góc với $AC$ tức là $\\overrightarrow {AB} .\\overrightarrow {AC}  = 0$\nTa có: $3\\left( {x - 2} \\right) - 2 = 0$\n$3\\left( {x - 2} \\right) = 2 \\Leftrightarrow x - 2 = \\frac{2}{3} \\Leftrightarrow x = \\frac{8}{3}$.\nVậy tọa độ điểm $C$ là $C\\left( {\\frac{8}{3};0} \\right)$ và $a = \\frac{8}{3},b = 0 \\Rightarrow a - b = \\frac{8}{3}$.",
+                    "answer": "8/3"
+                },
+                {
+                    "content": "Trong mặt phẳng tọa độ $Oxy$, cho điểm $A\\left( {1; 3} \\right),B\\left( {4; 1} \\right)$ và điểm $C\\left( {a;b} \\right)$ trên trục $Ox$. Biết rằng tam giác $ABC$ vuông tại $A$, tính $a + b$.",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "Do $C \\in Ox$ nên gọi tọa độ điểm $C$ là $C\\left( {x;0} \\right)$.\nTa có:\n$\\overrightarrow {AB}  = \\left( {3;-2} \\right),\\overrightarrow {AC}  = \\left( {x - 1;-3} \\right)$\nTam giác $ABC$ vuông tại $A$ nên $AB$ vuông góc với $AC$ tức là $\\overrightarrow {AB} .\\overrightarrow {AC}  = 0$\nTa có: $3\\left( {x - 1} \\right) + 6 = 0$\n$3\\left( {x - 1} \\right) = -6 \\Leftrightarrow x - 1 = -2 \\Leftrightarrow x = -1$.\nVậy tọa độ điểm $C$ là $C\\left( {-1;0} \\right)$ và $a = -1,b = 0 \\Rightarrow a + b = -1$.",
+                    "answer": "-1"
+                }
+            ]
+        },
+        {
+            "questionNumber": 4,
+            "list": [
+                {
+                    "content": "Có bao nhiêu cách xếp 2 sách Sử khác nhau và 5 sách Địa khác nhau trên một kệ sách dài mà không có 2 sách Sử nào kề nhau?",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "Xếp 5 cuốn sách Địa lên kệ có $5!$ cách.\nGiữa 5 cuốn sách Địa có 6 khoảng trống, ta xếp 2 cuốn sách Sử vào 6 vị trí đó ta được $A_6^2 = 30$ cách.\nVậy số cách sắp xếp thỏa mãn yêu cầu bài toán là $5!.A_6^2 = 3600$ (cách).",
+                    "answer": 3600
+                },
+                {
+                    "content": "Có bao nhiêu cách xếp 4 sách Lý khác nhau và 3 sách Hóa khác nhau trên một kệ sách dài mà không có 2 sách Lý nào kề nhau?",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "Xếp 3 cuốn sách Hóa lên kệ có $3!$ cách.\nGiữa 3 cuốn sách Hóa có 4 khoảng trống, ta xếp 4 cuốn sách Lý vào 4 vị trí đó ta được $A_4^4 = 24$ cách.\nVậy số cách sắp xếp thỏa mãn yêu cầu bài toán là $3!.A_4^4 = 144$ (cách).",
+                    "answer": 144
+                }
+            ]
+        },
+        {
+            "questionNumber": 6,
+            "list": [
+                {
+                    "content": "Tổ 2 lớp 10A có 5 học sinh nam và 5 học sinh nữ. Giáo viên chủ nhiệm cần chọn ra 3 học sinh của tổ 2 để tham gia lao động vệ sinh cùng cả trường. Có bao nhiêu cách chọn 3 học sinh trong đó có ít nhất một học sinh nữ?",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "Cách 1: Làm trực tiếp\nTH1: Chọn 1 nữ và 2 nam\nCó $C_5^1.C_5^2 = 50$ (cách)\nTH2: Chọn 2 nữ và 1 nam\nCó $C_5^2.C_5^1 = 50$ (cách)\nTH3: Chọn 3 nữ\nCó $C_5^3 = 10$ (cách)\nVậy có tất cả: $50 + 50 + 10 = 110$ cách chọn 3 học sinh trong tổ 2 của lớp 10A mà có ít nhất 1 học sinh nữ.\nCách 2: Làm gián tiếp\nChọn 3 học sinh trong 10 học sinh của tổ 2 có $C_{10}^3 = 120$.\nChọn 3 học sinh trong đó không có học sinh nữ nào, tức là 3 học sinh đều là nam, ta có: $C_5^3 = 10$ (cách)\nVậy số cách cần tìm là: $120 - 10 = 110$ (cách chọn).",
+                    "answer": 110
+                }
+            ]
+        },
+        {
+            "questionNumber": 7,
+            "list": [
+                {
+                    "content": "Câu 7. Để tham gia lớp học bơi, người tập phải trả một khoản phí tham gia ban đầu và phí sử dụng hồ bơi. Đường thẳng $d$ trong hình vẽ dưới đây biểu thị tổng chi phí (đơn vị: trăm nghìn đồng) tham gia một hồ bơi theo thời gian tập của một người (đơn vị: tháng).\n[Mô tả ảnh: Đây là một biểu đồ đường thẳng có tên là \"d\" trên hệ tọa độ Descartes. Trục hoành (x) biểu thị \"Tháng\" và trục tung (y) biểu thị \"Chi phí (trăm nghìn đồng)\". Đường thẳng đi qua điểm (0, 5) và điểm (5, 20). Các điểm trên trục hoành được đánh dấu từ 0 đến 12, và trên trục tung được đánh dấu các giá trị 5 và 20.]\nHồ bơi đang có ưu đãi khi đăng kí gói 8 tháng giảm 15%. Tính tổng chi phí mà người đó phải trả khi đăng kí tham gia gói khuyến mại của hồ bơi với thời gian 8 tháng (kết quả lấy theo đơn vị: trăm nghìn đồng).",
+                    "image": null,
+                    "tables": null,
+                    "options": [],
+                    "guide": "Đường thẳng $d$ đi qua hai điểm lần lượt có tọa độ là $\\left( {0;5} \\right)$ và $\\left( {5;20} \\right)$ nên có phương trình là:\n$\\frac{{x - 0}}{{5 - 0}} = \\frac{{y - 5}}{{20 - 5}} \\Leftrightarrow \\frac{x}{5} = \\frac{{y - 5}}{{15}} \\Leftrightarrow 15x = 5y - 25 \\Leftrightarrow 5y = 15x + 25 \\Leftrightarrow y = 3x + 5$.\n8 tháng đầu tiên ứng với $x = 8$. Do đó: $y = 3.8 + 5 = 29$.\nTổng chi phí người đó phải trả khi tham gia hồ bơi trong 8 tháng là 2 900 000 đồng.\nKhi đăng kí gói khuyến mại 15% của hồ bơi, thì số tiền mà người đó cần trả là:\n$2\\,900\\,000 - 2\\,900\\,000.15\\%  = 2\\,465\\,000$ (đồng) tức là $24,65$ trăm nghìn đồng.",
+                    "answer": 24.65
+                }
+            ]
+        }
+    ]
+}

@@ -97,11 +97,14 @@ def markdown_to_docx(markdown_file, docx_file):
     except subprocess.CalledProcessError as err:
         print(f"Lỗi khi chạy Pandoc: {err}")
         return False
- 
-def create_docx_files_with_pandoc(data, output_dir="output_docx", markdown_dir="output_md"):
+
+def create_docx_files_with_pandoc(data, output_dir, markdown_dir = None):
     """Tạo các file .docx sử dụng Pandoc, mỗi file một bộ câu hỏi riêng."""
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+    if markdown_dir is None:
+       markdown_dir = output_dir
+
     if not os.path.exists(markdown_dir):
         os.makedirs(markdown_dir)
  
@@ -123,8 +126,8 @@ def create_docx_files_with_pandoc(data, output_dir="output_docx", markdown_dir="
             print(f"Không thể tạo file .docx: {docx_file}")
  
  
-if __name__ == "__main__":
-    with open(r'E:\Edmicro\Tool_tao_de\controller\2_call_gemini\output.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    create_docx_files_with_pandoc(data)
-    print("Hoàn thành việc tạo các file .docx bằng Pandoc!")
+# if __name__ == "__main__":
+#     with open(r'E:\Edmicro\Tool_tao_de\controller\2_call_gemini\output.json', 'r', encoding='utf-8') as f:
+#         data = json.load(f)
+#     create_docx_files_with_pandoc(data)
+#     print("Hoàn thành việc tạo các file .docx bằng Pandoc!")
