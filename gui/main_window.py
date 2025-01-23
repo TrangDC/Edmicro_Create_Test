@@ -22,12 +22,12 @@ class MainTabWidget(QTabWidget):
 
         # Tạo tab Cài đặt
         self.create_settings_tab()
-        
-        # Tạo tab Tạo đề
-        self.create_create_tab()
 
         # Tạo tab Vẽ hình
         self.create_draw_tab()
+        
+        # Tạo tab Tạo đề
+        self.create_create_tab()
 
          # Set style cho tab bar
         self.style_tab()
@@ -53,6 +53,7 @@ class MainTabWidget(QTabWidget):
     def create_draw_tab(self):
         # Tạo tab Vẽ hình
         draw_tab = DrawTab()
+        self.draw_tab = draw_tab # Khởi tạo DrawTab
         self.addTab(draw_tab, "Vẽ hình")
     
     def create_settings_tab(self):
@@ -63,5 +64,5 @@ class MainTabWidget(QTabWidget):
 
     def create_create_tab(self):
         # Tạo tab Tạo đề
-        create_tab = CreateTab(self.settings_tab)
+        create_tab = CreateTab(self.settings_tab, self.draw_tab, self)
         self.addTab(create_tab, "Tạo đề")

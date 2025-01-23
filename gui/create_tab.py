@@ -8,17 +8,30 @@ from PyQt5.QtCore import Qt, pyqtSignal, QThread
 import os
 from openpyxl import load_workbook
 import json
+import google.generativeai as genai
+import logging
 
 # Đảm bảo các đường dẫn này đúng với vị trí thực tế của các file
 sys.path.append(r'E:\Edmicro\Tool_tao_de\controller')
 try:
     from split_question_to_excel import extract_content
     from call_gemini import get_prompt_templates_excel, process_sheet, SheetType, call_gemini_process
+    from find_questions_with_image import extract_questions_with_images
     from create_test import create_docx_files_with_pandoc
 except ImportError as e:
     print(f"Lỗi import module: {e}")
     sys.exit()
 
+generation_config = {
+    "temperature": 0.4,
+    "top_p": 1,
+    "top_k": 32,
+    "max_output_tokens": 4096,
+}
+
+model = genai.GenerativeModel(model_name="gemini-2.0-flash-exp",
+                            generation_config=generation_config,
+                            )
 
 class CompleterComboBox(QComboBox):
     def __init__(self, parent=None):
@@ -52,6 +65,7 @@ class DocumentGenerator(QThread):
     log_signal = pyqtSignal(str)  # Signal để gửi log message
     progress_signal = pyqtSignal(int)
     result_signal = pyqtSignal(str)
+    image_questions_signal = pyqtSignal(dict)
 
     def __init__(self, file_path, num_copies, parent):
         super().__init__()
@@ -75,17 +89,32 @@ class DocumentGenerator(QThread):
             self.log_signal.emit(f"Đã tạo file excel tại {excel_file_path}")
 
             # Gọi hàm call_gemini
+            self.log_signal.emit("Bắt đầu tạo câu tương tự...")
             json_result = self.parent_widget.run_call_gemini(excel_file_path, self.num_copies)
             if not json_result:
                 self.finished_signal.emit("Lỗi: Không có kết quả json", "")
                 return
-            self.log_signal.emit("Hoàn thành xử lý.")
+            self.log_signal.emit("Hoàn thành tạo dữ liệu câu.")
             
             json_file_path = self.parent_widget.save_json_to_file(self.file_path, json_result)
             if json_file_path:
-              create_docx_files_with_pandoc(json.loads(json_result), self.parent_widget.output_dir)
-            self.finished_signal.emit("Hoàn thành tạo file docx", self.parent_widget.output_dir)
-            self.result_signal.emit(json_result)
+                try:
+                    extracted_questions_file = extract_questions_with_images(json_file_path)
+                    with open(extracted_questions_file, 'r', encoding='utf-8') as f:
+                        extracted_data = json.load(f)
+                    if extracted_data:
+                        # Logic if questions with images are found
+                        self.log_signal.emit(f"Đã tìm thấy câu hỏi có ảnh trong file {extracted_questions_file}")
+                        # TODO: Thêm logic xử lý mới ở đây (ví dụ: hiển thị danh sách câu hỏi, chỉnh sửa, v.v.)
+                        self.image_questions_signal.emit(extracted_data)
+                    else:
+                        # Logic if no questions with images are found
+                        self.log_signal.emit(f"Không tìm thấy câu hỏi nào có ảnh trong file {json_file_path}")
+                        create_docx_files_with_pandoc(json.loads(json_result), self.parent_widget.output_dir) # logic cũ
+                        self.finished_signal.emit("Hoàn thành tạo file docx", self.parent_widget.output_dir)
+                        self.result_signal.emit(json_result)
+                except Exception as e:
+                    self.log_signal.emit(f"Lỗi khi xử lý file json: {e}")    
         except Exception as e:
             self.log_signal.emit(f"Lỗi: {e}")
             self.finished_signal.emit(f"Lỗi: {e}","")
@@ -97,7 +126,7 @@ class DocumentGenerator(QThread):
 class CreateTab(QWidget):
     result_signal = pyqtSignal(str)
     log_text_signal = pyqtSignal(str)
-    def __init__(self, settings_tab):
+    def __init__(self, settings_tab, draw_tab, main_window):
         super().__init__()
         self.docx_file_path = ""
         self.num_copies = 0
@@ -107,14 +136,23 @@ class CreateTab(QWidget):
         self.log_text_signal.connect(self.update_text_log)
         self.json_file_path = ""
         self.output_dir = ""
+        self.draw_tab = draw_tab
+        self.main_window = main_window
+        self.prompt_input = settings_tab.prompt_input.text()
+        self.gemini_input = settings_tab.gemini_input.text()
+        self.cloudinary_input = settings_tab.cloudinary_input.text()
         
     def run_split_excel(self):
         docx_file_path = self.docx_input.text()
         subject_var = self.subject_combo.currentText()
         grade_var = None # có thể set giá trị mặc định hoặc lấy từ input
 
+        prompt_input = self.prompt_input
+        gemini_input = self.gemini_input
+        cloudinary_input = self.cloudinary_input
+
         try:
-            excel_file_path = extract_content(docx_file_path, subject_var, grade_var)
+            excel_file_path = extract_content(prompt_input, gemini_input, cloudinary_input, docx_file_path, subject_var, grade_var)
             return excel_file_path
         except Exception as e:
             self.update_log(f"Lỗi khi chạy split excel: {e}")
@@ -122,7 +160,7 @@ class CreateTab(QWidget):
 
     def run_call_gemini(self, excel_file_path, copy_number):
        try:
-            json_result = call_gemini_process(excel_file_path, copy_number)
+            json_result = call_gemini_process(self.gemini_input, excel_file_path, copy_number)
             return json_result
        except Exception as e:
          self.update_log(f"Lỗi khi gọi call gemini: {e}")
@@ -322,7 +360,15 @@ class CreateTab(QWidget):
         self.worker_thread.log_signal.connect(self.update_log)
         self.worker_thread.progress_signal.connect(self.update_progress)
         self.worker_thread.result_signal.connect(self.display_json_result)
+        self.worker_thread.image_questions_signal.connect(self.handle_image_questions)
         self.worker_thread.start()
+
+    def handle_image_questions(self, questions_data):
+        """
+        Handles the image questions data received from the worker thread.
+        """
+        self.draw_tab.update_questions(questions_data)
+        self.main_window.setCurrentWidget(self.draw_tab)
 
     def stop_process(self):
         if self.worker_thread and self.worker_thread.isRunning():

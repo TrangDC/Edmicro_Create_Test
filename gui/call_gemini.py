@@ -179,7 +179,7 @@ def convert_to_json_structure(json_list, sheet_type):
     else:
          return {"unknownQuestions": json_list}
 
-def process_sheet(sheet, templates, sheet_type, copy_number):
+def process_sheet(gemini_input, sheet, templates, sheet_type, copy_number):
     logging.info(f"Process sheet gemini {sheet.title}")
     template_data = templates.get("default")
     if not template_data:
@@ -200,7 +200,7 @@ def process_sheet(sheet, templates, sheet_type, copy_number):
     list_json_string = []
     for row_num, row in enumerate(sheet.iter_rows(min_row=2, values_only=True)):
         if row[col_indices['question']]:
-            gemini_response = process_question_row_gemini(row, col_indices, template_data, GEMINI_API_KEY, copy_number)
+            gemini_response = process_question_row_gemini(row, col_indices, template_data, gemini_input, copy_number)
             if gemini_response:
                 try:
                    json_object = json.loads(gemini_response)
@@ -215,7 +215,7 @@ def process_sheet(sheet, templates, sheet_type, copy_number):
     return []
 
 
-def call_gemini_process(excel_file, copy_number):
+def call_gemini_process(gemini_input, excel_file, copy_number):
     templates = get_prompt_templates_excel(excel_file)
     if not templates:
        logging.error("Không có template nào")
@@ -231,7 +231,7 @@ def call_gemini_process(excel_file, copy_number):
         sheet = workbook[sheet_name]
         sheet_type = sheet_name.split('_')[0]
         try:
-             list_results = process_sheet(sheet, templates, sheet_type, copy_number)
+             list_results = process_sheet(gemini_input, sheet, templates, sheet_type, copy_number)
              if list_results:
                 all_results.extend(list_results)
         except Exception as error:

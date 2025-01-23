@@ -3,17 +3,14 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QComboBox, QHBoxLayou
                              QSizePolicy)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
+import re
 
 class DrawTab(QWidget):
     def __init__(self):
         super().__init__()
         self.init_ui()
-        self.questions = {
-            "Câu 1": "Mô tả ảnh 1 của câu 1",
-            "Câu 2": "Mô tả ảnh 2 của câu 2",
-            "Câu 3": "Mô tả ảnh 3 của câu 3"
-        }
-        self.update_question_list()
+        self.questions = {}
+        # self.update_question_list() # Không cần gọi ở đây nữa
     def init_ui(self):
         main_layout = QVBoxLayout()
 
@@ -99,9 +96,21 @@ class DrawTab(QWidget):
         self.type_combo.currentIndexChanged.connect(self.update_detail_options)
         self.update_detail_options()
         
-
-    def update_question_list(self):
+    def update_questions(self, questions_data):
+        """Updates the question list with data from the JSON file."""
         self.question_list.clear()
+        self.questions = {}
+        
+        for question_type, groups in questions_data.items():
+            for group in groups:
+                for question in group["list"]:
+                    question_content = question["content"]
+                    image_description = re.search(r'\[Mô tả ảnh:(.*?)\]', question_content)
+                    if image_description:
+                      description = image_description.group(1).strip()
+                      self.questions[question_content] = description
+                    else:
+                      self.questions[question_content] = ""
         self.question_list.addItems(self.questions.keys())
 
     def show_selected_description(self, item):
@@ -113,12 +122,12 @@ class DrawTab(QWidget):
        if selected_type == "Đồ thị":
          self.detail_label.setText("Chọn loại đồ thị:")
          self.detail_combo.clear()
-         self.detail_combo.addItems(["Đồ thị 1", "Đồ thị 2", "Đồ thị 3"])
+         self.detail_combo.addItems(["Bậc nhất", "Bậc hai", "Bậc ba", "Bậc bốn trùng phương", "Phân thức bậc nhất/bậc nhất", "Phân thức bậc hai/bậc nhất"])
        elif selected_type == "Bảng biến thiên":
          self.detail_label.setText("Chọn loại hàm số:")
          self.detail_combo.clear()
-         self.detail_combo.addItems(["Hàm số 1", "Hàm số 2"])
+         self.detail_combo.addItems(["Bậc hai", "Bậc ba", "Bậc bốn trùng phương", "Phân thức bậc nhất/bậc nhất", "Phân thức bậc hai/bậc nhất"])
        elif selected_type == "Hình học":
          self.detail_label.setText("Chọn hình học:")
          self.detail_combo.clear()
-         self.detail_combo.addItems(["Tam giác", "Hình vuông"])
+         self.detail_combo.addItems(["Tam giác", "Hình vuông","Hình của Đông", "Hình của Trung"])

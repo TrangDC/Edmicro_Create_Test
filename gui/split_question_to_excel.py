@@ -28,34 +28,33 @@ import json
 from datetime import datetime
 import google.generativeai as genai
 
-# Configuration
-cloudinary.config(
-    cloud_name="dgbjb4emp",
-    api_key="995523778761239",
-    api_secret="kO8fKCyTkgKXvkcBZMcqvrncuTk",
-    secure=True
-)
-
-GOOGLE_API_KEY = "AIzaSyASlUYT5KMxrtMLVLtUpL7mn4MWOtWf29c" # Thay YOUR_GEMINI_API_KEY bằng API key của bạn
-genai.configure(api_key=GOOGLE_API_KEY)
-generation_config = {
-    "temperature": 0.4,
-    "top_p": 1,
-    "top_k": 32,
-    "max_output_tokens": 4096,
-}
-
-model = genai.GenerativeModel(model_name="gemini-2.0-flash-exp",
-                            generation_config=generation_config,
-                            )
+# # Configuration
+# cloudinary.config(
+#     cloud_name="dgbjb4emp",
+#     api_key="995523778761239",
+#     api_secret="kO8fKCyTkgKXvkcBZMcqvrncuTk",
+#     secure=True
+# )
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-
-def describe_image_with_gemini(image_path):
+def describe_image_with_gemini(image_path, gemini_input):
     """Sử dụng Gemini API để mô tả ảnh."""
+
+    GOOGLE_API_KEY = gemini_input # Thay YOUR_GEMINI_API_KEY bằng API key của bạn
+    genai.configure(api_key=GOOGLE_API_KEY)
+    generation_config = {
+        "temperature": 0.4,
+        "top_p": 1,
+        "top_k": 32,
+        "max_output_tokens": 4096,
+    }
+
+    model = genai.GenerativeModel(model_name="gemini-2.0-flash-exp",
+                                generation_config=generation_config,
+                                )
     try:
         with open(image_path, "rb") as image_file:
             image_bytes = image_file.read()
@@ -119,7 +118,7 @@ def get_image_map_from_relationships(temp_dir):
 
     return image_map
 
-def extract_images_from_docx(docx_file, temp_dir, output_dir):
+def extract_images_from_docx(docx_file, temp_dir, output_dir, cloudinary_input):
     """Extract images from Word document and save to files."""
     logger.info("Starting image extraction from docx")
     image_dict = {}
@@ -150,7 +149,7 @@ def extract_images_from_docx(docx_file, temp_dir, output_dir):
                     shutil.copy2(image_path, new_image_path)
 
                     # Create image URL
-                    image_url = create_imgur_url(new_image_path)
+                    image_url = create_imgur_url(new_image_path, cloudinary_input)
                     image_dict[image_file] = image_url
                     logger.debug(f"Successfully processed {image_file}")
                 except Exception as e:
@@ -158,25 +157,46 @@ def extract_images_from_docx(docx_file, temp_dir, output_dir):
 
     return image_dict, image_map
 
-def upload_image_to_cloudinary(image_bytes):
+def upload_image_to_cloudinary(image_bytes, cloudinary_input):
+    cloudinary_config = {}
+    
+    # Remove escape characters and split
+    cleaned_input = cloudinary_input.replace('\\n', '').replace('\\"', '"')
+    parts = cleaned_input.split(',')
+    
+    for part in parts:
+        part = part.strip()
+        if not part:
+            continue
+        if '=' in part:
+            key, value = part.split('=', 1)
+            key = key.strip()
+            value = value.strip().strip('"')  # remove quotes
+            if key in ['cloud_name', 'api_key', 'api_secret', 'secure']:
+                # Convert string "True"/"False" to boolean for secure parameter
+                if key == 'secure':
+                    value = value.lower() == 'true'
+                cloudinary_config[key] = value
+
     try:
-        response = cloudinary.uploader.upload(
-            image_bytes,
+        cloudinary.config(
+            cloud_name=cloudinary_config.get('cloud_name', ''),
+            api_key=cloudinary_config.get('api_key', ''),
+            api_secret=cloudinary_config.get('api_secret', ''),
+            secure=cloudinary_config.get('secure', True)
         )
-        if 'secure_url' in response:
-            return response['secure_url']
-        else:
-            return None
+        response = cloudinary.uploader.upload(image_bytes)
+        return response.get('secure_url')
     except Exception as e:
         logger.error(f"Error uploading to Cloudinary: {str(e)}", exc_info=True)
         return None
     
-def create_imgur_url(image_path):
+def create_imgur_url(image_path, cloudinary_input):
     """Uploads the image to Cloudinary and returns the https URL"""
     try:
         with open(image_path, "rb") as image_file:
             image_bytes = image_file.read()
-        cloudinary_url = upload_image_to_cloudinary(image_bytes)
+        cloudinary_url = upload_image_to_cloudinary(image_bytes, cloudinary_input)
         return cloudinary_url
     except Exception as e:
         logger.error(f"Error creating Cloudinary URL {str(e)}", exc_info=True)
@@ -194,7 +214,6 @@ def find_images_in_paragraph(paragraph, image_map):
             if rid in image_map:
                 logger.debug(f"Found image in paragraph with rid: {rid}")
                 images.append(image_map[rid])
-
     return images
 
 def is_question_start(text):
@@ -255,12 +274,6 @@ def get_paragraph_text(paragraph):
     text_parts = []
     for run in paragraph.runs:
         text = run.text
-        # if run.bold:
-        #     text = f"[bold]{text}[/bold]"
-        # if run.italic:
-        #     text = f"[italic]{text}[/italic]"
-        # if run.underline:
-        #     text = f"[underline]{text}[/underline]"
         if run.element.find('.//w:br', {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}) is not None:
             text = text.replace('\n', '\n')  # Preserve line breaks
         text_parts.append(text)
@@ -276,7 +289,7 @@ def extract_table_data(table):
         table_data.append(row_data)
     return table_data
 
-def process_question_content(element, image_map, current_question, temp_dir, docx_file, table_label=""):
+def process_question_content(gemini_input, element, image_map, current_question, temp_dir, docx_file, table_label=""):
     """Process either a paragraph or table and return content and images"""
     content = ""
     images = []
@@ -299,7 +312,7 @@ def process_question_content(element, image_map, current_question, temp_dir, doc
                     image_path = os.path.join("output_images", docx_filename, f"{os.path.splitext(image_file)[0]}.png") # Path to the saved image
 
                     if os.path.exists(image_path):
-                         description = describe_image_with_gemini(image_path)
+                         description = describe_image_with_gemini(image_path, gemini_input)
                          if description:
                              content += f" [Mô tả ảnh: {description} ] "
                          images.append(image_file)
@@ -338,7 +351,7 @@ def create_prompt_template_sheet(wb):
         ws.row_dimensions[row[0].row].height = 40  # Set height for rows in prompt sheet
     return ws
 
-def extract_content(docx_file, subject_var, grade_var):
+def extract_content(prompt_input, gemini_input, cloudinary_input, docx_file, subject_var, grade_var):
     """Extract questions and images to Excel, separated by sections."""
     logger.info(f"Starting content extraction from {docx_file}")
 
@@ -351,7 +364,7 @@ def extract_content(docx_file, subject_var, grade_var):
         shutil.rmtree(temp_dir)
     os.makedirs(temp_dir)
 
-    image_dict, image_map = extract_images_from_docx(docx_file, temp_dir, output_dir)
+    image_dict, image_map = extract_images_from_docx(docx_file, temp_dir, output_dir, cloudinary_input)
     logger.info(f"Found {len(image_dict)} images and {len(image_map)} image relationships")
 
     doc = Document(docx_file)
@@ -362,9 +375,7 @@ def extract_content(docx_file, subject_var, grade_var):
     prompt_sheet = create_prompt_template_sheet(wb)
 
     # Get prompt data from prompt template file
-    # prompt_template_path = prompt_template_entry.get() #Get file path from settings
-    prompt_template_path = "E:\Edmicro\Tool_tao_de\gui\prompt_template.xlsx" # Placeholder, replace with actual file path
-    # subject = subject_var.get() # Get selected subject
+    prompt_template_path = prompt_input # "E:\Edmicro\Tool_tao_de\gui\prompt_template.xlsx" # Placeholder, replace with actual file path
     prompt_data = read_prompt_data_from_sheet(prompt_template_path, subject_var)
 
     # Write prompt data to prompt_template sheet if data is found
@@ -394,7 +405,7 @@ def extract_content(docx_file, subject_var, grade_var):
     for element in elements:
         if isinstance(element, Table):
             table_name = f"Bảng {table_count}"
-            table_json, table_data, _ = process_question_content(element, image_map, current_question, temp_dir, docx_file, str(table_count))
+            table_json, table_data, _ = process_question_content(gemini_input, element, image_map, current_question, temp_dir, docx_file, str(table_count))
             if table_data:
                 table_sheet.cell(row=table_row, column=1, value=table_name)
                 table_sheet.cell(row=table_row, column=2, value="\n".join(current_question).strip())
@@ -407,7 +418,7 @@ def extract_content(docx_file, subject_var, grade_var):
             current_table_names.append(table_name)  # Thêm tên bảng vào list
             table_count += 1
         else:  # Paragraph
-            text, paragraph_images, _ = process_question_content(element, image_map, current_question, temp_dir, docx_file)
+            text, paragraph_images, _ = process_question_content(gemini_input, element, image_map, current_question, temp_dir, docx_file)
             text = text.strip()
             text = text.replace("\t", " ").lstrip()
 
@@ -467,7 +478,6 @@ def extract_content(docx_file, subject_var, grade_var):
     excel_file = os.path.join(docx_dir, excel_filename)
     wb.save(excel_file)
     logger.info(f"Successfully saved questions and images to {excel_file}")
-    # log_text.insert(tk.END, f"Successfully saved questions and images to {excel_file}\n")
     process_excel_for_correct_answer(excel_file)
     shutil.rmtree(temp_dir)
     return excel_file
@@ -488,10 +498,6 @@ def write_questions_to_sheet(ws, questions, image_dict):
         
         if images:
             ws.cell(row=current_row, column=2, value=";".join(images))
-
-        # # Write the table name to table column if it exists
-        # if table_name:
-        #     ws.cell(row=current_row, column=3, value=table_name)
         # Write all table names
         if table_names:
             ws.cell(row=current_row, column=3, value=";".join(table_names))  # Nối các tên bảng lại
