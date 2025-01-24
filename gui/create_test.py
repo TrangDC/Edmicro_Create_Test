@@ -146,6 +146,32 @@ def json_to_markdown(data, output_file, file_index):
                             f.write(f'{table["title"]}\n\n')
                         f.write(f'{json_to_markdown_table(table)}\n\n')
                 f.write('\n')
+
+        f.write(f'**Hướng dẫn giải đề {file_index + 1}**\n\n')
+ 
+        # Choice Guide
+        f.write('**PHẦN I**\n\n')
+        for guide_set in data.get("choiceQuestions", []):
+            if len(guide_set.get("list", [])) > file_index:
+                guide = guide_set["list"][file_index]
+                f.write(f'**Câu {guide_set["questionNumber"]}:** {escape_xml_chars(unescape_latex_chars(guide["guide"]))}\n\n')
+                f.write('\n')
+ 
+        # True/False Guide
+        f.write('**PHẦN II**\n\n')
+        for guide_set in data.get("trueFalseQuestions", []):
+            if len(guide_set.get("list", [])) > file_index:
+                guide = guide_set["list"][file_index]
+                f.write(f'**Câu {guide_set["questionNumber"]}:** {escape_xml_chars(unescape_latex_chars(guide["guide"]))}\n\n')
+                f.write('\n')
+ 
+        # Short Guide
+        f.write('**PHẦN III**\n\n')
+        for guide_set in data.get("shortQuestions", []):
+            if len(guide_set.get("list", [])) > file_index:
+                guide = guide_set["list"][file_index]
+                f.write(f'**Câu {guide_set["questionNumber"]}:** {escape_xml_chars(unescape_latex_chars(guide["guide"]))}\n\n')
+                f.write('\n')            
  
 def markdown_to_docx(markdown_file, docx_file):
     """Chuyển đổi file Markdown thành file .docx bằng Pandoc với file mẫu tùy chọn."""
@@ -189,7 +215,7 @@ def create_docx_files_with_pandoc(data, output_dir="output_docx", markdown_dir="
             print(f"Không thể tạo file .docx: {docx_file}")
  
 if __name__ == "__main__":
-    with open('E:\Edmicro\Đề GK2 Toán 10_full lời giải - (test)_gemini_output.json', 'r', encoding='utf-8') as f:
+    with open(r'Đề GK2 Toán 10_full lời giải - Copy (2)_gemini_output.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
    
     # # File mẫu template

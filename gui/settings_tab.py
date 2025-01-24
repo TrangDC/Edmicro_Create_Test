@@ -78,6 +78,7 @@ class SettingsTab(QWidget):
 
     def load_settings(self):
             try:
+                # with open("E:\Edmicro\Tool_tao_de\gui\settings.json", 'r') as f:
                 with open("settings.json", 'r') as f:
                     settings = json.load(f)
                 self.excel_file_path = settings.get("excel_file_path", "")
@@ -108,7 +109,13 @@ class SettingsTab(QWidget):
         
         self.settings_changed.emit(settings)
 
-        self.load_settings()
+        self.excel_file_path = settings.get("excel_file_path", "")
+        if self.prompt_input:
+            self.prompt_input.setText(self.excel_file_path)
+        if self.gemini_input:
+            self.gemini_input.setText(settings.get("gemini_api_key", ""))
+        if self.cloudinary_input:
+            self.cloudinary_input.setText(settings.get("cloudinary_config", ""))
 
         # Hiển thị thông báo thành công lưu cài đặt
         QMessageBox.information(self, "Thành công", f"Đã lưu cài đặt vào file JSON: {file_path}")

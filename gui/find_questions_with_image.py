@@ -113,13 +113,13 @@ def validate_update(original_file, updated_file):
     return differences
 
 # Example usage
-if __name__ == "__main__":
-    input_file = "E:\Edmicro\Đề GK2 Toán 10_full lời giải - (test)_gemini_output.json"
+# if __name__ == "__main__":
+#     input_file = "E:\Edmicro\Đề GK2 Toán 10_full lời giải - (test)_gemini_output.json"
     
-    # Extract questions with images
-    images_file = extract_questions_with_images(input_file)
-    images_file = "E:\Edmicro\questions_with_images.json"
-    print(f"Questions with images extracted to: {images_file}")
+#     # Extract questions with images
+#     images_file = extract_questions_with_images(input_file)
+#     images_file = "E:\Edmicro\questions_with_images.json"
+#     print(f"Questions with images extracted to: {images_file}")
     
 #     # Update original file with image questions
 #     output_file = update_questions_with_images(input_file, images_file)

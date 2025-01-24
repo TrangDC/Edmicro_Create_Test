@@ -83,6 +83,7 @@ class DrawTab(QWidget):
         self.selected_question_index = None
         self.current_json_file = None
         self.all_tests_json_file = None
+        self.image_cache = {} # Thêm dòng này
 
     def init_ui(self):
         main_layout = QVBoxLayout()
@@ -182,6 +183,28 @@ class DrawTab(QWidget):
         # Kết nối nút compile với hàm xuất docx
         self.compile_button.clicked.connect(self.compile_to_docx)
 
+    def load_image(self, image_url):
+        """Load image from URL or file, using cache."""
+        if image_url in self.image_cache:
+            return self.image_cache[image_url]
+        try:
+            if image_url.startswith("http"):
+                response = requests.get(image_url, stream=True, timeout=5)
+                response.raise_for_status()
+                pixmap = QPixmap()
+                pixmap.loadFromData(response.content)
+            else:
+                pixmap = QPixmap(image_url)
+            if not pixmap.isNull():
+                self.image_cache[image_url] = pixmap
+                return pixmap
+            else:
+                QMessageBox.warning(self, "Error", f"Could not load image at: {image_url}")
+                return None
+        except Exception as e:
+            QMessageBox.warning(self, "Error", f"Error loading image {image_url}: {str(e)}")
+            return None
+
     def open_draw_params_dialog(self):
     # Lấy loại chi tiết từ detail_combo
       selected_type = self.detail_combo.currentText()
@@ -246,17 +269,12 @@ class DrawTab(QWidget):
 
     def display_image(self, image_path):
         """Display an image in the image label."""
-        if os.path.exists(image_path):
-            pixmap = QPixmap(image_path)
-            if not pixmap.isNull():
-                scaled_pixmap = pixmap.scaled(self.image_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                self.image_label.setPixmap(scaled_pixmap)
-            else:
-              self.image_label.clear()
-              messagebox.showerror("Error", f"Could not load image at: {image_path}")
+        pixmap = self.load_image(image_path)
+        if pixmap:
+            scaled_pixmap = pixmap.scaled(self.image_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.image_label.setPixmap(scaled_pixmap)
         else:
             self.image_label.clear()
-            messagebox.showerror("Error", f"Image not found at: {image_path}")
 
     def update_json_image_path(self, image_path, index):
         """Updates the image path in the loaded JSON data."""
@@ -280,7 +298,6 @@ class DrawTab(QWidget):
              self.update_questions(questions_data, self.current_json_file, self.all_tests_json_file)
 
     def update_questions(self, questions_data, extracted_questions_file, json_file_path):
-        """Updates the question list with data from the JSON file."""
         self.question_list.clear()
         self.questions = {}
         self.current_json_file = extracted_questions_file
@@ -296,31 +313,14 @@ class DrawTab(QWidget):
                         self.questions[question_content] = description
                     else:
                         self.questions[question_content] = ""
-                    
-                    # Chỉ hiển thị ảnh nếu index của câu hỏi trùng với self.selected_question_index
+                    # Load ảnh ngay khi load câu hỏi
+                    if question.get("image"):
+                            self.load_image(question["image"])
+                # Chỉ hiển thị ảnh nếu index của câu hỏi trùng với self.selected_question_index
                     if i == self.selected_question_index and question.get("image"):
-                        try:
-                            response = requests.get(question["image"], stream=True, timeout=5)  # Thêm timeout
-                            response.raise_for_status()  # Báo lỗi nếu có lỗi HTTP
-
-                            pixmap = QPixmap()
-                            pixmap.loadFromData(response.content)
-
-                            if not pixmap.isNull():
-                                scaled_pixmap = pixmap.scaled(self.image_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                                self.image_label.setPixmap(scaled_pixmap)
-                            else:
-                                self.image_label.clear()
-                                QMessageBox.warning(self, "Lỗi", f"Không thể tải ảnh từ {question['image']}: Định dạng ảnh không hợp lệ.")
-
-                        except requests.exceptions.RequestException as e:
-                            self.image_label.clear()
-                            QMessageBox.warning(self, "Lỗi", f"Lỗi khi tải ảnh từ {question['image']}: {str(e)}")
-                        except Exception as e:
-                            self.image_label.clear()
-                            QMessageBox.warning(self, "Lỗi", f"Lỗi không xác định khi tải ảnh từ {question['image']}: {str(e)}")
+                        self.display_image(question["image"])
                     elif i == self.selected_question_index and not question.get("image"):
-                        self.image_label.clear() # Xóa ảnh nếu không có URL
+                        self.image_label.clear()
         self.question_list.clear()
         self.questions = {}
         for question_type, groups in questions_data.items():
@@ -335,7 +335,6 @@ class DrawTab(QWidget):
                         self.questions[question_content] = ""
         self.question_list.addItems(self.questions.keys())
 
-
     def show_selected_description(self, item):
         selected_question = item.text()
         self.selected_question_index = self.question_list.row(self.question_list.currentItem())
@@ -346,7 +345,7 @@ class DrawTab(QWidget):
             with open(self.current_json_file, 'r', encoding='utf-8') as f:
                 questions_data = json.load(f)
             self.update_questions(questions_data, self.current_json_file, self.all_tests_json_file)
-
+            
     def update_detail_options(self):
         selected_type = self.type_combo.currentText()
         if selected_type == "Đồ thị":

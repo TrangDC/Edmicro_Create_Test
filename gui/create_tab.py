@@ -134,7 +134,7 @@ class CreateTab(QWidget):
         self.num_copies = 0
         self.worker_thread = None
         self.settings_tab = settings_tab
-        self.load_settings() # Gọi load_settings ngay sau khi gán settings_tab
+        # self.load_settings() # Gọi load_settings ngay sau khi gán settings_tab
         self.init_ui()
         # self.settings_tab.settings_changed.connect(self.load_settings)
         self.result_signal.connect(self.display_json_result)
