@@ -78,8 +78,8 @@ class SettingsTab(QWidget):
 
     def load_settings(self):
             try:
-                # with open("E:\Edmicro\Tool_tao_de\gui\settings.json", 'r') as f:
-                with open("settings.json", 'r') as f:
+                with open("E:\Edmicro\Tool_tao_de\gui\settings.json", 'r') as f:
+                # with open("settings.json", 'r') as f:
                     settings = json.load(f)
                 self.excel_file_path = settings.get("excel_file_path", "")
                 if self.prompt_input:

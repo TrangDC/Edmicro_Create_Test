@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QComboBox, QHBoxLayout,
                              QListWidget, QTextEdit, QPushButton, QScrollArea,
                              QSizePolicy, QDialog, QLineEdit, QFormLayout, QFileDialog, QMessageBox)
-from logic import compile_latex_to_pdf, pdf_to_png, create_latex_code_for_function,create_latex_code_for_table
+from logic import compile_latex_to_pdf, pdf_to_png, create_latex_code_for_function,create_latex_code_for_table,rename_latex_vertices
 from create_test import create_docx_files_with_pandoc
 from find_questions_with_image import update_questions_with_images
 import json
@@ -215,57 +215,71 @@ class DrawTab(QWidget):
           self.process_draw_params(params, selected_type)
 
     def process_draw_params(self, params, selected_type):
-      try:
-          # Chuyển các tham số nhập vào thành tuple float
-          parameters = tuple(
-              float(Fraction(param.strip())) if '/' in param else float(param.strip())
-              for param in params.split(",")
-          )
-          latex_code = ""
+        try:
+            # Kiểm tra loại chính (Đồ thị, Bảng biến thiên, Hình học)
+            parent_type = self.type_combo.currentText()
 
-          # Kiểm tra loại chính (Đồ thị, Bảng biến thiên, Hình học)
-          parent_type = self.type_combo.currentText()
+            # Xử lý tham số dựa trên loại
+            if parent_type == "Hình học":
+                # Nếu là Hình học, cho phép nhập các ký tự như "a", "b", "c", "d"
+                parameters = [param.strip() for param in params.split(",")]
+                # Chuyển danh sách thành chuỗi để phù hợp với hàm rename_latex_vertices
+                parameters_str = ", ".join(parameters)
+            else:
+                # Nếu là Đồ thị hoặc Bảng biến thiên, chuyển đổi tham số thành số (float hoặc Fraction)
+                parameters = tuple(
+                    float(Fraction(param.strip())) if '/' in param else float(param.strip())
+                    for param in params.split(",")
+                )
+                parameters_str = None  # Không dùng trong trường hợp Đồ thị hoặc Bảng biến thiên
 
-          if parent_type == "Đồ thị":
-              # Trường hợp vẽ đồ thị
-              latex_code = create_latex_code_for_function(selected_type, parameters)
-              file_prefix = f"graph_{selected_type.replace(' ', '_')}"
-          elif parent_type == "Bảng biến thiên":
-              # Trường hợp vẽ bảng biến thiên
-              latex_code = create_latex_code_for_table(selected_type, parameters)
-              file_prefix = f"table_{selected_type.replace(' ', '_')}"
-          else:
-              messagebox.showerror("Lỗi", "Loại hình không được hỗ trợ.")
-              return
+            latex_code = ""
 
-          # Tạo tên file PDF và PNG động
-          output_pdf = f"{file_prefix}_output.pdf"
-          output_image = f"{file_prefix}_output.png"
+            # Tạo mã LaTeX dựa trên loại chính
+            if parent_type == "Đồ thị":
+                latex_code = create_latex_code_for_function(selected_type, parameters)
+                file_prefix = f"graph_{selected_type.replace(' ', '_')}"
+            elif parent_type == "Bảng biến thiên":
+                latex_code = create_latex_code_for_table(selected_type, parameters)
+                file_prefix = f"table_{selected_type.replace(' ', '_')}"
+            elif parent_type == "Hình học":
+                # Gọi rename_latex_vertices với chuỗi thay vì danh sách
+                latex_code = rename_latex_vertices(selected_type, parameters_str)
+                file_prefix = f"geometry_{selected_type.replace(' ', '_')}"
+            else:
+                messagebox.showerror("Lỗi", "Loại hình không được hỗ trợ.")
+                return
 
-          json_dir = os.path.dirname(self.current_json_file)
-          full_output_pdf = os.path.join(json_dir, output_pdf)
-          full_output_image = os.path.join(json_dir, output_image)
+            # Tạo tên file PDF và PNG động
+            output_pdf = f"{file_prefix}_output.pdf"
+            output_image = f"{file_prefix}_output.png"
 
-          # Đảm bảo thư mục đích tồn tại
-          output_dir = os.path.dirname(full_output_pdf)
-          if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+            json_dir = os.path.dirname(self.current_json_file)
+            full_output_pdf = os.path.join(json_dir, output_pdf)
+            full_output_image = os.path.join(json_dir, output_image)
 
-          # Xuất file PDF và PNG từ mã LaTeX
-          if compile_latex_to_pdf(latex_code, full_output_pdf):
-              pdf_to_png(full_output_pdf, full_output_image)
-              messagebox.showinfo("Thành công", f"File PNG đã được tạo thành công: {full_output_image}!")
+            # Đảm bảo thư mục đích tồn tại
+            output_dir = os.path.dirname(full_output_pdf)
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
 
-              # Get the directory of the JSON file
-              if self.selected_question_index is not None and self.current_json_file:
-                   image_url = create_imgur_url(full_output_image)
-                # Update the JSON with the image path
-                   self.update_json_image_path(image_url, self.selected_question_index)
-                   self.display_image(full_output_image)
-          else:
-              messagebox.showerror("Lỗi", "Không thể tạo đồ thị hoặc bảng. Kiểm tra lại LaTeX.")
-      except ValueError:
-          messagebox.showerror("Lỗi", "Vui lòng nhập tham số đúng định dạng.")
+            # Xuất file PDF và PNG từ mã LaTeX
+            if compile_latex_to_pdf(latex_code, full_output_pdf):
+                pdf_to_png(full_output_pdf, full_output_image)
+                messagebox.showinfo("Thành công", f"File PNG đã được tạo thành công: {full_output_image}!")
+
+                # Get the directory of the JSON file
+                if self.selected_question_index is not None and self.current_json_file:
+                    image_url = create_imgur_url(full_output_image)
+                    # Update the JSON with the image path
+                    self.update_json_image_path(image_url, self.selected_question_index)
+                    self.display_image(full_output_image)
+            else:
+                messagebox.showerror("Lỗi", "Không thể tạo đồ thị hoặc bảng. Kiểm tra lại LaTeX.")
+        except ValueError:
+            messagebox.showerror("Lỗi", "Vui lòng nhập tham số đúng định dạng.")
+
+
 
     def display_image(self, image_path):
         """Display an image in the image label."""

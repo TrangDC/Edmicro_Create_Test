@@ -215,7 +215,7 @@ def create_docx_files_with_pandoc(data, output_dir="output_docx", markdown_dir="
             print(f"Không thể tạo file .docx: {docx_file}")
  
 if __name__ == "__main__":
-    with open(r'Đề GK2 Toán 10_full lời giải - Copy (2)_gemini_output.json', 'r', encoding='utf-8') as f:
+    with open(r'E:\Edmicro\Đề GK2 Toán 10_full lời giải - (test)_gemini_output.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
    
     # # File mẫu template

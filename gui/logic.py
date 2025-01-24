@@ -4,6 +4,12 @@ import subprocess
 import os
 from fractions import Fraction
 from pdf2image import convert_from_path
+import os
+import subprocess
+import google.generativeai as genai
+import time
+import platform
+
 
 # Hàm để biên dịch LaTeX với MiKTeX
 def compile_latex_to_pdf(latex_code, output_path):
@@ -255,37 +261,153 @@ def create_latex_code_for_table(function_type, parameters):
 
     elif function_type == 'Phân thức bậc nhất/bậc nhất':
         a, b, c, d = parameters
-        # Tính nghiệm và tiệm cận
-        zero = -b / a if a != 0 else "Không xác định"
-        asymptote = -d / c if c != 0 else "Không xác định"
+        latex_code += "% Hàm phân thức bậc nhất/bậc nhất: y = (ax + b) / (cx + d)\n"
 
+        # Tính nghiệm và tiệm cận
+        zero = -b / a if a != 0 else None
+        asymptote_vert = -d / c if c != 0 else None
+        asymptote_horiz = a / c if c != 0 else None
+        discriminant = a * d - b * c  # Tính y'
+
+        # Tạo bảng biến thiên
         latex_code += "\\tkzTabInit[nocadre=false,lgt=1.5,espcl=3]\n"
         latex_code += "{$x$ /1,$y'$ /1,$y$ /2}\n"
-        latex_code += f"{{$-\\infty$,$- {zero}$,$+\\infty$}}\n"
-        latex_code += "\\tkzTabLine{,-,d,-,}\n"
-        latex_code += f"\\tkzTabVar{{+/ {zero} / , -D+/ $-\\infty$ / $+\\infty$ , -/ {asymptote} /}}\n"
+
+        # Các điểm đặc biệt trên trục x
+        x_points = ["$-\\infty$"]
+        if asymptote_vert is not None:
+            x_points.append(f"$\\frac{{{int(-d)}}}{{{int(c)}}}$")
+        x_points.append("$+\\infty$")
+        latex_code += "{" + ",".join(x_points) + "}\n"
+
+        # Hàng y'
+        if discriminant > 0:
+            latex_code += "\\tkzTabLine{,+,d,+,}\n"
+        elif discriminant < 0:
+            latex_code += "\\tkzTabLine{,-,d,-,}\n"
+        else:
+            latex_code += "\\tkzTabLine{,z,d,z,}\n"
+
+        # Hàng y
+        latex_code += "\\tkzTabVar{"
+        if asymptote_horiz is not None:
+            asym_horiz_str = f"$\\frac{{{int(a)}}}{{{int(c)}}}$"
+            if discriminant > 0:
+                # Hàm giảm trước tiệm cận, tăng sau tiệm cận
+                latex_code += f"-/ {asym_horiz_str} / , +D-/ $+\\infty$ / $-\\infty$ , +/ {asym_horiz_str} /"
+            else:
+                # Hàm tăng trước tiệm cận, giảm sau tiệm cận
+                latex_code += f"+/ {asym_horiz_str} / , -D+/ $-\\infty$ / $+\\infty$ , -/ {asym_horiz_str} /"
+        latex_code += "}\n"
 
     elif function_type == 'Phân thức bậc hai/bậc nhất':
-        a, b, c, d = parameters
-        discriminant = b**2 - 4*a*c
-        if discriminant > 0:
-            root1 = (-b + discriminant**0.5) / (2 * a)
-            root2 = (-b - discriminant**0.5) / (2 * a)
-            latex_code += "\\tkzTabInit[nocadre=false, lgt=1, espcl=1.5]\n"
-            latex_code += "{$x$ /1,$y$ /2}\n"
-            latex_code += f"{{$-\\infty$, {root1}, {root2}, $+\\infty$}}\n"
-            if a > 0:
-                latex_code += f"\\tkzTabVar{{-/$-\\infty$ , +/{root1} , -/{root2} , +/$+\\infty$}}\n"
-            else:
-                latex_code += f"\\tkzTabVar{{+/$+\\infty$ , -/{root1} , +/{root2} , -/$-\\infty$}}\n"
-        else:
-            latex_code += "\\tkzTabInit[nocadre=false, lgt=1, espcl=1.5]\n"
-            latex_code += "{$x$ /1,$y$ /2}\n"
-            latex_code += "{$-\\infty$, $+\\infty$}\n"
-            if a > 0:
-                latex_code += "\\tkzTabVar{-/$-\\infty$ , +/$+\\infty$}\n"
-            else:
-                latex_code += "\\tkzTabVar{+/$+\\infty$ , -/$-\\infty$}\n"
+        a, b, c, d, e = parameters
+        latex_code += "% Hàm phân thức bậc hai trên bậc nhất: y = (ax^2 + bx + c) / (dx + e)\n"
 
-    latex_code += "\\end{tikzpicture}\n\\end{document}"
+        # Tính nghiệm và tiệm cận
+        discriminant_numerator = b**2 - 4*a*c  # Định thức của tử số
+        x_intercepts = []
+        if discriminant_numerator >= 0:
+            x_intercepts.append((-b + discriminant_numerator**0.5) / (2 * a))
+            x_intercepts.append((-b - discriminant_numerator**0.5) / (2 * a))
+
+        asymptote_vert = -e / d if d != 0 else None  # Tiệm cận thẳng đứng
+        
+        # Tính tiệm cận ngang (khi x → ±∞)
+        asymptote_horiz = a / d if d != 0 else None  # Tiệm cận ngang
+
+        # Tạo bảng biến thiên
+        latex_code += "\\tkzTabInit[nocadre=false,lgt=1.5,espcl=3]\n"
+        latex_code += "{$x$ /1,$y'$ /1,$y$ /2}\n"
+
+        # Các điểm đặc biệt trên trục x
+        x_points = ["$-\\infty$"]
+        if asymptote_vert is not None:
+            x_points.append(f"$\\frac{{{-e}}}{{{d}}}$")
+        if x_intercepts:
+            for xi in x_intercepts:
+                x_points.append(f"$\\frac{{{int(xi)}}}{{1}}$")
+        x_points.append("$+\\infty$")
+        latex_code += "{" + ",".join(x_points) + "}\n"
+
+        # Hàng y'
+        latex_code += "\\tkzTabLine{,+,d,+,}\n"  # Tạo dòng y'
+
+        # Hàng y
+        latex_code += "\\tkzTabVar{"
+        if asymptote_horiz is not None:
+            asym_horiz_str = f"$\\frac{{{int(a)}}}{{{int(d)}}}$"
+            latex_code += f"+/ {asym_horiz_str} / , -/ $+\\infty$ / $-\\infty$ , -/ {asym_horiz_str} /"
+        latex_code += "}\n"
+
+    latex_code += "\\end{tikzpicture}\n"
+    latex_code += "\\end{document}\n"
+
     return latex_code
+
+# Hàm xử lý thay đổi tên các đỉnh
+def rename_latex_vertices(latex_code, new_names_input):
+    try:
+        # Tách tên mới từ đầu vào
+        new_names = new_names_input.split(",")
+        new_names = {chr(65 + i): name.strip() for i, name in enumerate(new_names) if name.strip()}
+
+        # Kiểm tra trùng lặp trong danh sách tên mới
+        unique_names = set(new_names.values())
+        if len(unique_names) != len(new_names.values()):
+            raise ValueError("Tên các đỉnh mới bị trùng lặp. Vui lòng nhập lại.")
+
+        # Tạo prompt gửi đến API
+        prompt = (
+            "Hãy thay đổi tên đỉnh đoạn mã LaTeX hình học này "
+            f"bằng các tên đỉnh mới sau đây: {', '.join(new_names.values())}\n"
+            f"Mã LaTeX:\n{latex_code}\n"
+            "## Lưu ý: Trả lời chính xác, không thêm thắt thừa thãi, chỉ cần gửi về mã LaTeX đã đổi tên đỉnh thôi! Không cần thêm cụm ```latex ```."
+        )
+
+        # Cấu hình API key
+        API_KEY = 'AIzaSyDX_boeR-9xR1Doqq2IC4I5nFBJ6Frr5e4'  # Replace with your actual API key
+        genai.configure(api_key=API_KEY)
+
+        generation_config = {
+            "temperature": 0.4,
+            "top_p": 0.95,
+            "top_k": 40,
+            "max_output_tokens": 8192,
+            "response_mime_type": "text/plain",
+        }
+
+        # **List available models**
+        available_models = genai.list_models()
+        print("Available models with their functionality:")
+        for model in available_models:
+            if "gemini" in model.name:
+                print(model)
+
+        # Choose a valid model name, ensure it supports 'generateContent' and replace it below if needed
+        model_name = "gemini-2.0-flash-exp"
+
+        # Create model object
+        model = genai.GenerativeModel(
+            model_name=model_name,
+            generation_config=generation_config,
+        )
+        response = model.generate_content(prompt)
+        print("Response from API:", response.text)
+
+        # Xử lý đoạn mã LaTeX trả về
+        updated_latex_code = response.text.strip()
+        if not updated_latex_code:
+            raise ValueError("API không trả về kết quả hợp lệ.")
+
+        # Loại bỏ các cụm ```latex và ```
+        if updated_latex_code.startswith("```latex"):
+            updated_latex_code = updated_latex_code[len("```latex"):].strip()
+        if updated_latex_code.endswith("```"):
+            updated_latex_code = updated_latex_code[:-len("```")].strip()
+        
+        return updated_latex_code
+    
+
+    except Exception as e:
+        raise ValueError(f"Lỗi khi thay đổi tên đỉnh: {e}")

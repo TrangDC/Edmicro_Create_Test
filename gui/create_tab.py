@@ -150,7 +150,8 @@ class CreateTab(QWidget):
     def load_settings(self, settings=None):
         if settings is None:
             try:
-                with open("settings.json", 'r') as f:
+                # with open("settings.json", 'r') as f:
+                with open("E:\Edmicro\Tool_tao_de\gui\settings.json", 'r') as f:
                     settings = json.load(f)
             except:
                 settings = {}
