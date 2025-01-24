@@ -31,6 +31,9 @@ class MainTabWidget(QTabWidget):
 
          # Set style cho tab bar
         self.style_tab()
+
+        # Kết nối tín hiệu currentChanged với hàm load_settings
+        self.currentChanged.connect(self.on_tab_changed)
         
     def style_tab(self):
           self.setStyleSheet("""
@@ -65,4 +68,10 @@ class MainTabWidget(QTabWidget):
     def create_create_tab(self):
         # Tạo tab Tạo đề
         create_tab = CreateTab(self.settings_tab, self.draw_tab, self)
+        self.create_tab = create_tab  # Khởi tạo CreateTab
         self.addTab(create_tab, "Tạo đề")
+
+    def on_tab_changed(self, index):
+        # Kiểm tra xem tab hiện tại có phải là CreateTab hay không
+        if self.widget(index) == self.create_tab:
+            self.create_tab.load_settings()

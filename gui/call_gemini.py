@@ -59,7 +59,7 @@ def get_prompt_templates_excel(excel_file_path):
         raise Exception(f"Lỗi khi đọc template sheet: {e}")
 
 # Hàm xử lý một hàng câu hỏi
-def process_question_row_gemini(row, col_indices, template_data, gemini_api_key, copy_number, retries=10):
+def process_question_row_gemini(row, col_indices, template_data, gemini_api_key, copy_number, max_retries=5, gemini_retries=10):
     question = row[col_indices['question']] if 'question' in col_indices and col_indices['question'] is not None else None
     image_url = row[col_indices['images']] if 'images' in col_indices and col_indices['images'] is not None else None
     correct_answer = row[col_indices['correctAnswer']] if 'correctAnswer' in col_indices and col_indices['correctAnswer'] is not None else 'Không có sẵn đáp án'
@@ -72,25 +72,37 @@ def process_question_row_gemini(row, col_indices, template_data, gemini_api_key,
     prompt_text = template_data['prompt'].replace('{question}', str(question)).replace('{correct_answer}',
                                                                                       str(correct_answer)).replace(
         '{copy_number}', str(copy_number))
-
-    gemini_response = None
     json_content = ""
-    for attempt in range(retries):
-        gemini_response = call_gemini_api(prompt_text, image_url, gemini_api_key, generation_config)
-        if gemini_response:
-            response = gemini_response[0]
-            match = re.search(r'```json\s*(\{.*?\})\s*```', response, re.DOTALL)
-            if match:
-                json_content = match.group(1)
-            logging.info("Gemini response:\n %s", json_content)
-            break
-        else:
-            logging.info(f"Retry attempt {attempt + 1} failed for question: {question}. Waiting 5 seconds...")
-            time.sleep(5)
-    if not gemini_response:
-        logging.error(f"Failed after {retries} retries for question: {question}")
 
-    return json_content
+    for overall_attempt in range(max_retries):  # Retry until successful JSON parse
+        gemini_response = None
+        for attempt in range(gemini_retries):  # Gemini API retries
+            gemini_response = call_gemini_api(prompt_text, image_url, gemini_api_key, generation_config)
+            if gemini_response:
+                response = gemini_response[0]
+                match = re.search(r'```json\s*(\{.*?\})\s*```', response, re.DOTALL)
+                if match:
+                    json_content = match.group(1)
+                logging.info("Gemini response:\n %s", json_content)
+                break  # Exit inner loop on successful API call
+            else:
+                logging.info(f"Gemini retry attempt {attempt + 1} failed for question: {question}. Waiting 5 seconds...")
+                time.sleep(5)
+        if not gemini_response:
+            logging.error(f"Failed after {gemini_retries} Gemini retries for question: {question}")
+            return None
+        try:
+            json.loads(json_content)
+            logging.info(f"Successfully parsed JSON on attempt {overall_attempt + 1} for question: {question}")
+            return json_content
+        except json.JSONDecodeError as e:
+            logging.error(f"JSON Decode Error on attempt {overall_attempt + 1}: {e}. Retrying...")
+            time.sleep(5)
+
+    logging.error(f"Failed to parse JSON after {max_retries} retries for question: {question}")
+    return None
+
+
 
 def get_image_base64(image_url):
     try:

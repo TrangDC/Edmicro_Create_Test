@@ -52,9 +52,10 @@ def extract_questions_with_images(input_file):
     return output_file
 
 # update_images.py
-def update_questions_with_images(original_file, images_file, output_file=r'E:\Edmicro\updated_questions.json'):
+# update_images.py
+def update_questions_with_images(original_file, images_file):
     """
-    Updates the original JSON file with questions containing images from the images file.
+    Updates the original JSON file with questions containing images from the images file, modifying the original file.
     """
     # Read both JSON files
     with open(original_file, 'r', encoding='utf-8') as f:
@@ -78,11 +79,11 @@ def update_questions_with_images(original_file, images_file, output_file=r'E:\Ed
                             orig_group["list"][index] = image_question
                     break
     
-    # Save updated data
-    with open(output_file, 'w', encoding='utf-8') as f:
+    # Save updated data to the original file
+    with open(original_file, 'w', encoding='utf-8') as f:
         json.dump(original_data, f, ensure_ascii=False, indent=2)
     
-    return output_file
+    return original_file
 
 def validate_update(original_file, updated_file):
     """
@@ -112,12 +113,13 @@ def validate_update(original_file, updated_file):
     return differences
 
 # Example usage
-# if __name__ == "__main__":
-#     input_file = "E:\Edmicro\Đề GK2 Toán 10_full lời giải_gemini_output.json"
+if __name__ == "__main__":
+    input_file = "E:\Edmicro\Đề GK2 Toán 10_full lời giải - (test)_gemini_output.json"
     
-#     # Extract questions with images
-#     images_file = extract_questions_with_images(input_file)
-#     print(f"Questions with images extracted to: {images_file}")
+    # Extract questions with images
+    images_file = extract_questions_with_images(input_file)
+    images_file = "E:\Edmicro\questions_with_images.json"
+    print(f"Questions with images extracted to: {images_file}")
     
 #     # Update original file with image questions
 #     output_file = update_questions_with_images(input_file, images_file)

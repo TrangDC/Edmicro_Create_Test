@@ -111,6 +111,13 @@ def create_latex_code_for_function(function_type, parameters):
     return latex_code
 
 # Hàm để tạo mã LaTeX cho bảng biến thiên
+def format_as_latex_fraction(value):
+    frac = Fraction(value).limit_denominator()
+    return f"\\frac{{{frac.numerator}}}{{{frac.denominator}}}" if frac.denominator != 1 else str(frac.numerator)
+
+def calculate_cubic_y(a, b, c, d, x):
+    return a * x**3 + b * x**2 + c * x + d
+
 def create_latex_code_for_table(function_type, parameters):
     latex_code = "\\documentclass[border=2pt]{standalone}\n"
     latex_code += "\\usepackage{tkz-tab,tikz}\n"
@@ -119,66 +126,65 @@ def create_latex_code_for_table(function_type, parameters):
     latex_code += "\\begin{tikzpicture}\n"
 
     if function_type == 'Bậc hai':
-        a, b, c = parameters
+        a, b, c = map(Fraction, parameters)  # Chuyển a, b, c thành phân số
         vertex = -b / (2 * a)
         y_vertex = a * vertex**2 + b * vertex + c
+
         latex_code += "\\tkzTabInit[nocadre=false, lgt=1, espcl=1.5]\n"
         latex_code += "{$x$ /1,$y$ /2}\n"
         latex_code += f"{{$-\\infty$, {vertex}, $+\\infty$}}\n"
+
         if a > 0:
-            # Nếu a > 0, đồ thị giảm từ +∞ đến đỉnh (y_vertex), sau đó tăng lên +∞
-            latex_code += f"\\tkzTabVar{{+/$+\\infty$, -/{y_vertex}, +/$+\\infty$}}\n"
+            latex_code += f"\\tkzTabVar{{+/ $+\\infty$, -/ ${format_as_latex_fraction(y_vertex)}$, +/ $+\\infty$}}\n"
         else:
-            # Nếu a < 0, đồ thị tăng từ -∞ đến đỉnh (y_vertex), sau đó giảm xuống -∞
-            latex_code += f"\\tkzTabVar{{-/$-\\infty$, +/{y_vertex}, -/$-\\infty$}}\n"
+            latex_code += f"\\tkzTabVar{{-/ $-\\infty$, +/ ${format_as_latex_fraction(y_vertex)}$, -/ $-\\infty$}}\n"
 
     elif function_type == 'Bậc ba':
         a, b, c, d = parameters
-        # Đạo hàm: y' = 3a*x^2 + 2b*x + c
-        a1, b1, c1 = 3 * a, 2 * b, c  # Các hệ số của y'
-        delta = b1**2 - 4 * a1 * c1  # Delta của phương trình y' = 0
-        
+        a1, b1, c1 = 3 * a, 2 * b, c
+        delta = b1**2 - 4 * a1 * c1
+
         latex_code += "\\tkzTabInit[nocadre=false, lgt=1, espcl=1.5]\n"
-        latex_code += "{$x$ /1,$y'$ /1,$y$ /2}\n"
-        
-        if delta > 0:  # 2 nghiệm phân biệt
+        latex_code += "{$x$ /1, $y'$ /1, $y$ /2}\n"
+
+        if delta > 0:
             x1 = (-b1 - delta**0.5) / (2 * a1)
             x2 = (-b1 + delta**0.5) / (2 * a1)
-            y1 = a * x1**3 + b * x1**2 + c * x1 + d
-            y2 = a * x2**3 + b * x2**2 + c * x2 + d
-            
-            # Sắp xếp x1, x2 theo thứ tự tăng dần
+            y1 = calculate_cubic_y(Fraction(a), Fraction(b), Fraction(c), Fraction(d), Fraction(x1))
+            y2 = calculate_cubic_y(Fraction(a), Fraction(b), Fraction(c), Fraction(d), Fraction(x2))
+
             if x1 > x2:
                 x1, x2 = x2, x1
                 y1, y2 = y2, y1
-            
-            # Chuyển x1, x2 gần 0 về 0 nếu cần
-            x1 = 0 if abs(x1) < 1e-10 else x1
-            x2 = 0 if abs(x2) < 1e-10 else x2
-            
-            latex_code += f"{{$-\\infty$, {x1:.2f}, {x2:.2f}, $+\\infty$}}\n"
+
+            x1_formatted = format_as_latex_fraction(x1)
+            x2_formatted = format_as_latex_fraction(x2)
+            y1_formatted = format_as_latex_fraction(y1)
+            y2_formatted = format_as_latex_fraction(y2)
+
+            latex_code += f"{{$-\\infty$, ${x1_formatted}$, ${x2_formatted}$, $+\\infty$}}\n"
             if a > 0:
                 latex_code += "\\tkzTabLine{,+,0,-,0,+}\n"
-                latex_code += f"\\tkzTabVar{{-/$-\\infty$, +/{y1:.2f}, -/{y2:.2f}, +/$+\\infty$}}\n"
+                latex_code += f"\\tkzTabVar{{-/$-\\infty$, +/${y1_formatted}$, -/${y2_formatted}$, +/$+\\infty$}}\n"
             else:
                 latex_code += "\\tkzTabLine{,-,0,+,0,-}\n"
-                latex_code += f"\\tkzTabVar{{+/$+\\infty$, -/{y1:.2f}, +/{y2:.2f}, -/$-\\infty$}}\n"
-        
-        elif delta == 0:  # Nghiệm kép
+                latex_code += f"\\tkzTabVar{{+/$+\\infty$, -/${y1_formatted}$, +/${y2_formatted}$, -/$-\\infty$}}\n"
+
+        elif delta == 0:
             x0 = -b1 / (2 * a1)
-            y0 = a * x0**3 + b * x0**2 + c * x0 + d
-            # Chuyển x0 gần 0 về 0 nếu cần
-            x0 = 0 if abs(x0) < 1e-10 else x0
-            
-            latex_code += f"{{$-\\infty$, {x0:.2f}, $+\\infty$}}\n"
+            y0 = calculate_cubic_y(Fraction(a), Fraction(b), Fraction(c), Fraction(d), Fraction(x0))
+            x0_formatted = format_as_latex_fraction(x0)
+            y0_formatted = format_as_latex_fraction(y0)
+
+            latex_code += f"{{$-\\infty$, ${x0_formatted}$, $+\\infty$}}\n"
             if a > 0:
                 latex_code += "\\tkzTabLine{,+,0,+}\n"
-                latex_code += f"\\tkzTabVar{{-/$-\\infty$, +/{y0:.2f}, +/$+\\infty$}}\n"
+                latex_code += f"\\tkzTabVar{{-/$-\\infty$, +/${y0_formatted}$, +/$+\\infty$}}\n"
             else:
                 latex_code += "\\tkzTabLine{,-,0,-}\n"
-                latex_code += f"\\tkzTabVar{{+/$+\\infty$, -/{y0:.2f}, -/$-\\infty$}}\n"
-        
-        else:  # Không có nghiệm
+                latex_code += f"\\tkzTabVar{{+/$+\\infty$, -/${y0_formatted}$, -/$-\\infty$}}\n"
+
+        else:
             latex_code += "{$-\\infty$, $+\\infty$}\n"
             if a > 0:
                 latex_code += "\\tkzTabLine{,+}\n"
@@ -192,14 +198,9 @@ def create_latex_code_for_table(function_type, parameters):
         critical_points = []
 
         # Tìm điểm tới hạn
-        if b != 0:
-            discriminant = -b / (2 * a)
-            if discriminant > 0:
-                root1 = (discriminant)**0.5
-                root2 = -(discriminant)**0.5
-                critical_points.extend([root2, 0, root1])
-            else:
-                critical_points.append(0)
+        if b / (2 * a) < 0:  # Điều kiện tồn tại nghiệm x = ±√(-b/2a)
+            root = (-b / (2 * a))**0.5
+            critical_points.extend([-root, 0, root])
         else:
             critical_points.append(0)
 
@@ -213,41 +214,44 @@ def create_latex_code_for_table(function_type, parameters):
         latex_code += "\\tkzTabInit[nocadre=false, lgt=1, espcl=1.5]\n"
         latex_code += "{$x$ /1,$y'$ /1,$y$ /2}\n"
         latex_code += "{"
-        latex_code += ", ".join(f"$-\infty$" if x == -float("inf") else (f"$+\infty$" if x == float("inf") else f"${x:.2f}$") for x in [-float("inf"), *critical_points, float("inf")])
+        latex_code += ", ".join(
+            f"$-\infty$" if x == -float("inf") else 
+            (f"$+\infty$" if x == float("inf") else f"${format_as_latex_fraction(x)}$")
+            for x in [-float("inf"), *critical_points, float("inf")]
+        )
         latex_code += "}\n"
 
-        # Xét dấu và vẽ bảng biến thiên
-        if a > 0:
-            latex_code += "\\tkzTabLine{,-,0,+,0,-,0,+}\n"
-            latex_code += (
-                "\\tkzTabVar{+/ $+\\infty$, "
-                f"-/ ${y_values[0]:.2f}$, "
-                f"+/ ${y_values[1]:.2f}$, "
-                f"-/ ${y_values[2]:.2f}$, "
-                "+/$+\\infty$}\n"
-            )
-        else:
-            latex_code += "\\tkzTabLine{,+,0,-,0,+,0,-}\n"
-            latex_code += (
-                "\\tkzTabVar{-/ $-\\infty$, "
-                f"+/ ${y_values[0]:.2f}$, "
-                f"-/ ${y_values[1]:.2f}$, "
-                f"+/ ${y_values[2]:.2f}$, "
-                "-/$-\\infty$}\n"
-            )
-
-    elif function_type == 'Phân thức bậc nhất/bậc nhất':
-        a, b, c, d = parameters
-        # Tính nghiệm và tiệm cận
-        zero = -b / a if a != 0 else None
-        asymptote = -d / c if c != 0 else None
-
-        latex_code += "\\tkzTabInit[nocadre=false,lgt=1.5,espcl=3]\n"
-        latex_code += "{$x$ /1,$y'$ /1,$y$ /2}\n"
-        latex_code += f"{{$-\\infty$, {zero:.2f}, $+\\infty$}}\n"
-        latex_code += "\\tkzTabLine{,-,d,+,}\n"
-        latex_code += f"\\tkzTabVar{{+/ $+\\infty$, -/ $y = {zero:.2f}$, +/ $y = {asymptote:.2f}$}}\n"
-
+        # Xét dấu của y' và vẽ bảng biến thiên
+        if len(critical_points) == 1:  # Chỉ có một điểm tới hạn (x = 0)
+            if a > 0:
+                latex_code += "\\tkzTabLine{,-,0,+}\n"
+                latex_code += (
+                    "\\tkzTabVar{+/ $+\\infty$, "
+                    f"-/ ${format_as_latex_fraction(y_values[0])}$, "
+                    "+/$+\\infty$}\n"
+                )
+            else:
+                latex_code += "\\tkzTabLine{,+,0,-}\n"
+                latex_code += (
+                    "\\tkzTabVar{-/ $-\\infty$, "
+                    f"+/ ${format_as_latex_fraction(y_values[0])}$, "
+                    "-/$-\\infty$}\n"
+                )
+        else:  # Nhiều điểm tới hạn
+            if a > 0:
+                latex_code += "\\tkzTabLine{,-,0,+,0,-,0,+}\n"
+                latex_code += (
+                    "\\tkzTabVar{+/ $+\\infty$, "
+                    + ", ".join(f"-/ ${format_as_latex_fraction(y_values[i])}$" if i % 2 == 0 else f"+/ ${format_as_latex_fraction(y_values[i])}$" for i in range(len(y_values)))
+                    + ", +/$+\\infty$}\n"
+                )
+            else:
+                latex_code += "\\tkzTabLine{,+,0,-,0,+,0,-}\n"
+                latex_code += (
+                    "\\tkzTabVar{-/ $-\\infty$, "
+                    + ", ".join(f"+/ ${format_as_latex_fraction(y_values[i])}$" if i % 2 == 0 else f"-/ ${format_as_latex_fraction(y_values[i])}$" for i in range(len(y_values)))
+                    + ", -/$-\\infty$}\n"
+                )
 
     elif function_type == 'Phân thức bậc nhất/bậc nhất':
         a, b, c, d = parameters

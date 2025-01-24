@@ -2,10 +2,15 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QLineEdit,
                              QPushButton, QHBoxLayout, QFileDialog,
                              QFormLayout, QMessageBox)
 from PyQt5.QtGui import QFont
+from PyQt5.QtCore import pyqtSignal
 import json
 import os
+import json
 
 class SettingsTab(QWidget):
+
+    settings_changed = pyqtSignal(dict)  # Định nghĩa tín hiệu
+
     def __init__(self):
         super().__init__()
         self.excel_file_path = ""
@@ -70,34 +75,10 @@ class SettingsTab(QWidget):
         if file_path:
             self.prompt_input.setText(file_path)
             self.excel_file_path = file_path
-            
-    def save_settings(self):
-        settings = {
-            "excel_file_path": self.excel_file_path,
-            "gemini_api_key": self.gemini_input.text(),
-            "cloudinary_config": self.cloudinary_input.text()
-        }
 
-        # Lấy thư mục của file đang chạy
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_dir, "settings.json")
-
-        import json
-        with open(file_path, 'w') as f:
-            json.dump(settings, f, indent=4)
-        
-        # Load lại cài đặt
-        self.load_settings()
-        QMessageBox.information(self, "Thành công", f"Đã lưu cài đặt vào file JSON: {file_path}")
-        
     def load_settings(self):
-        # Lấy thư mục của file đang chạy
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_dir, "settings.json")
-
-        if os.path.exists(file_path):
             try:
-                with open(file_path, 'r') as f:
+                with open("settings.json", 'r') as f:
                     settings = json.load(f)
                 self.excel_file_path = settings.get("excel_file_path", "")
                 if self.prompt_input:
@@ -111,3 +92,23 @@ class SettingsTab(QWidget):
                 QMessageBox.warning(self, "Lỗi", f"Không thể load dữ liệu từ file JSON: {e}")
         # else:
         #     QMessageBox.information(self, "Thông báo", "Không tìm thấy file settings.json") # Xóa dòng này
+
+    def save_settings(self):
+        settings = {
+            "excel_file_path": self.excel_file_path,
+            "gemini_api_key": self.gemini_input.text(),
+            "cloudinary_config": self.cloudinary_input.text()
+        }
+
+        # Lấy thư mục của file đang chạy
+        current_dir = os.path.dirname(self.excel_file_path)
+        file_path = os.path.join(current_dir, "settings.json")
+        with open(file_path, 'w') as f:
+            json.dump(settings, f, indent=4)
+        
+        self.settings_changed.emit(settings)
+
+        self.load_settings()
+
+        # Hiển thị thông báo thành công lưu cài đặt
+        QMessageBox.information(self, "Thành công", f"Đã lưu cài đặt vào file JSON: {file_path}")

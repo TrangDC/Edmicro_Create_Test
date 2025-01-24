@@ -108,7 +108,6 @@ def validate_update(original_file, updated_file):
                 
             if len(orig_group["list"]) != len(updated_group["list"]):
                 differences.append(f"Question list length changed in {question_type}, number {orig_group['questionNumber']}")
-    
     return differences
 
 # Example usage

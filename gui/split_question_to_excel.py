@@ -80,21 +80,22 @@ def describe_image_with_gemini(image_path, gemini_input):
         logger.error(f"Lỗi khi mô tả ảnh bằng Gemini: {e}", exc_info=True)
         return None
 
-def table_to_json(table):
-    """Convert a Word table to JSON format."""
-    table_data = {}
-    headers = [cell.text.strip() for cell in table.rows[0].cells]
-    
-    rows_data = []
-    for row in table.rows[1:]:
+def table_to_dict(table):
+     """Convert a Word table to a dictionary format."""
+     table_data = {}
+     headers = [cell.text.strip() for cell in table.rows[0].cells]
+     
+     rows_data = []
+     for row in table.rows[1:]:
          row_data = [cell.text.strip() for cell in row.cells]
          rows_data.append(row_data)
-    table_data["type"] = "table"
-    table_data["title"] = ""
-    table_data["header"] = headers
-    table_data["rows"] = rows_data
 
-    return json.dumps(table_data, ensure_ascii=False)
+     table_data["type"] = "table"
+     table_data["title"] = ""
+     table_data["header"] = headers
+     table_data["rows"] = rows_data
+ 
+     return table_data
 
 def get_image_map_from_relationships(temp_dir):
     """Extract image relationships from document"""
@@ -297,7 +298,8 @@ def process_question_content(gemini_input, element, image_map, current_question,
     if isinstance(element, Table):
         table_name = f"Bảng {table_label}" if table_label else ""
         # table_markdown = table_to_markdown(element)
-        table_json = table_to_json(element)
+        table_dict = table_to_dict(element)
+        table_json = json.dumps(table_dict, ensure_ascii=False)
         table_data = extract_table_data(element)
         return table_json, table_data, table_name
     else:  # Paragraph
@@ -352,135 +354,135 @@ def create_prompt_template_sheet(wb):
     return ws
 
 def extract_content(prompt_input, gemini_input, cloudinary_input, docx_file, subject_var, grade_var):
-    """Extract questions and images to Excel, separated by sections."""
-    logger.info(f"Starting content extraction from {docx_file}")
+        """Extract questions and images to Excel, separated by sections."""
+        logger.info(f"Starting content extraction from {docx_file}")
 
-    if not os.path.exists(docx_file):
-        raise FileNotFoundError(f"Word file not found: {docx_file}")
-    
-    temp_dir = "temp_media"
-    output_dir = "output_images"
-    if os.path.exists(temp_dir):
-        shutil.rmtree(temp_dir)
-    os.makedirs(temp_dir)
+        if not os.path.exists(docx_file):
+            raise FileNotFoundError(f"Word file not found: {docx_file}")
+        
+        temp_dir = "temp_media"
+        output_dir = "output_images"
+        if os.path.exists(temp_dir):
+            shutil.rmtree(temp_dir)
+        os.makedirs(temp_dir)
 
-    image_dict, image_map = extract_images_from_docx(docx_file, temp_dir, output_dir, cloudinary_input)
-    logger.info(f"Found {len(image_dict)} images and {len(image_map)} image relationships")
+        image_dict, image_map = extract_images_from_docx(docx_file, temp_dir, output_dir, cloudinary_input)
+        logger.info(f"Found {len(image_dict)} images and {len(image_map)} image relationships")
 
-    doc = Document(docx_file)
-    wb = openpyxl.Workbook()
-    wb.remove(wb.active)
+        doc = Document(docx_file)
+        wb = openpyxl.Workbook()
+        wb.remove(wb.active)
 
-    # Create the prompt_template sheet
-    prompt_sheet = create_prompt_template_sheet(wb)
+        # Create the prompt_template sheet
+        prompt_sheet = create_prompt_template_sheet(wb)
 
-    # Get prompt data from prompt template file
-    prompt_template_path = prompt_input # "E:\Edmicro\Tool_tao_de\gui\prompt_template.xlsx" # Placeholder, replace with actual file path
-    prompt_data = read_prompt_data_from_sheet(prompt_template_path, subject_var)
+        # Get prompt data from prompt template file
+        prompt_template_path = prompt_input # "E:\Edmicro\Tool_tao_de\gui\prompt_template.xlsx" # Placeholder, replace with actual file path
+        prompt_data = read_prompt_data_from_sheet(prompt_template_path, subject_var)
 
-    # Write prompt data to prompt_template sheet if data is found
-    if prompt_data:
-       for row_index, row_data in enumerate(prompt_data, 2):  # Start from row 2
-           for col_index, cell_value in enumerate(row_data, 2):
-                prompt_sheet.cell(row=row_index, column=col_index, value=cell_value)
+        # Write prompt data to prompt_template sheet if data is found
+        if prompt_data:
+            for row_index, row_data in enumerate(prompt_data, 2):  # Start from row 2
+                for col_index, cell_value in enumerate(row_data, 2):
+                    prompt_sheet.cell(row=row_index, column=col_index, value=cell_value)
 
-   # Write the subject and grade to the first row
-    subject_text = f"Môn {subject_var} lớp {grade_var}"
-    prompt_sheet.cell(row=2, column=1, value=subject_text)
+    # Write the subject and grade to the first row
+        subject_text = f"Môn {subject_var} lớp {grade_var}"
+        prompt_sheet.cell(row=2, column=1, value=subject_text)
 
-    current_section = None
-    questions = []
-    current_question = []
-    current_images = []
-    # current_table_name = ""  # Initialize current_table_name
-    current_table_names = []
+        current_section = None
+        questions = []
+        current_question = []
+        current_images = []
+        # current_table_name = ""  # Initialize current_table_name
+        current_table_names = []
+        
+        elements = doc.paragraphs + doc.tables
+        elements.sort(key=lambda x: x._element.getparent().index(x._element))
+        section_counts = {}
+        table_sheet = create_sheet_if_not_exists(wb, "tables")
+        table_row = 1
+        table_count = 1
+        
+        for element in elements:
+             if isinstance(element, Table):
+                table_name = f"Bảng {table_count}"
+                table_json, table_data, _ = process_question_content(gemini_input, element, image_map, current_question, temp_dir, docx_file, str(table_count))
+                if table_data:
+                    table_sheet.cell(row=table_row, column=1, value=table_name)
+                    table_sheet.cell(row=table_row, column=2, value="\n".join(current_question).strip())
+                    for row_index, row in enumerate(table_data):
+                        for col_index, cell_value in enumerate(row, 1):
+                            table_sheet.cell(row=table_row+row_index, column=col_index+2, value=cell_value)
+                    table_row += len(table_data) + 2
+                current_question.append(table_json) # Thêm JSON bảng vào câu hỏi ngay khi gặp
+                # current_table_name = table_name  # Store the current table name
+                current_table_names.append(table_name)  # Thêm tên bảng vào list
+                table_count += 1
+             else:  # Paragraph
+                 text, paragraph_images, _ = process_question_content(gemini_input, element, image_map, current_question, temp_dir, docx_file)
+                 text = text.strip()
+                 text = text.replace("\t", " ").lstrip()
 
-    elements = doc.paragraphs + doc.tables
-    elements.sort(key=lambda x: x._element.getparent().index(x._element))
-    section_counts = {}
-    table_sheet = create_sheet_if_not_exists(wb, "tables")
-    table_row = 1
-    table_count = 1
+                 if is_section_header(text):
+                      if current_question and questions:
+                        questions.append(("\n".join(current_question).strip(), current_images, current_table_names))
+                        current_question = []
+                        current_images = []
+                        # current_table_name = ""  # Reset table name
+                        current_table_names = []  # Reset current_table_names
 
-    for element in elements:
-        if isinstance(element, Table):
-            table_name = f"Bảng {table_count}"
-            table_json, table_data, _ = process_question_content(gemini_input, element, image_map, current_question, temp_dir, docx_file, str(table_count))
-            if table_data:
-                table_sheet.cell(row=table_row, column=1, value=table_name)
-                table_sheet.cell(row=table_row, column=2, value="\n".join(current_question).strip())
-                for row_index, row in enumerate(table_data):
-                    for col_index, cell_value in enumerate(row, 1):
-                        table_sheet.cell(row=table_row+row_index, column=col_index+2, value=cell_value)
-                table_row += len(table_data) + 2
-            current_question.append(table_json)
-            # current_table_name = table_name  # Store the current table name
-            current_table_names.append(table_name)  # Thêm tên bảng vào list
-            table_count += 1
-        else:  # Paragraph
-            text, paragraph_images, _ = process_question_content(gemini_input, element, image_map, current_question, temp_dir, docx_file)
-            text = text.strip()
-            text = text.replace("\t", " ").lstrip()
+                      section_type = get_section_type(text)
+                      if section_type:
+                         if section_type in section_counts:
+                            section_counts[section_type] += 1
+                            sheet_name = f"{section_type}_{section_counts[section_type]}"
+                         else:
+                            section_counts[section_type] = 0
+                            sheet_name = section_type
 
-            if is_section_header(text):
-                if current_question and questions:
-                    questions.append(("\n".join(current_question).strip(), current_images, current_table_names))
-                    current_question = []
+                         if current_section and questions:
+                            ws = create_sheet_if_not_exists(wb, current_section)
+                            write_questions_to_sheet(ws, questions, image_dict)
+                            questions = []
+
+                         current_section = sheet_name
+                      continue
+
+                 if is_question_start(text):
+                    if current_question:
+                       questions.append(("\n".join(current_question).strip(), current_images, current_table_names))
+                    current_question = [text]
                     current_images = []
-                    # current_table_name = ""  # Reset table name
-                    current_table_names = []  # Reset current_table_names
+                    # current_table_name = ""  # Reset table name for new question
+                    current_table_names = [] # Reset current_table_names
+                 else:
+                    if text:
+                       current_question.append(text)
+                    if paragraph_images:
+                        current_images.extend([image_dict[img] for img in paragraph_images if img in image_dict])
 
-                section_type = get_section_type(text)
-                if section_type:
-                    if section_type in section_counts:
-                        section_counts[section_type] += 1
-                        sheet_name = f"{section_type}_{section_counts[section_type]}"
-                    else:
-                        section_counts[section_type] = 0
-                        sheet_name = section_type
+        # Add the last question and process last section
+        if current_question:
+             questions.append(("\n".join(current_question).strip(), current_images, current_table_names))
 
-                    if current_section and questions:
-                        ws = create_sheet_if_not_exists(wb, current_section)
-                        write_questions_to_sheet(ws, questions, image_dict)
-                        questions = []
-
-                    current_section = sheet_name
-                continue
-
-            if is_question_start(text):
-                if current_question:
-                    questions.append(("\n".join(current_question).strip(), current_images, current_table_names))
-                current_question = [text]
-                current_images = []
-                # current_table_name = ""  # Reset table name for new question
-                current_table_names = []  # Reset current_table_names
-            else:
-                if text:
-                    current_question.append(text)
-                if paragraph_images:
-                    current_images.extend([image_dict[img] for img in paragraph_images if img in image_dict])
-
-    # Add the last question and process last section
-    if current_question:
-        questions.append(("\n".join(current_question).strip(), current_images, current_table_names))
-
-    if current_section and questions:
-        ws = create_sheet_if_not_exists(wb, current_section)
-        write_questions_to_sheet(ws, questions, image_dict)
-    elif questions:
-        ws = create_sheet_if_not_exists(wb, "No Section")
-        write_questions_to_sheet(ws, questions, image_dict)
-
-    docx_dir = os.path.dirname(docx_file)
-    docx_filename = os.path.splitext(os.path.basename(docx_file))[0]
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    excel_filename = f"{docx_filename}_doc_to_excel_export_{timestamp}.xlsx"
-    excel_file = os.path.join(docx_dir, excel_filename)
-    wb.save(excel_file)
-    logger.info(f"Successfully saved questions and images to {excel_file}")
-    process_excel_for_correct_answer(excel_file)
-    shutil.rmtree(temp_dir)
-    return excel_file
+        if current_section and questions:
+             ws = create_sheet_if_not_exists(wb, current_section)
+             write_questions_to_sheet(ws, questions, image_dict)
+        elif questions:
+             ws = create_sheet_if_not_exists(wb, "No Section")
+             write_questions_to_sheet(ws, questions, image_dict)
+             
+        docx_dir = os.path.dirname(docx_file)
+        docx_filename = os.path.splitext(os.path.basename(docx_file))[0]
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        excel_filename = f"{docx_filename}_doc_to_excel_export_{timestamp}.xlsx"
+        excel_file = os.path.join(docx_dir, excel_filename)
+        wb.save(excel_file)
+        logger.info(f"Successfully saved questions and images to {excel_file}")
+        process_excel_for_correct_answer(excel_file)
+        shutil.rmtree(temp_dir)
+        return excel_file
 
 def write_questions_to_sheet(ws, questions, image_dict):
     """Write questions to the specified worksheet"""

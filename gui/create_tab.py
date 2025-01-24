@@ -65,7 +65,7 @@ class DocumentGenerator(QThread):
     log_signal = pyqtSignal(str)  # Signal để gửi log message
     progress_signal = pyqtSignal(int)
     result_signal = pyqtSignal(str)
-    image_questions_signal = pyqtSignal(dict)
+    image_questions_signal = pyqtSignal(tuple) # Thay vì dict, sử dụng tuple
 
     def __init__(self, file_path, num_copies, parent):
         super().__init__()
@@ -106,7 +106,7 @@ class DocumentGenerator(QThread):
                         # Logic if questions with images are found
                         self.log_signal.emit(f"Đã tìm thấy câu hỏi có ảnh trong file {extracted_questions_file}")
                         # TODO: Thêm logic xử lý mới ở đây (ví dụ: hiển thị danh sách câu hỏi, chỉnh sửa, v.v.)
-                        self.image_questions_signal.emit(extracted_data)
+                        self.image_questions_signal.emit((extracted_data, extracted_questions_file, json_file_path)) # emit tuple
                     else:
                         # Logic if no questions with images are found
                         self.log_signal.emit(f"Không tìm thấy câu hỏi nào có ảnh trong file {json_file_path}")
@@ -118,10 +118,12 @@ class DocumentGenerator(QThread):
         except Exception as e:
             self.log_signal.emit(f"Lỗi: {e}")
             self.finished_signal.emit(f"Lỗi: {e}","")
+        finally:
+            self.finished_signal.emit("Done.", "")
+                
 
     def stop(self):
         self.is_running = False
-
 
 class CreateTab(QWidget):
     result_signal = pyqtSignal(str)
@@ -131,28 +133,42 @@ class CreateTab(QWidget):
         self.docx_file_path = ""
         self.num_copies = 0
         self.worker_thread = None
+        self.settings_tab = settings_tab
+        self.load_settings() # Gọi load_settings ngay sau khi gán settings_tab
         self.init_ui()
+        # self.settings_tab.settings_changed.connect(self.load_settings)
         self.result_signal.connect(self.display_json_result)
         self.log_text_signal.connect(self.update_text_log)
         self.json_file_path = ""
         self.output_dir = ""
         self.draw_tab = draw_tab
         self.main_window = main_window
-        self.prompt_input = settings_tab.prompt_input.text()
-        self.gemini_input = settings_tab.gemini_input.text()
-        self.cloudinary_input = settings_tab.cloudinary_input.text()
-        
+        # self.prompt_input = settings_tab.prompt_input.text()
+        # self.gemini_input = settings_tab.gemini_input.text()
+        # self.cloudinary_input = settings_tab.cloudinary_input.text()
+
+    def load_settings(self, settings=None):
+        if settings is None:
+            try:
+                with open("settings.json", 'r') as f:
+                    settings = json.load(f)
+            except:
+                settings = {}
+            self.prompt_input = settings.get("excel_file_path", "")
+            self.gemini_input = settings.get("gemini_api_key", "")
+            self.cloudinary_input = settings.get("cloudinary_config", "")
+
     def run_split_excel(self):
         docx_file_path = self.docx_input.text()
         subject_var = self.subject_combo.currentText()
         grade_var = None # có thể set giá trị mặc định hoặc lấy từ input
 
-        prompt_input = self.prompt_input
-        gemini_input = self.gemini_input
-        cloudinary_input = self.cloudinary_input
+        # prompt_input = self.prompt_input
+        # gemini_input = self.gemini_input
+        # cloudinary_input = self.cloudinary_input
 
         try:
-            excel_file_path = extract_content(prompt_input, gemini_input, cloudinary_input, docx_file_path, subject_var, grade_var)
+            excel_file_path = extract_content(self.prompt_input, self.gemini_input, self.cloudinary_input, docx_file_path, subject_var, grade_var)
             return excel_file_path
         except Exception as e:
             self.update_log(f"Lỗi khi chạy split excel: {e}")
@@ -194,7 +210,8 @@ class CreateTab(QWidget):
     def process_finished(self, result_message, output_dir):
         self.start_button.setEnabled(True)
         self.stop_button.setEnabled(False)
-        QMessageBox.information(self, "Kết quả", result_message + f"\nFile docx được lưu ở: {output_dir}" )
+        if "Hoàn thành" in result_message:  # Chỉ hiển thị thông báo nếu result_message chứa "Hoàn thành"
+            QMessageBox.information(self, "Kết quả", result_message + f"\nFile docx được lưu ở: {output_dir}" )
     
     def update_text_log(self, log_message):
          self.log_text.append(log_message)
@@ -363,13 +380,13 @@ class CreateTab(QWidget):
         self.worker_thread.image_questions_signal.connect(self.handle_image_questions)
         self.worker_thread.start()
 
-    def handle_image_questions(self, questions_data):
+    def handle_image_questions(self, image_questions_info):
         """
-        Handles the image questions data received from the worker thread.
+        Handles the image questions data and file path received from the worker thread.
         """
-        self.draw_tab.update_questions(questions_data)
+        questions_data, questions_file_path, json_file_path = image_questions_info
+        self.draw_tab.update_questions(questions_data, questions_file_path, json_file_path)
         self.main_window.setCurrentWidget(self.draw_tab)
-
     def stop_process(self):
         if self.worker_thread and self.worker_thread.isRunning():
             self.worker_thread.stop()
